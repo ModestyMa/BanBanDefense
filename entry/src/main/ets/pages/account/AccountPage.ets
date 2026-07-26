@@ -83,12 +83,18 @@ export struct AccountPage {
 
   @Builder
   navBar() {
-    Row() {
+    Row({ space: 16 }) {
       Text($r('app.string.tab_account'))
         .fontSize(28)
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
       Blank()
+      Text('📊 ' + getContext(this).resourceManager.getStringSync($r('app.string.report_title')))
+        .fontSize(14)
+        .fontColor($r('app.color.primary'))
+        .onClick(() => {
+          router.pushUrl({ url: AccountRoutes.REPORT });
+        })
       Text('⚙ ' + getContext(this).resourceManager.getStringSync($r('app.string.account_manage')))
         .fontSize(14)
         .fontColor($r('app.color.primary'))

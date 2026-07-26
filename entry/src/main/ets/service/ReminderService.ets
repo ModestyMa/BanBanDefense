@@ -3,7 +3,8 @@
 // 1. reminderAgentManager.ReminderRequestCalendar 字段：reminderType / dateTime{year,month(1-12),day,hour,minute,second} / repeatMonths / repeatDays / wantAgent{pkgName,abilityName} / title / content / notificationId
 // 2. reminderAgentManager.publishReminder(req): Promise<number> 返回 reminderId
 // 3. reminderAgentManager.cancelReminder(reminderId: number): Promise<void>
-// 4. ohos.permission.REMINDER_AGENT 为 normal 级 system_grant（已在 module.json5 声明）
+// 4. 提醒权限正确名为 ohos.permission.PUBLISH_AGENT_REMINDER（normal 级 system_grant，已在 module.json5 声明；
+//    早期误写为 REMINDER_AGENT，DevEco 编译报错后已修正，见 06_AI_CONTEXT GOTCHAS）
 import reminderAgentManager from '@ohos.reminderAgentManager';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { DateUtils, DAY_MS } from '../common/utils/DateUtils';

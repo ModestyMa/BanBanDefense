@@ -1,0 +1,40 @@
+{
+  "string": [
+    { "name": "module_desc", "value": "伴伴 - 融合效率应用（手表端）" },
+    { "name": "EntryAbility_desc", "value": "伴伴手表端入口" },
+    { "name": "EntryAbility_label", "value": "伴伴" },
+
+    { "name": "home_pet_active", "value": "今天已打卡 ✓" },
+    { "name": "home_pet_idle", "value": "去完成一件事吧" },
+
+    { "name": "day_future_fmt", "value": "还有 %d 天" },
+    { "name": "day_past_fmt", "value": "已经 %d 天" },
+    { "name": "day_today", "value": "就是今天" },
+
+    { "name": "tx_dir_out", "value": "支出" },
+    { "name": "tx_dir_in", "value": "收入" },
+    { "name": "txcat_food", "value": "餐饮" },
+    { "name": "txcat_transport", "value": "交通" },
+    { "name": "txcat_shopping", "value": "购物" },
+    { "name": "txcat_housing", "value": "住房" },
+    { "name": "txcat_entertainment", "value": "娱乐" },
+    { "name": "txcat_salary", "value": "工资" },
+    { "name": "txcat_other", "value": "其他" },
+    { "name": "acctype_cash", "value": "现金" },
+    { "name": "acctype_wechat", "value": "微信" },
+    { "name": "acctype_alipay", "value": "支付宝" },
+    { "name": "acctype_bank", "value": "银行卡" },
+    { "name": "acctype_other", "value": "其他" },
+
+    { "name": "action_save", "value": "保存" },
+    { "name": "tx_hint_amount", "value": "0.00" },
+    { "name": "toast_tx_saved", "value": "已记账 🎉" },
+    { "name": "toast_tx_failed", "value": "记账失败，请重试" },
+
+    { "name": "watch_today_expense", "value": "今日支出" },
+    { "name": "watch_today_income", "value": "今日收入" },
+    { "name": "watch_quick_add", "value": "快记一笔" },
+    { "name": "watch_countdown_title", "value": "倒数日" },
+    { "name": "watch_countdown_empty", "value": "还没有倒数日\n请在手机端添加" }
+  ]
+}

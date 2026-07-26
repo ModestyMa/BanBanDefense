@@ -1,0 +1,7 @@
+{
+ "icon_0.b64": "AppScope/resources/base/media/background.png",
+ "icon_1.b64": "AppScope/resources/base/media/foreground.png",
+ "icon_2.b64": "entry/src/main/resources/base/media/background.png",
+ "icon_3.b64": "entry/src/main/resources/base/media/foreground.png",
+ "icon_4.b64": "entry/src/main/resources/base/media/startIcon.png"
+}

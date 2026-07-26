@@ -15,6 +15,8 @@ import { homeVM } from '../viewmodel/HomeViewModel';
 import { pomodoroEngine } from '../service/PomodoroEngine';
 import { CountdownRoutes } from '../common/constants/CountdownConstants';
 import { AppContextHolder } from '../common/AppContextHolder';
+import { ResponsiveContainer } from '../components/ResponsiveContainer';
+import { BreakpointHelper } from '../common/utils/BreakpointHelper';
 
 const DOMAIN: number = 0x1000;
 const TAG: string = 'MainPage';
@@ -25,8 +27,14 @@ const ROUTE_PRIVACY: string = 'pages/settings/PrivacyPolicyPage';
 @Entry
 @ComponentV2
 struct MainPage {
+  // 断点系统（SPEC_M6 §2）：AppStorage 窗口宽度，lg(>840) 左侧导航
+  @StorageLink('winWidthVp') winWidthVp: number = 360;
   @Local currentIndex: number = 0;
   private tabsController: TabsController = new TabsController();
+
+  private isLg(): boolean {
+    return this.winWidthVp > BreakpointHelper.LG_THRESHOLD;
+  }
   private privacyDialog: CustomDialogController = new CustomDialogController({
     builder: PrivacyDialog({
       agree: () => {
@@ -118,42 +126,68 @@ struct MainPage {
 
   @Builder
   tabItem(icon: string, labelRes: Resource, selected: boolean) {
-    Column({ space: 2 }) {
-      Text(icon)
-        .fontSize(20)
-      Text(labelRes)
-        .fontSize(11)
-        .fontColor(selected ? $r('app.color.primary') : $r('app.color.text_hint'))
-        .fontWeight(selected ? FontWeight.Medium : FontWeight.Normal)
+    if (this.isLg()) {
+      // lg 断点：左侧纵向导航项（图标 + 文字横排，SPEC_M6 §4）
+      Row({ space: 8 }) {
+        Text(icon)
+          .fontSize(18)
+        Text(labelRes)
+          .fontSize(13)
+          .fontColor(selected ? $r('app.color.primary') : $r('app.color.text_hint'))
+          .fontWeight(selected ? FontWeight.Medium : FontWeight.Normal)
+      }
+      .width('100%')
+      .height('100%')
+      .justifyContent(FlexAlign.Center)
+      .padding({ left: 12, right: 12 })
+    } else {
+      Column({ space: 2 }) {
+        Text(icon)
+          .fontSize(20)
+        Text(labelRes)
+          .fontSize(11)
+          .fontColor(selected ? $r('app.color.primary') : $r('app.color.text_hint'))
+          .fontWeight(selected ? FontWeight.Medium : FontWeight.Normal)
+      }
+      .width('100%')
+      .height('100%')
+      .justifyContent(FlexAlign.Center)
     }
-    .width('100%')
-    .height('100%')
-    .justifyContent(FlexAlign.Center)
   }
 
   build() {
-    Tabs({ barPosition: BarPosition.End, index: this.currentIndex, controller: this.tabsController }) {
+    Tabs({ barPosition: this.isLg() ? BarPosition.Start : BarPosition.End, index: this.currentIndex, controller: this.tabsController }) {
       TabContent() {
-        HomePage({ controller: this.tabsController })
+        ResponsiveContainer() {
+          HomePage({ controller: this.tabsController })
+        }
       }
       .tabBar(this.tabItem('🏠', $r('app.string.tab_home'), this.currentIndex === 0))
 
       TabContent() {
-        CountdownListPage()
+        ResponsiveContainer() {
+          CountdownListPage()
+        }
       }
       .tabBar(this.tabItem('📅', $r('app.string.tab_countdown'), this.currentIndex === 1))
 
       TabContent() {
-        PomodoroTimerPage()
+        ResponsiveContainer() {
+          PomodoroTimerPage()
+        }
       }
       .tabBar(this.tabItem('🍅', $r('app.string.tab_pomodoro'), this.currentIndex === 2))
 
       TabContent() {
-        AccountPage()
+        ResponsiveContainer() {
+          AccountPage()
+        }
       }
       .tabBar(this.tabItem('💰', $r('app.string.tab_account'), this.currentIndex === 3))
     }
-    .barHeight(64)
+    .vertical(this.isLg())
+    .barWidth(this.isLg() ? 140 : '100%')
+    .barHeight(this.isLg() ? '100%' : 64)
     .barBackgroundColor($r('app.color.card_bg'))
     .animationDuration(200)
     .onChange((index: number) => {

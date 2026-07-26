@@ -6,6 +6,7 @@ import { CountdownEventData, newCountdownEvent } from '../../data/model/Countdow
 import { CountdownRepository } from '../../data/repository/CountdownRepository';
 import { DateUtils } from '../../common/utils/DateUtils';
 import { categoryMetaList, CategoryMeta } from '../../common/constants/CountdownConstants';
+import { ResponsiveContainer } from '../../components/ResponsiveContainer';
 
 const DOMAIN: number = 0x1102;
 const TAG: string = 'CountdownEditPage';
@@ -274,28 +275,32 @@ struct CountdownEditPage {
   }
 
   build() {
-    Column() {
-      this.navBar()
-      Scroll() {
-        this.fieldCard()
-      }
-      .layoutWeight(1)
-      .scrollBar(BarState.Off)
+    ResponsiveContainer() {
+      Column() {
+        this.navBar()
+        Scroll() {
+          this.fieldCard()
+        }
+        .layoutWeight(1)
+        .scrollBar(BarState.Off)
 
-      Button($r('app.string.action_save'))
-        .width('90%')
-        .height(48)
-        .fontSize(16)
-        .fontWeight(FontWeight.Bold)
-        .fontColor(Color.White)
-        .backgroundColor($r('app.color.primary'))
-        .borderRadius(16)
-        .opacity(this.title.trim().length === 0 ? 0.35 : 1)
-        .enabled(this.title.trim().length > 0)
-        .margin({ bottom: 26 })
-        .onClick(() => {
-          this.onSave();
-        })
+        Button($r('app.string.action_save'))
+          .width('90%')
+          .height(48)
+          .fontSize(16)
+          .fontWeight(FontWeight.Bold)
+          .fontColor(Color.White)
+          .backgroundColor($r('app.color.primary'))
+          .borderRadius(16)
+          .opacity(this.title.trim().length === 0 ? 0.35 : 1)
+          .enabled(this.title.trim().length > 0)
+          .margin({ bottom: 26 })
+          .onClick(() => {
+            this.onSave();
+          })
+      }
+      .width('100%')
+      .height('100%')
     }
     .width('100%')
     .height('100%')

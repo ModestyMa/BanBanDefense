@@ -4,6 +4,7 @@ import { router } from '@kit.ArkUI';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { homeVM } from '../../viewmodel/HomeViewModel';
 import { MoneyUtils } from '../../common/utils/MoneyUtils';
+import { BreakpointHelper } from '../../common/utils/BreakpointHelper';
 
 const DOMAIN: number = 0x1500;
 const TAG: string = 'HomePage';
@@ -12,7 +13,13 @@ const ROUTE_SETTINGS: string = 'pages/settings/SettingsPage';
 @ComponentV2
 export struct HomePage {
   @Require @Param controller: TabsController;
+  // 断点系统（SPEC_M6 §2）：lg 断点今日概览三卡横排
+  @StorageLink('winWidthVp') winWidthVp: number = 360;
   private vm = homeVM;
+
+  private isLg(): boolean {
+    return this.winWidthVp > BreakpointHelper.LG_THRESHOLD;
+  }
 
   aboutToAppear(): void {
     this.vm.load().catch((err: Error) => {
@@ -142,12 +149,35 @@ export struct HomePage {
         this.navBar()
         Column({ space: 12 }) {
           this.petCard()
-          this.overviewCard('📅', getContext(this).resourceManager.getStringSync($r('app.string.tab_countdown')),
-            this.countdownMain(), 1)
-          this.overviewCard('🍅', getContext(this).resourceManager.getStringSync($r('app.string.pomodoro_title')),
-            this.focusMain(), 2)
-          this.overviewCard('💰', getContext(this).resourceManager.getStringSync($r('app.string.tab_account')),
-            this.billMain(), 3)
+          if (this.isLg()) {
+            // lg 断点：今日概览三卡横排（SPEC_M6 §4）
+            Row({ space: 12 }) {
+              Column() {
+                this.overviewCard('📅', getContext(this).resourceManager.getStringSync($r('app.string.tab_countdown')),
+                  this.countdownMain(), 1)
+              }
+              .layoutWeight(1)
+              Column() {
+                this.overviewCard('🍅', getContext(this).resourceManager.getStringSync($r('app.string.pomodoro_title')),
+                  this.focusMain(), 2)
+              }
+              .layoutWeight(1)
+              Column() {
+                this.overviewCard('💰', getContext(this).resourceManager.getStringSync($r('app.string.tab_account')),
+                  this.billMain(), 3)
+              }
+              .layoutWeight(1)
+            }
+            .width('100%')
+            .alignItems(VerticalAlign.Top)
+          } else {
+            this.overviewCard('📅', getContext(this).resourceManager.getStringSync($r('app.string.tab_countdown')),
+              this.countdownMain(), 1)
+            this.overviewCard('🍅', getContext(this).resourceManager.getStringSync($r('app.string.pomodoro_title')),
+              this.focusMain(), 2)
+            this.overviewCard('💰', getContext(this).resourceManager.getStringSync($r('app.string.tab_account')),
+              this.billMain(), 3)
+          }
         }
         .width('100%')
         .padding({ left: 16, right: 16, bottom: 20 })

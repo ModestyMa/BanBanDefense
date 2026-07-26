@@ -6,6 +6,7 @@ import { CountdownEventData } from '../../data/model/CountdownEvent';
 import { CountdownRepository } from '../../data/repository/CountdownRepository';
 import { DateUtils, DayInfo } from '../../common/utils/DateUtils';
 import { CountdownRoutes, categoryMetaOf } from '../../common/constants/CountdownConstants';
+import { ResponsiveContainer } from '../../components/ResponsiveContainer';
 
 const DOMAIN: number = 0x1103;
 const TAG: string = 'CountdownDetailPage';
@@ -179,21 +180,25 @@ struct CountdownDetailPage {
   }
 
   build() {
-    Column() {
-      this.navBar()
-      this.hero()
-      Button($r('app.string.delete_this_event'))
-        .width('90%')
-        .height(46)
-        .fontSize(15)
-        .fontWeight(FontWeight.Medium)
-        .fontColor($r('app.color.danger'))
-        .backgroundColor($r('app.color.card_bg'))
-        .borderRadius(16)
-        .margin({ bottom: 30 })
-        .onClick(() => {
-          this.confirmDelete();
-        })
+    ResponsiveContainer() {
+      Column() {
+        this.navBar()
+        this.hero()
+        Button($r('app.string.delete_this_event'))
+          .width('90%')
+          .height(46)
+          .fontSize(15)
+          .fontWeight(FontWeight.Medium)
+          .fontColor($r('app.color.danger'))
+          .backgroundColor($r('app.color.card_bg'))
+          .borderRadius(16)
+          .margin({ bottom: 30 })
+          .onClick(() => {
+            this.confirmDelete();
+          })
+      }
+      .width('100%')
+      .height('100%')
     }
     .width('100%')
     .height('100%')

@@ -85,6 +85,24 @@ export class TransactionRepository {
     }
   }
 
+  /** 区间流水 [startTs, endTs)（月度报表用，SPEC_M5 5.2；trade_time 倒序） */
+  static async listByRange(startTs: number, endTs: number): Promise<TransactionData[]> {
+    const predicates = new relationalStore.RdbPredicates(TABLE);
+    predicates.greaterThanOrEqualTo('trade_time', startTs);
+    predicates.lessThan('trade_time', endTs);
+    predicates.orderByDesc('trade_time');
+    const rs = await DatabaseHelper.get().query(predicates);
+    const out: TransactionData[] = [];
+    try {
+      while (rs.goToNextRow()) {
+        out.push(TransactionRepository.rowToTx(rs));
+      }
+      return out;
+    } finally {
+      rs.close();
+    }
+  }
+
   private static rowToTx(rs: relationalStore.ResultSet): TransactionData {
     const noteIdx = rs.getColumnIndex('counterparty');
     const tx: TransactionData = {

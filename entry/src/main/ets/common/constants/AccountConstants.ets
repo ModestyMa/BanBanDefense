@@ -24,6 +24,7 @@ export class AccountType {
 
 export class AccountRoutes {
   static readonly MANAGE: string = 'pages/account/AccountManagePage';
+  static readonly REPORT: string = 'pages/account/AccountReportPage';
 }
 
 /** 分类展示元数据 */

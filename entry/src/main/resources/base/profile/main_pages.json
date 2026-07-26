@@ -4,6 +4,9 @@
     "pages/countdown/CountdownEditPage",
     "pages/countdown/CountdownDetailPage",
     "pages/pomodoro/PomodoroStatsPage",
-    "pages/account/AccountManagePage"
+    "pages/account/AccountManagePage",
+    "pages/account/AccountReportPage",
+    "pages/settings/SettingsPage",
+    "pages/settings/PrivacyPolicyPage"
   ]
 }

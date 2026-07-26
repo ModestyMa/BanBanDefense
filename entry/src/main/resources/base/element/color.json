@@ -19,6 +19,12 @@
     { "name": "cat_repayment", "value": "#9C7BFF" },
     { "name": "rest_green", "value": "#66BB6A" },
     { "name": "ring_track", "value": "#F0EBE4" },
-    { "name": "income_green", "value": "#43A047" }
+    { "name": "income_green", "value": "#43A047" },
+    { "name": "report_1", "value": "#FF8A65" },
+    { "name": "report_2", "value": "#5C9DFF" },
+    { "name": "report_3", "value": "#66BB6A" },
+    { "name": "report_4", "value": "#9C7BFF" },
+    { "name": "report_5", "value": "#FFD54F" },
+    { "name": "report_6", "value": "#90A4AE" }
   ]
 }

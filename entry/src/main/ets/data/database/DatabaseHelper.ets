@@ -106,4 +106,15 @@ export class DatabaseHelper {
   static version(): number {
     return DB_VERSION;
   }
+
+  /** 清除全部业务数据（6 表物理 DELETE，SPEC_M5 决策 9）；调用方负责先取消提醒、后刷新各 VM */
+  static async clearAll(): Promise<void> {
+    const store = DatabaseHelper.get();
+    await store.executeSql('DELETE FROM countdown_event');
+    await store.executeSql('DELETE FROM account');
+    await store.executeSql('DELETE FROM transaction_record');
+    await store.executeSql('DELETE FROM pomodoro_session');
+    await store.executeSql('DELETE FROM pet_state');
+    await store.executeSql('DELETE FROM import_batch');
+  }
 }

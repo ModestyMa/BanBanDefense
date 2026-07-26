@@ -2,6 +2,7 @@
 import { router } from '@kit.ArkUI';
 import { util } from '@kit.ArkTS';
 import { hilog } from '@kit.PerformanceAnalysisKit';
+import { ResponsiveContainer } from '../../components/ResponsiveContainer';
 
 const DOMAIN: number = 0x1504;
 const TAG: string = 'PrivacyPolicyPage';
@@ -46,19 +47,23 @@ struct PrivacyPolicyPage {
   }
 
   build() {
-    Column() {
-      this.navBar()
-      Scroll() {
-        Text(this.content)
-          .fontSize(14)
-          .fontColor($r('app.color.text_primary'))
-          .lineHeight(24)
-          .width('100%')
-          .padding({ left: 20, right: 20, top: 4, bottom: 24 })
+    ResponsiveContainer() {
+      Column() {
+        this.navBar()
+        Scroll() {
+          Text(this.content)
+            .fontSize(14)
+            .fontColor($r('app.color.text_primary'))
+            .lineHeight(24)
+            .width('100%')
+            .padding({ left: 20, right: 20, top: 4, bottom: 24 })
+        }
+        .width('100%')
+        .layoutWeight(1)
+        .scrollBar(BarState.Auto)
       }
       .width('100%')
-      .layoutWeight(1)
-      .scrollBar(BarState.Auto)
+      .height('100%')
     }
     .width('100%')
     .height('100%')

@@ -7,6 +7,7 @@ import { countdownVM } from '../../viewmodel/CountdownViewModel';
 import { accountVM } from '../../viewmodel/AccountViewModel';
 import { pomodoroVM } from '../../viewmodel/PomodoroViewModel';
 import { homeVM } from '../../viewmodel/HomeViewModel';
+import { ResponsiveContainer } from '../../components/ResponsiveContainer';
 
 const DOMAIN: number = 0x1503;
 const TAG: string = 'SettingsPage';
@@ -159,21 +160,25 @@ struct SettingsPage {
   }
 
   build() {
-    Column({ space: 12 }) {
-      this.navBar()
+    ResponsiveContainer() {
       Column({ space: 12 }) {
-        this.settingRow('🔒', $r('app.string.settings_privacy'), false, () => {
-          router.pushUrl({ url: ROUTE_PRIVACY });
-        })
-        this.settingRow('🗑', $r('app.string.settings_clear'), true, () => {
-          this.confirmClear1();
-        })
-        this.settingRow('ℹ️', $r('app.string.settings_about'), false, () => {
-          this.showAbout();
-        })
+        this.navBar()
+        Column({ space: 12 }) {
+          this.settingRow('🔒', $r('app.string.settings_privacy'), false, () => {
+            router.pushUrl({ url: ROUTE_PRIVACY });
+          })
+          this.settingRow('🗑', $r('app.string.settings_clear'), true, () => {
+            this.confirmClear1();
+          })
+          this.settingRow('ℹ️', $r('app.string.settings_about'), false, () => {
+            this.showAbout();
+          })
+        }
+        .width('100%')
+        .padding({ left: 16, right: 16 })
       }
       .width('100%')
-      .padding({ left: 16, right: 16 })
+      .height('100%')
     }
     .width('100%')
     .height('100%')

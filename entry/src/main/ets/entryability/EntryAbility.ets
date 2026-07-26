@@ -1,9 +1,10 @@
 import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
-import { window } from '@kit.ArkUI';
+import { window, display } from '@kit.ArkUI';
 import { DatabaseHelper } from '../data/database/DatabaseHelper';
 import { ReminderService } from '../service/ReminderService';
 import { AppContextHolder } from '../common/AppContextHolder';
+import { BreakpointHelper } from '../common/utils/BreakpointHelper';
 
 const DOMAIN = 0x0000;
 
@@ -51,6 +52,8 @@ export default class EntryAbility extends UIAbility {
   onWindowStageCreate(windowStage: window.WindowStage): void {
     // Main window is created, set main page for this ability
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
+    // 断点系统：注册窗口尺寸监听 → AppStorage（SPEC_M6 §3，假设 API §10-1 待核验）
+    this.trackWindowWidth(windowStage);
 
     windowStage.loadContent('pages/MainPage', (err) => {
       if (err.code) {
@@ -59,6 +62,35 @@ export default class EntryAbility extends UIAbility {
       }
       hilog.info(DOMAIN, 'testTag', 'Succeeded in loading the content.');
     });
+  }
+
+  /** 窗口宽度（px→vp）写入 AppStorage，尺寸变化时更新（断点系统数据源） */
+  private trackWindowWidth(windowStage: window.WindowStage): void {
+    windowStage.getMainWindow()
+      .then((win: window.Window) => {
+        const update = (): void => {
+          try {
+            const rect = win.getWindowProperties().windowRect;
+            let density: number = 1;
+            try {
+              density = display.getDefaultDisplaySync().densityPixels;
+            } catch (err) {
+              hilog.error(DOMAIN, 'testTag', '读取屏幕密度失败: %{public}s', JSON.stringify(err));
+            }
+            const widthVp: number = density > 0 ? rect.width / density : rect.width;
+            AppStorage.setOrCreate(BreakpointHelper.KEY_WIDTH, widthVp);
+          } catch (err) {
+            hilog.error(DOMAIN, 'testTag', '窗口宽度更新失败: %{public}s', JSON.stringify(err));
+          }
+        };
+        update();
+        win.on('windowSizeChange', () => {
+          update();
+        });
+      })
+      .catch((err: Error) => {
+        hilog.error(DOMAIN, 'testTag', '获取主窗口失败: %{public}s', JSON.stringify(err));
+      });
   }
 
   onWindowStageDestroy(): void {

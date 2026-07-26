@@ -4,7 +4,7 @@ export interface PetStateData {
   level: number;
   exp: number;
   skin: string;
-  /** 0 开心 | 1 平常 | 2 莠了 */
+  /** 0 开心 | 1 平常 | 2 蔫了 */
   mood: number;
   streakDays: number;
   /** 最近一次活跃日（当地 00:00 时间戳），0 表示从未活跃 */

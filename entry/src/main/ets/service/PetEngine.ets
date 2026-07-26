@@ -36,7 +36,7 @@ export class PetEngine {
     await PetRepository.update(st);
   }
 
-  /** 骨架版心情：streak>=2 开心(0)，streak==1 平常(1)，否则莠了(2) */
+  /** 骨架版心情：streak>=2 开心(0)，streak==1 平常(1)，否则蔫了(2) */
   static moodFromStreak(streakDays: number): number {
     if (streakDays >= 2) {
       return 0;

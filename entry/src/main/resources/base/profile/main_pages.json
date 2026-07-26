@@ -1,0 +1,8 @@
+{
+  "src": [
+    "pages/MainPage",
+    "pages/countdown/CountdownEditPage",
+    "pages/countdown/CountdownDetailPage",
+    "pages/pomodoro/PomodoroStatsPage"
+  ]
+}

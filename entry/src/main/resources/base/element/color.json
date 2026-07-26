@@ -1,0 +1,23 @@
+{
+  "color": [
+    { "name": "start_window_background", "value": "#FAFAF7" },
+    { "name": "primary", "value": "#FF8A65" },
+    { "name": "page_bg", "value": "#FAFAF7" },
+    { "name": "card_bg", "value": "#FFFFFF" },
+    { "name": "text_primary", "value": "#333333" },
+    { "name": "text_secondary", "value": "#999999" },
+    { "name": "text_hint", "value": "#BBBBBB" },
+    { "name": "danger", "value": "#FF5B5B" },
+    { "name": "today_accent", "value": "#FF5252" },
+    { "name": "today_border", "value": "#FFD9CE" },
+    { "name": "today_bg", "value": "#FFF3EF" },
+    { "name": "divider", "value": "#EEEEEE" },
+    { "name": "switch_off", "value": "#E5E5E5" },
+    { "name": "cat_life", "value": "#4CAF50" },
+    { "name": "cat_work", "value": "#5C9DFF" },
+    { "name": "cat_memorial", "value": "#FF8A65" },
+    { "name": "cat_repayment", "value": "#9C7BFF" },
+    { "name": "rest_green", "value": "#66BB6A" },
+    { "name": "ring_track", "value": "#F0EBE4" }
+  ]
+}

@@ -3,7 +3,9 @@ import { router } from '@kit.ArkUI';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { CountdownListPage } from './countdown/CountdownListPage';
 import { PomodoroTimerPage } from './pomodoro/PomodoroTimerPage';
+import { AccountPage } from './account/AccountPage';
 import { countdownVM } from '../viewmodel/CountdownViewModel';
+import { accountVM } from '../viewmodel/AccountViewModel';
 import { pomodoroEngine } from '../service/PomodoroEngine';
 import { CountdownRoutes } from '../common/constants/CountdownConstants';
 
@@ -21,10 +23,13 @@ struct MainPage {
     if (target !== undefined && target.length > 0) {
       if (target === 'pomodoro') {
         this.currentIndex = 1;
+      } else if (target === 'quickAdd') {
+        // W4 落地：卡片「记一笔」直达记账 Tab（SPEC_M4 §1-10）
+        this.currentIndex = 2;
       } else if (target === 'countdownAdd') {
         router.pushUrl({ url: CountdownRoutes.EDIT });
       }
-      // 'quickAdd'：MVP 期跳首页占位（W4 改记账页）；'home'：默认首页
+      // 'home'：默认首页
       AppStorage.set('launchTarget', '');
     }
   }
@@ -33,6 +38,9 @@ struct MainPage {
     // 从详情/编辑/统计页返回时刷新数据与计时
     countdownVM.load().catch((err: Error) => {
       hilog.error(DOMAIN, TAG, '倒数日刷新失败: %{public}s', err.message);
+    });
+    accountVM.load().catch((err: Error) => {
+      hilog.error(DOMAIN, TAG, '记账刷新失败: %{public}s', err.message);
     });
     pomodoroEngine.tick();
   }
@@ -63,6 +71,11 @@ struct MainPage {
         PomodoroTimerPage()
       }
       .tabBar(this.tabItem('🍅', $r('app.string.tab_pomodoro'), this.currentIndex === 1))
+
+      TabContent() {
+        AccountPage()
+      }
+      .tabBar(this.tabItem('💰', $r('app.string.tab_account'), this.currentIndex === 2))
     }
     .barHeight(64)
     .barBackgroundColor($r('app.color.card_bg'))

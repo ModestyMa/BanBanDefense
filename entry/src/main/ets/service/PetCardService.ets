@@ -11,6 +11,7 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 import { DatabaseHelper } from '../data/database/DatabaseHelper';
 import { PetEngine } from './PetEngine';
 import { PetStateData } from '../data/model/PetState';
+import { TransactionRepository } from '../data/repository/TransactionRepository';
 import { AppContextHolder } from '../common/AppContextHolder';
 
 const DOMAIN: number = 0x1300;
@@ -55,8 +56,8 @@ export class PetCardService {
     PetCardService.saveFormIds(context, next);
   }
 
-  /** 组装卡片数据（心情 emoji / 文案 / 等级 / 连续天数） */
-  private static buildCardData(st: PetStateData): Record<string, string | number> {
+  /** 组装卡片数据（心情 emoji / 文案 / 等级 / 连续天数）；W4：心情普通且今日已记账时提示（SPEC_M4 §5） */
+  private static async buildCardData(st: PetStateData): Promise<Record<string, string | number>> {
     let emoji = '😼';
     let text = '今天也要加油哦';
     if (st.mood === 0) {
@@ -65,6 +66,15 @@ export class PetCardService {
     } else if (st.mood === 2) {
       emoji = '🙀';
       text = '今天也很想你…';
+    } else if (st.mood === 1) {
+      try {
+        const count = await TransactionRepository.countToday();
+        if (count > 0) {
+          text = '今天已记账 ✓';
+        }
+      } catch (err) {
+        // 查询失败时保持默认文案
+      }
     }
     const data: Record<string, string | number> = {
       'moodEmoji': emoji,
@@ -80,7 +90,7 @@ export class PetCardService {
     try {
       await PetCardService.ensureDb(context);
       const st = await PetEngine.getState();
-      const data = PetCardService.buildCardData(st);
+      const data = await PetCardService.buildCardData(st);
       await formProvider.updateForm(formId, formBindingData.createFormBindingData(data));
     } catch (err) {
       hilog.error(DOMAIN, TAG, '推送卡片 %{public}s 失败: %{public}s', formId, JSON.stringify(err));

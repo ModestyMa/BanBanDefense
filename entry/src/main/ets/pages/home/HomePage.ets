@@ -74,7 +74,7 @@ export struct HomePage {
     .padding({ left: 20, right: 20, top: 8, bottom: 4 })
   }
 
-  /** 宠物状态条：心情 + 等级 + 连续天数 + 打卡状态；点击跳记账 Tab */
+  /** 宠物状态条：心情 + 等级 + 连续天数 + 打卡状态（纯展示，不跳转——SPEC_M5 原设计跳记账已按老板反馈撤回） */
   @Builder
   petCard() {
     Row({ space: 14 }) {
@@ -96,18 +96,12 @@ export struct HomePage {
       }
       .alignItems(HorizontalAlign.Start)
       .layoutWeight(1)
-      Text('›')
-        .fontSize(22)
-        .fontColor($r('app.color.text_hint'))
     }
     .width('100%')
     .padding(16)
     .backgroundColor($r('app.color.card_bg'))
     .borderRadius(16)
     .shadow({ radius: 10, color: '#0D000000', offsetY: 2 })
-    .onClick(() => {
-      this.controller.changeIndex(3);
-    })
   }
 
   /** 今日概览卡（图标 + 标题 + 主文案 + 跳转箭头） */

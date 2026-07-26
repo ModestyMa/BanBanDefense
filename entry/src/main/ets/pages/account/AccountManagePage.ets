@@ -6,6 +6,7 @@ import { AccountData, newAccount } from '../../data/model/Account';
 import { AccountRepository } from '../../data/repository/AccountRepository';
 import { MoneyUtils } from '../../common/utils/MoneyUtils';
 import { AccountTypeMeta, accountTypeList, accountTypeMetaOf } from '../../common/constants/AccountConstants';
+import { ResponsiveContainer } from '../../components/ResponsiveContainer';
 
 const DOMAIN: number = 0x1402;
 const TAG: string = 'AccountManagePage';
@@ -304,53 +305,57 @@ struct AccountManagePage {
   }
 
   build() {
-    Stack() {
-      Column() {
-        this.navBar()
-        if (this.vm.accounts.length === 0) {
-          Column({ space: 12 }) {
-            Text($r('app.string.empty_tx_emoji'))
-              .fontSize(52)
-            Text($r('app.string.acc_empty'))
-              .fontSize(13)
-              .fontColor($r('app.color.text_hint'))
+    ResponsiveContainer() {
+      Stack() {
+        Column() {
+          this.navBar()
+          if (this.vm.accounts.length === 0) {
+            Column({ space: 12 }) {
+              Text($r('app.string.empty_tx_emoji'))
+                .fontSize(52)
+              Text($r('app.string.acc_empty'))
+                .fontSize(13)
+                .fontColor($r('app.color.text_hint'))
+            }
+            .width('100%')
+            .layoutWeight(1)
+            .justifyContent(FlexAlign.Center)
+          } else {
+            List({ space: 12 }) {
+              ForEach(this.vm.accounts, (acc: AccountData) => {
+                ListItem() {
+                  this.accountRow(acc)
+                }
+              }, (acc: AccountData) => acc.id.toString())
+            }
+            .width('100%')
+            .layoutWeight(1)
+            .padding({ left: 16, right: 16, bottom: 12 })
+            .scrollBar(BarState.Off)
           }
-          .width('100%')
-          .layoutWeight(1)
-          .justifyContent(FlexAlign.Center)
-        } else {
-          List({ space: 12 }) {
-            ForEach(this.vm.accounts, (acc: AccountData) => {
-              ListItem() {
-                this.accountRow(acc)
-              }
-            }, (acc: AccountData) => acc.id.toString())
-          }
-          .width('100%')
-          .layoutWeight(1)
-          .padding({ left: 16, right: 16, bottom: 12 })
-          .scrollBar(BarState.Off)
-        }
 
-        Button($r('app.string.acc_new'))
-          .width('90%')
-          .height(48)
-          .fontSize(16)
-          .fontWeight(FontWeight.Bold)
-          .fontColor(Color.White)
-          .backgroundColor($r('app.color.primary'))
-          .borderRadius(16)
-          .margin({ bottom: 26 })
-          .onClick(() => {
-            this.startNew();
-          })
+          Button($r('app.string.acc_new'))
+            .width('90%')
+            .height(48)
+            .fontSize(16)
+            .fontWeight(FontWeight.Bold)
+            .fontColor(Color.White)
+            .backgroundColor($r('app.color.primary'))
+            .borderRadius(16)
+            .margin({ bottom: 26 })
+            .onClick(() => {
+              this.startNew();
+            })
+        }
+        .width('100%')
+        .height('100%')
+
+        if (this.editingAccId !== 0) {
+          this.editorOverlay()
+        }
       }
       .width('100%')
       .height('100%')
-
-      if (this.editingAccId !== 0) {
-        this.editorOverlay()
-      }
     }
     .width('100%')
     .height('100%')

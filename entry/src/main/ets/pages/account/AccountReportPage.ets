@@ -9,6 +9,8 @@ import { AccountData } from '../../data/model/Account';
 import { ReportUtils, CategorySum } from '../../common/utils/ReportUtils';
 import { MoneyUtils } from '../../common/utils/MoneyUtils';
 import { txCategoryMetaOf } from '../../common/constants/AccountConstants';
+import { ResponsiveContainer } from '../../components/ResponsiveContainer';
+import { BreakpointHelper } from '../../common/utils/BreakpointHelper';
 
 const DOMAIN: number = 0x1501;
 const TAG: string = 'AccountReportPage';
@@ -17,6 +19,8 @@ const PALETTE_SIZE: number = 6;
 @Entry
 @ComponentV2
 struct AccountReportPage {
+  // 断点系统（SPEC_M6 §2）：lg 断点环形图与明细左右分栏
+  @StorageLink('winWidthVp') winWidthVp: number = 360;
   @Local year: number = 1970;
   @Local month: number = 1;
   @Local inCents: number = 0;
@@ -27,6 +31,10 @@ struct AccountReportPage {
   @Local palette: string[] = [];
   private canvasSettings: RenderingContextSettings = new RenderingContextSettings(true);
   private canvasCtx: CanvasRenderingContext2D = new CanvasRenderingContext2D(this.canvasSettings);
+
+  private isLg(): boolean {
+    return this.winWidthVp > BreakpointHelper.LG_THRESHOLD;
+  }
 
   aboutToAppear(): void {
     const now = new Date();
@@ -283,30 +291,52 @@ struct AccountReportPage {
   }
 
   build() {
-    Scroll() {
-      Column({ space: 16 }) {
-        this.navBar()
-        this.monthSwitcher()
-        this.summaryRow()
-        Row() {
-          this.ringArea()
-        }
-        .width('100%')
-        .justifyContent(FlexAlign.Center)
-        if (this.expenseItems.length > 0) {
+    ResponsiveContainer() {
+      Scroll() {
+        Column({ space: 16 }) {
+          this.navBar()
+          this.monthSwitcher()
+          this.summaryRow()
+          if (this.isLg() && this.expenseItems.length > 0) {
+            // lg 断点：环形图与分类明细左右分栏（SPEC_M6 §4）
+            Row({ space: 16 }) {
+              Column() {
+                this.ringArea()
+              }
+              .layoutWeight(1)
+              .alignItems(HorizontalAlign.Center)
+              Column() {
+                this.detailList()
+              }
+              .layoutWeight(1)
+            }
+            .width('100%')
+            .padding({ left: 16, right: 16 })
+            .alignItems(VerticalAlign.Top)
+          } else {
+            Row() {
+              this.ringArea()
+            }
+            .width('100%')
+            .justifyContent(FlexAlign.Center)
+            if (this.expenseItems.length > 0) {
+              Column() {
+                this.detailList()
+              }
+              .width('100%')
+              .padding({ left: 16, right: 16 })
+            }
+          }
           Column() {
-            this.detailList()
+            this.balanceCard()
           }
           .width('100%')
-          .padding({ left: 16, right: 16 })
-        }
-        Column() {
-          this.balanceCard()
+          .padding({ left: 16, right: 16, bottom: 20 })
         }
         .width('100%')
-        .padding({ left: 16, right: 16, bottom: 20 })
       }
       .width('100%')
+      .height('100%')
     }
     .width('100%')
     .height('100%')

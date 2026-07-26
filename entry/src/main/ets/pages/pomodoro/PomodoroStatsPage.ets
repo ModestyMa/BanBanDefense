@@ -4,6 +4,7 @@ import { router } from '@kit.ArkUI';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { pomodoroVM } from '../../viewmodel/PomodoroViewModel';
 import { PomodoroSessionData } from '../../data/model/PomodoroSession';
+import { ResponsiveContainer } from '../../components/ResponsiveContainer';
 
 const DOMAIN: number = 0x1201;
 const TAG: string = 'PomodoroStatsPage';
@@ -168,50 +169,54 @@ struct PomodoroStatsPage {
   }
 
   build() {
-    Column() {
-      this.navBar()
-      Row({ space: 10 }) {
-        this.statCard(this.vm.todayMinutes, $r('app.string.stat_today'))
-        this.statCard(this.vm.weekMinutes, $r('app.string.stat_week'))
-        this.statCard(this.vm.totalCount, $r('app.string.stat_total'))
+    ResponsiveContainer() {
+      Column() {
+        this.navBar()
+        Row({ space: 10 }) {
+          this.statCard(this.vm.todayMinutes, $r('app.string.stat_today'))
+          this.statCard(this.vm.weekMinutes, $r('app.string.stat_week'))
+          this.statCard(this.vm.totalCount, $r('app.string.stat_total'))
+        }
+        .width('100%')
+        .padding({ left: 20, right: 20, top: 8, bottom: 14 })
+
+        this.chart()
+
+        Text($r('app.string.stat_recent'))
+          .fontSize(14)
+          .fontWeight(FontWeight.Medium)
+          .fontColor($r('app.color.text_primary'))
+          .width('100%')
+          .padding({ left: 20, bottom: 10 })
+
+        if (this.vm.recent.length === 0) {
+          Column({ space: 12 }) {
+            Text($r('app.string.stat_empty_emoji'))
+              .fontSize(52)
+            Text($r('app.string.stat_empty'))
+              .fontSize(13)
+              .fontColor($r('app.color.text_hint'))
+          }
+          .width('100%')
+          .layoutWeight(1)
+          .justifyContent(FlexAlign.Center)
+          .padding({ bottom: 60 })
+        } else {
+          List({ space: 8 }) {
+            ForEach(this.vm.recent, (s: PomodoroSessionData) => {
+              ListItem() {
+                this.recordRow(s)
+              }
+            }, (s: PomodoroSessionData) => s.id.toString())
+          }
+          .width('100%')
+          .layoutWeight(1)
+          .padding({ left: 20, right: 20, bottom: 20 })
+          .scrollBar(BarState.Off)
+        }
       }
       .width('100%')
-      .padding({ left: 20, right: 20, top: 8, bottom: 14 })
-
-      this.chart()
-
-      Text($r('app.string.stat_recent'))
-        .fontSize(14)
-        .fontWeight(FontWeight.Medium)
-        .fontColor($r('app.color.text_primary'))
-        .width('100%')
-        .padding({ left: 20, bottom: 10 })
-
-      if (this.vm.recent.length === 0) {
-        Column({ space: 12 }) {
-          Text($r('app.string.stat_empty_emoji'))
-            .fontSize(52)
-          Text($r('app.string.stat_empty'))
-            .fontSize(13)
-            .fontColor($r('app.color.text_hint'))
-        }
-        .width('100%')
-        .layoutWeight(1)
-        .justifyContent(FlexAlign.Center)
-        .padding({ bottom: 60 })
-      } else {
-        List({ space: 8 }) {
-          ForEach(this.vm.recent, (s: PomodoroSessionData) => {
-            ListItem() {
-              this.recordRow(s)
-            }
-          }, (s: PomodoroSessionData) => s.id.toString())
-        }
-        .width('100%')
-        .layoutWeight(1)
-        .padding({ left: 20, right: 20, bottom: 20 })
-        .scrollBar(BarState.Off)
-      }
+      .height('100%')
     }
     .width('100%')
     .height('100%')

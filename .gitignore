@@ -1,0 +1,11 @@
+oh_modules/
+build/
+.cxx/
+.idea/
+*.iml
+local.properties
+*.p12
+*.csr
+*.cer
+*.p7b
+.hvigor/

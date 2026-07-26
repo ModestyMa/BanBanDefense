@@ -18,6 +18,7 @@
     { "name": "cat_memorial", "value": "#FF8A65" },
     { "name": "cat_repayment", "value": "#9C7BFF" },
     { "name": "rest_green", "value": "#66BB6A" },
-    { "name": "ring_track", "value": "#F0EBE4" }
+    { "name": "ring_track", "value": "#F0EBE4" },
+    { "name": "income_green", "value": "#43A047" }
   ]
 }

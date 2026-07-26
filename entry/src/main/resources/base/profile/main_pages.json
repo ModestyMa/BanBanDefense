@@ -3,6 +3,7 @@
     "pages/MainPage",
     "pages/countdown/CountdownEditPage",
     "pages/countdown/CountdownDetailPage",
-    "pages/pomodoro/PomodoroStatsPage"
+    "pages/pomodoro/PomodoroStatsPage",
+    "pages/account/AccountManagePage"
   ]
 }

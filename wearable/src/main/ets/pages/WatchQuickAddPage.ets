@@ -18,7 +18,7 @@ const TAG: string = 'WatchQuickAddPage';
 export struct WatchQuickAddPage {
   private vm = watchVM;
   @Local amountText: string = '';
-  @Local direction: string = TxDirection.OUT;
+  @Local txDirection: string = TxDirection.OUT;
   @Local category: string = TxCategory.FOOD;
 
   aboutToAppear(): void {
@@ -28,7 +28,7 @@ export struct WatchQuickAddPage {
   }
 
   private categories(): TxCategoryMeta[] {
-    return this.direction === TxDirection.OUT ? expenseCategoryList() : incomeCategoryList();
+    return this.txDirection === TxDirection.OUT ? expenseCategoryList() : incomeCategoryList();
   }
 
   private canSave(): boolean {
@@ -40,13 +40,13 @@ export struct WatchQuickAddPage {
     const tx: TransactionData = newTransaction();
     tx.accountId = this.vm.defaultAccountId;
     tx.amount = MoneyUtils.toYuan(cents);
-    tx.direction = this.direction;
+    tx.direction = this.txDirection;
     tx.category = this.category;
     tx.note = '';
     tx.tradeTime = Date.now();
     tx.source = 'manual';
     tx.createdAt = Date.now();
-    const delta: number = this.direction === TxDirection.IN ? cents : -cents;
+    const delta: number = this.txDirection === TxDirection.IN ? cents : -cents;
     TransactionRepository.insert(tx)
       .then(() => {
         return AccountRepository.adjustBalance(tx.accountId, delta);
@@ -69,15 +69,15 @@ export struct WatchQuickAddPage {
   }
 
   @Builder
-  directionChip(label: Resource, dir: string) {
+  txDirectionChip(label: Resource, dir: string) {
     Text(label)
       .fontSize(13)
-      .fontColor(this.direction === dir ? Color.White : $r('app.color.text_secondary'))
-      .backgroundColor(this.direction === dir ? $r('app.color.primary') : $r('app.color.card_bg'))
+      .fontColor(this.txDirection === dir ? Color.White : $r('app.color.text_secondary'))
+      .backgroundColor(this.txDirection === dir ? $r('app.color.primary') : $r('app.color.card_bg'))
       .borderRadius(12)
       .padding({ left: 16, right: 16, top: 6, bottom: 6 })
       .onClick(() => {
-        this.direction = dir;
+        this.txDirection = dir;
         // 切换方向后复位分类，避免支出分类落到收入流水上
         this.category = dir === TxDirection.OUT ? TxCategory.FOOD : TxCategory.SALARY;
       })
@@ -118,8 +118,8 @@ export struct WatchQuickAddPage {
 
         // 方向
         Row({ space: 10 }) {
-          this.directionChip($r('app.string.tx_dir_out'), TxDirection.OUT)
-          this.directionChip($r('app.string.tx_dir_in'), TxDirection.IN)
+          this.txDirectionChip($r('app.string.tx_dir_out'), TxDirection.OUT)
+          this.txDirectionChip($r('app.string.tx_dir_in'), TxDirection.IN)
         }
         .width('100%')
 

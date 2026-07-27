@@ -305,7 +305,8 @@ struct AccountManagePage {
   }
 
   build() {
-    ResponsiveContainer() {
+    Column() {
+      ResponsiveContainer({ bgColor: $r('app.color.page_bg') }) {
       Stack() {
         Column() {
           this.navBar()
@@ -357,8 +358,8 @@ struct AccountManagePage {
       .width('100%')
       .height('100%')
     }
+    }
     .width('100%')
     .height('100%')
-    .backgroundColor($r('app.color.page_bg'))
   }
 }

@@ -20,7 +20,7 @@ const PALETTE_SIZE: number = 6;
 @ComponentV2
 struct AccountReportPage {
   // 断点系统（SPEC_M6 §2）：lg 断点环形图与明细左右分栏
-  @StorageLink('winWidthVp') winWidthVp: number = 360;
+  @Computed get winWidthVp(): number { return AppStorage.get<number>('winWidthVp') ?? 360; }
   @Local year: number = 1970;
   @Local month: number = 1;
   @Local inCents: number = 0;
@@ -291,7 +291,8 @@ struct AccountReportPage {
   }
 
   build() {
-    ResponsiveContainer() {
+    Column() {
+      ResponsiveContainer({ bgColor: $r('app.color.page_bg') }) {
       Scroll() {
         Column({ space: 16 }) {
           this.navBar()
@@ -338,8 +339,8 @@ struct AccountReportPage {
       .width('100%')
       .height('100%')
     }
+    }
     .width('100%')
     .height('100%')
-    .backgroundColor($r('app.color.page_bg'))
   }
 }

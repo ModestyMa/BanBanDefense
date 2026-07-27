@@ -180,7 +180,8 @@ struct CountdownDetailPage {
   }
 
   build() {
-    ResponsiveContainer() {
+    Column() {
+      ResponsiveContainer({ bgColor: $r('app.color.page_bg') }) {
       Column() {
         this.navBar()
         this.hero()
@@ -200,8 +201,8 @@ struct CountdownDetailPage {
       .width('100%')
       .height('100%')
     }
+    }
     .width('100%')
     .height('100%')
-    .backgroundColor($r('app.color.page_bg'))
   }
 }

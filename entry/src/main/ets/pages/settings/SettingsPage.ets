@@ -187,7 +187,7 @@ struct SettingsPage {
   }
 }
 
-/** 关于弹窗里的包名（上架前占位包名，随 bundleName 改动同步更新） */
+/** 关于弹窗里的包名（正式包名，D-011 定稿，随 bundleName 改动同步更新） */
 function info_safePackageName(): string {
-  return 'com.example.banbandefense';
+  return 'com.modestyma.banban';
 }

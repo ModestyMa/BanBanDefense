@@ -13,7 +13,7 @@ import { CountdownEventData } from '../data/model/CountdownEvent';
 
 const DOMAIN: number = 0x1100;
 const TAG: string = 'ReminderService';
-const BUNDLE_NAME: string = 'com.example.banbandefense';
+const BUNDLE_NAME: string = 'com.modestyma.banban';
 const REMIND_HOUR: number = 9;
 
 export class ReminderService {

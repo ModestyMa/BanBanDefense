@@ -1,7 +1,7 @@
 {
   "app": {
-    "bundleName": "com.example.banbandefense",
-    "vendor": "example",
+    "bundleName": "com.modestyma.banban",
+    "vendor": "ModestyMa",
     "versionCode": 1000000,
     "versionName": "1.0.0",
     "buildVersion": "1",

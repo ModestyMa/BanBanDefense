@@ -14,7 +14,7 @@ const ROUTE_SETTINGS: string = 'pages/settings/SettingsPage';
 export struct HomePage {
   @Require @Param controller: TabsController;
   // 断点系统（SPEC_M6 §2）：lg 断点今日概览三卡横排
-  @StorageLink('winWidthVp') winWidthVp: number = 360;
+  @Computed get winWidthVp(): number { return AppStorage.get<number>('winWidthVp') ?? 360; }
   private vm = homeVM;
 
   private isLg(): boolean {

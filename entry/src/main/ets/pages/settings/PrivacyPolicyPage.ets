@@ -47,7 +47,8 @@ struct PrivacyPolicyPage {
   }
 
   build() {
-    ResponsiveContainer() {
+    Column() {
+      ResponsiveContainer({ bgColor: $r('app.color.page_bg') }) {
       Column() {
         this.navBar()
         Scroll() {
@@ -65,8 +66,8 @@ struct PrivacyPolicyPage {
       .width('100%')
       .height('100%')
     }
+    }
     .width('100%')
     .height('100%')
-    .backgroundColor($r('app.color.page_bg'))
   }
 }

@@ -3,6 +3,7 @@
 @ComponentV2
 export struct ResponsiveContainer {
   @BuilderParam content: () => void = ResponsiveContainer.emptyContent;
+  @Param bgColor: ResourceColor = Color.Transparent;
 
   @Builder
   static emptyContent() {
@@ -21,5 +22,6 @@ export struct ResponsiveContainer {
     }
     .width('100%')
     .height('100%')
+    .backgroundColor(this.bgColor)
   }
 }

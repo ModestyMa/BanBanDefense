@@ -28,7 +28,7 @@ const ROUTE_PRIVACY: string = 'pages/settings/PrivacyPolicyPage';
 @ComponentV2
 struct MainPage {
   // 断点系统（SPEC_M6 §2）：AppStorage 窗口宽度，lg(>840) 左侧导航
-  @StorageLink('winWidthVp') winWidthVp: number = 360;
+  @Computed get winWidthVp(): number { return AppStorage.get<number>('winWidthVp') ?? 360; }
   @Local currentIndex: number = 0;
   private tabsController: TabsController = new TabsController();
 

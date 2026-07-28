@@ -30,11 +30,15 @@ export default class PetFormAbility extends FormExtensionAbility {
           hilog.error(DOMAIN, TAG, '卡片登记/首刷失败: %{public}s', err.message);
         });
     }
+    const rm = this.context.resourceManager;
+    const levelText: string = rm.getStringSync($r('app.string.card_level_prefix')) + '1';
+    const streakText: string = rm.getStringSync($r('app.string.card_streak_prefix')) + '0' +
+      rm.getStringSync($r('app.string.card_streak_suffix'));
     return formBindingData.createFormBindingData({
       'moodEmoji': '😺',
       'moodText': '今天也要加油哦',
-      'level': 1,
-      'streakDays': 0
+      'levelText': levelText,
+      'streakText': streakText
     });
   }
 

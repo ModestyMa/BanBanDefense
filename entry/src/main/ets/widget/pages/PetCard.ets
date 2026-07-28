@@ -11,8 +11,8 @@ let storage = new LocalStorage();
 struct PetCard {
   @LocalStorageProp('moodEmoji') moodEmoji: string = '😺';
   @LocalStorageProp('moodText') moodText: string = '今天也要加油哦';
-  @LocalStorageProp('level') level: number = 1;
-  @LocalStorageProp('streakDays') streakDays: number = 0;
+  @LocalStorageProp('levelText') levelText: string = 'Lv.1';
+  @LocalStorageProp('streakText') streakText: string = '🔥 连续 0 天';
 
   @Builder
   actionButton(label: Resource, target: string) {
@@ -39,7 +39,7 @@ struct PetCard {
         Text(this.moodEmoji)
           .fontSize(50)
         Blank()
-        Text($r('app.string.card_level_prefix') + this.level.toString())
+        Text(this.levelText)
           .fontSize(13)
           .fontWeight(FontWeight.Bold)
           .fontColor(Color.White)
@@ -56,7 +56,7 @@ struct PetCard {
         .maxLines(1)
         .textOverflow({ overflow: TextOverflow.Ellipsis })
 
-      Text($r('app.string.card_streak_prefix') + this.streakDays.toString() + $r('app.string.card_streak_suffix'))
+      Text(this.streakText)
         .fontSize(12)
         .fontColor('#E6FFFFFF')
 

@@ -9,3 +9,4 @@ local.properties
 *.cer
 *.p7b
 .hvigor/
+.bitfun/

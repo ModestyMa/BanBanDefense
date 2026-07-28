@@ -57,7 +57,7 @@ export class PetCardService {
   }
 
   /** 组装卡片数据（心情 emoji / 文案 / 等级 / 连续天数）；W4：心情普通且今日已记账时提示（SPEC_M4 §5） */
-  private static async buildCardData(st: PetStateData): Promise<Record<string, string | number>> {
+  private static async buildCardData(context: common.Context, st: PetStateData): Promise<Record<string, string | number>> {
     let emoji = '😼';
     let text = '今天也要加油哦';
     if (st.mood === 0) {
@@ -76,11 +76,15 @@ export class PetCardService {
         // 查询失败时保持默认文案
       }
     }
+    const rm = context.resourceManager;
+    const levelText: string = rm.getStringSync($r('app.string.card_level_prefix')) + st.level.toString();
+    const streakText: string = rm.getStringSync($r('app.string.card_streak_prefix')) + st.streakDays.toString() +
+      rm.getStringSync($r('app.string.card_streak_suffix'));
     const data: Record<string, string | number> = {
       'moodEmoji': emoji,
       'moodText': text,
-      'level': st.level,
-      'streakDays': st.streakDays
+      'levelText': levelText,
+      'streakText': streakText
     };
     return data;
   }
@@ -90,7 +94,7 @@ export class PetCardService {
     try {
       await PetCardService.ensureDb(context);
       const st = await PetEngine.getState();
-      const data = await PetCardService.buildCardData(st);
+      const data = await PetCardService.buildCardData(context, st);
       await formProvider.updateForm(formId, formBindingData.createFormBindingData(data));
     } catch (err) {
       hilog.error(DOMAIN, TAG, '推送卡片 %{public}s 失败: %{public}s', formId, JSON.stringify(err));

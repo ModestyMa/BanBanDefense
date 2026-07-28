@@ -112,9 +112,9 @@
 
     { "name": "pet_card_display_name", "value": "伴伴宠物" },
     { "name": "pet_card_desc", "value": "桌面宠物伴伴：快捷记账、番茄、倒数日" },
-    { "name": "card_btn_quick_add", "value": "📝 记账" },
-    { "name": "card_btn_pomodoro", "value": "🍅 番茄" },
-    { "name": "card_btn_countdown", "value": "📅 倒数" },
+    { "name": "card_btn_quick_add", "value": "📝" },
+    { "name": "card_btn_pomodoro", "value": "🍅" },
+    { "name": "card_btn_countdown", "value": "📅" },
     { "name": "card_level_prefix", "value": "Lv." },
     { "name": "card_streak_prefix", "value": "🔥 连续 " },
     { "name": "card_streak_suffix", "value": " 天" },

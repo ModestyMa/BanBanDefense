@@ -17,13 +17,12 @@ struct PetCard {
   @Builder
   actionButton(label: Resource, target: string) {
     Button(label)
-      .fontSize(11)
-      .fontWeight(FontWeight.Bold)
+      .fontSize(14)
       .fontColor('#F0764F')
       .backgroundColor('#F2FFFFFF')
       .borderRadius(12)
       .height(32)
-      .padding({ left: 2, right: 2, top: 0, bottom: 0 })
+      .padding(0)
       .layoutWeight(1)
       .onClick(() => {
         postCardAction(this, {

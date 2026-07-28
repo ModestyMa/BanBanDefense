@@ -17,12 +17,13 @@ struct PetCard {
   @Builder
   actionButton(label: Resource, target: string) {
     Button(label)
-      .fontSize(13)
+      .fontSize(11)
       .fontWeight(FontWeight.Bold)
       .fontColor('#F0764F')
       .backgroundColor('#F2FFFFFF')
-      .borderRadius(14)
-      .height(38)
+      .borderRadius(12)
+      .height(32)
+      .padding({ left: 2, right: 2, top: 0, bottom: 0 })
       .layoutWeight(1)
       .onClick(() => {
         postCardAction(this, {
@@ -34,10 +35,10 @@ struct PetCard {
   }
 
   build() {
-    Column({ space: 8 }) {
+    Column({ space: 6 }) {
       Row() {
         Text(this.moodEmoji)
-          .fontSize(50)
+          .fontSize(40)
         Blank()
         Text(this.levelText)
           .fontSize(13)
@@ -60,17 +61,17 @@ struct PetCard {
         .fontSize(12)
         .fontColor('#E6FFFFFF')
 
-      Row({ space: 8 }) {
+      Row({ space: 6 }) {
         this.actionButton($r('app.string.card_btn_quick_add'), 'quickAdd')
         this.actionButton($r('app.string.card_btn_pomodoro'), 'pomodoro')
         this.actionButton($r('app.string.card_btn_countdown'), 'countdownAdd')
       }
       .width('100%')
-      .margin({ top: 6 })
+      .margin({ top: 4 })
     }
     .width('100%')
     .height('100%')
-    .padding({ left: 18, right: 18, top: 18, bottom: 14 })
+    .padding({ left: 18, right: 18, top: 16, bottom: 10 })
     .linearGradient({
       angle: 135,
       colors: [['#FF8A65', 0.0], ['#FFB08A', 0.55], ['#FFD9CE', 1.0]]

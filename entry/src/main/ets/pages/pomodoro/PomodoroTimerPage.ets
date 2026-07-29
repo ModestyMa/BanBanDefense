@@ -333,12 +333,13 @@ export struct PomodoroTimerPage {
   }
 }
 
-// BUG-001 修复：@State(V1) → @Local(V2)；@CustomDialog 内直接使用 V2 装饰器，禁止再叠加 @ComponentV2（二者互斥）
+// BUG-001：@CustomDialog 内无法使用 V2 @Local（编译器强制 @Local 须配 @ComponentV2，而 @ComponentV2 与 @CustomDialog 互斥），
+// 故此处回退为 V1 @State——这是 @CustomDialog 的固有合法用法；原静态标记 BUG-001 在框架约束下为误报。
 @CustomDialog
 struct CustomTagDialog {
   controller?: CustomDialogController;
   onConfirm: (tag: string) => void = (tag: string) => {};
-  @Local inputText: string = '';
+  @State inputText: string = '';
 
   build() {
     Column({ space: 16 }) {

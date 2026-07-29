@@ -28,7 +28,7 @@ export struct WatchOverviewPage {
               .fontSize(14)
               .fontWeight(FontWeight.Bold)
               .fontColor($r('app.color.text_primary'))
-            Text('🔥 ' + this.vm.streakDays.toString() + ' 天')
+            Text($r('app.string.home_streak_fmt', this.vm.streakDays))
               .fontSize(12)
               .fontColor($r('app.color.text_secondary'))
           }

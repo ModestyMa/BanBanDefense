@@ -7,6 +7,7 @@
     "pages/account/AccountManagePage",
     "pages/account/AccountReportPage",
     "pages/settings/SettingsPage",
-    "pages/settings/PrivacyPolicyPage"
+    "pages/settings/PrivacyPolicyPage",
+    "pages/settings/PrivacyManifestPage"
   ]
 }

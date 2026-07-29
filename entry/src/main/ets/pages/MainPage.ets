@@ -17,6 +17,7 @@ import { CountdownRoutes } from '../common/constants/CountdownConstants';
 import { AppContextHolder } from '../common/AppContextHolder';
 import { ResponsiveContainer } from '../components/ResponsiveContainer';
 import { BreakpointHelper } from '../common/utils/BreakpointHelper';
+import { ZeroNetworkBadge } from '../components/ZeroNetworkBadge';
 
 const DOMAIN: number = 0x1000;
 const TAG: string = 'MainPage';
@@ -213,6 +214,7 @@ struct PrivacyDialog {
         .fontSize(17)
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
+      ZeroNetworkBadge()
       Text($r('app.string.privacy_dialog_msg'))
         .fontSize(14)
         .fontColor($r('app.color.text_primary'))

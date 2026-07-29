@@ -85,6 +85,22 @@ export class TransactionRepository {
     }
   }
 
+  /** 最近一笔流水的 trade_time（C1 碎碎念"几天没记账"判断用，mini-SPEC §1.3）；无流水返回 0 */
+  static async latestTradeTime(): Promise<number> {
+    const predicates = new relationalStore.RdbPredicates(TABLE);
+    predicates.orderByDesc('trade_time');
+    predicates.limitAs(1);
+    const rs = await DatabaseHelper.get().query(predicates);
+    try {
+      if (rs.goToFirstRow()) {
+        return rs.getLong(rs.getColumnIndex('trade_time'));
+      }
+      return 0;
+    } finally {
+      rs.close();
+    }
+  }
+
   /** 区间流水 [startTs, endTs)（月度报表用，SPEC_M5 5.2；trade_time 倒序） */
   static async listByRange(startTs: number, endTs: number): Promise<TransactionData[]> {
     const predicates = new relationalStore.RdbPredicates(TABLE);

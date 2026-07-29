@@ -9,9 +9,8 @@ import { preferences } from '@kit.ArkData';
 import { common } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { DatabaseHelper } from '../data/database/DatabaseHelper';
-import { PetEngine } from './PetEngine';
+import { PetEngine, PetTimeOfDay } from './PetEngine';
 import { PetStateData } from '../data/model/PetState';
-import { TransactionRepository } from '../data/repository/TransactionRepository';
 import { AppContextHolder } from '../common/AppContextHolder';
 
 const DOMAIN: number = 0x1300;
@@ -56,27 +55,32 @@ export class PetCardService {
     PetCardService.saveFormIds(context, next);
   }
 
-  /** 组装卡片数据（心情 emoji / 文案 / 等级 / 连续天数）；W4：心情普通且今日已记账时提示（SPEC_M4 §5） */
+  /**
+   * 组装卡片数据（心情 emoji / 文案 / 等级 / 连续天数）。
+   * C1（mini-SPEC §1.6-3）：文案改用 PetEngine.getPetSpeech()，复用现有 moodText 通道
+   * （实际卡片仅 2×2，无 2×4——SPEC 偏差已记录交接单，碎碎念承载在既有文案行，无布局改动）。
+   * C3（mini-SPEC §3.4）：表情按时段叠加，SLEEP/NIGHT 强制覆盖 mood，不新增定时任务。
+   */
   private static async buildCardData(context: common.Context, st: PetStateData): Promise<Record<string, string | number>> {
-    let emoji = '😼';
-    let text = '今天也要加油哦';
-    if (st.mood === 0) {
-      emoji = '😺';
-      text = st.streakDays >= 2 ? '坚持 ' + st.streakDays + ' 天了，真棒！' : '今天状态满分！';
-    } else if (st.mood === 2) {
-      emoji = '🙀';
-      text = '今天也很想你…';
-    } else if (st.mood === 1) {
-      try {
-        const count = await TransactionRepository.countToday();
-        if (count > 0) {
-          text = '今天已记账 ✓';
-        }
-      } catch (err) {
-        // 查询失败时保持默认文案
-      }
-    }
+    const hour: number = new Date().getHours();
+    const tod = PetEngine.timeOfDayFromHour(hour);
+    const emoji: string = PetEngine.overlayTimeEmoji(PetEngine.moodEmoji(st.mood), tod);
     const rm = context.resourceManager;
+    let text: string = rm.getStringSync($r('app.string.pet_speech_default'));
+    try {
+      if (tod === PetTimeOfDay.SLEEP) {
+        text = rm.getStringSync($r('app.string.pet_clock_sleep'));
+      } else if (tod === PetTimeOfDay.MORNING) {
+        text = rm.getStringSync($r('app.string.pet_clock_morning'));
+      } else {
+        const speech = await PetEngine.getPetSpeech(context);
+        if (speech.text.length > 0) {
+          text = speech.text;
+        }
+      }
+    } catch (err) {
+      // 碎碎念失败保持兜底文案，不影响卡片刷新
+    }
     const levelText: string = rm.getStringSync($r('app.string.card_level_prefix')) + st.level.toString();
     const streakText: string = rm.getStringSync($r('app.string.card_streak_prefix')) + st.streakDays.toString() +
       rm.getStringSync($r('app.string.card_streak_suffix'));

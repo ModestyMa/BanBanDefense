@@ -12,6 +12,7 @@ import { ResponsiveContainer } from '../../components/ResponsiveContainer';
 const DOMAIN: number = 0x1503;
 const TAG: string = 'SettingsPage';
 const ROUTE_PRIVACY: string = 'pages/settings/PrivacyPolicyPage';
+const ROUTE_PRIVACY_MANIFEST: string = 'pages/settings/PrivacyManifestPage';
 
 @Entry
 @ComponentV2
@@ -29,8 +30,10 @@ struct SettingsPage {
     } catch (err) {
       hilog.error(DOMAIN, TAG, '读取版本号失败: %{public}s', JSON.stringify(err));
     }
-    return getContext(this).resourceManager.getStringSync($r('app.string.about_fmt'),
-      version, info_safePackageName());
+    const rm = getContext(this).resourceManager;
+    // C2：关于弹窗追加零联网徽章行（mini-SPEC §2.2.3，AlertDialog 无法内嵌组件，降级为文本行）
+    return rm.getStringSync($r('app.string.about_fmt'), version, info_safePackageName()) +
+      '\n🛡 ' + rm.getStringSync($r('app.string.badge_zero_network'));
   }
 
   private showAbout(): void {
@@ -165,6 +168,9 @@ struct SettingsPage {
       Column({ space: 12 }) {
         this.navBar()
         Column({ space: 12 }) {
+          this.settingRow('🛡', $r('app.string.settings_privacy_promise'), false, () => {
+            router.pushUrl({ url: ROUTE_PRIVACY_MANIFEST });
+          })
           this.settingRow('🔒', $r('app.string.settings_privacy'), false, () => {
             router.pushUrl({ url: ROUTE_PRIVACY });
           })

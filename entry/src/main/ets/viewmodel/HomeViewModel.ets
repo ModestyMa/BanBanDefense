@@ -1,5 +1,6 @@
 // 首页聚合视图模型（SPEC_M5 4.1）：宠物状态 + 今日倒数日/专注/账单 三卡数据装配
-import { PetEngine } from '../service/PetEngine';
+// C1 碎碎念（mini-SPEC §1.6-2）：petSpeechText/petSpeechEmoji，加载失败不显示气泡
+import { PetEngine, PetSpeech } from '../service/PetEngine';
 import { CountdownRepository } from '../data/repository/CountdownRepository';
 import { PomodoroRepository } from '../data/repository/PomodoroRepository';
 import { TransactionRepository } from '../data/repository/TransactionRepository';
@@ -16,6 +17,9 @@ export class HomeViewModel {
   @Trace petLevel: number = 1;
   @Trace streakDays: number = 0;
   @Trace activeToday: boolean = false;
+  // C1 碎碎念气泡（空串 = 不显示）
+  @Trace petSpeechText: string = '';
+  @Trace petSpeechEmoji: string = '';
   // 今日倒数日
   @Trace hasCountdown: boolean = false;
   @Trace cdTitle: string = '';
@@ -36,8 +40,18 @@ export class HomeViewModel {
     const st = await PetEngine.getState();
     this.petLevel = st.level;
     this.streakDays = st.streakDays;
-    this.petEmoji = st.mood === 0 ? '😺' : (st.mood === 2 ? '🙀' : '😼');
+    this.petEmoji = PetEngine.moodEmoji(st.mood);
     this.activeToday = st.lastActiveDate === today;
+
+    // C1 碎碎念（失败不阻塞首页装配，气泡留空）
+    try {
+      const speech: PetSpeech = await PetEngine.getPetSpeech();
+      this.petSpeechText = speech.text;
+      this.petSpeechEmoji = speech.emoji;
+    } catch (err) {
+      this.petSpeechText = '';
+      this.petSpeechEmoji = '';
+    }
 
     // 今日倒数日：未来/今天事件中 days 最小者
     const events = await CountdownRepository.listAll();

@@ -36,7 +36,7 @@ export default class PetFormAbility extends FormExtensionAbility {
       rm.getStringSync($r('app.string.card_streak_suffix'));
     return formBindingData.createFormBindingData({
       'moodEmoji': '😺',
-      'moodText': '今天也要加油哦',
+      'moodText': rm.getStringSync($r('app.string.pet_speech_default')),
       'levelText': levelText,
       'streakText': streakText
     });

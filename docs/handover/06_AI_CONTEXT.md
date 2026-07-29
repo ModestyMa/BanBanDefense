@@ -87,6 +87,9 @@ ImportBatch(id PK, source, file_name, imported_count, created_at)   # V1.0 启�
 | 手动记账 | ✅ 完成（待编译/真机核验） | 本地 commit b60e3a0 已推 GitHub（5 批，blob 抽查一致）；bindSheet→页面内浮层降级（SPEC_M4 §9-2 预留）；真机验证与 M3 挂起项统一做 |
 | 首页聚合 + 设置/隐私页 | ✅ 完成（待编译/真机核验） | 本地 commit a02ff65 已推 GitHub（7 批，blob 抽查一致）；含记账报表/首启隐私弹窗/清除全部数据；Tabs 定案 4 个（首页/倒数日/番茄/记账）；余额对账降级为总余额+手动校准提示（SPEC_M5 决策 6） |
 | 四端适配（手机/平板/PC/手表） | ✅ 完成（待编译/四端核验） | SPEC_M6：Part A commit d38bcf4 + Part B commit 05b96ba/4853f5a 已推 GitHub（抽查哈希一致）；收尾修正 commit 432c768（@StorageLink→@Computed、bgColor、txDirection）5 批推送一致；wearable hvigorfile.ts 补齐 commit 6d6ccae；假设 API 清单见 SPEC_M6 §10 待 DevEco 核验 |
+| C1 宠物碎碎念 | ✅ 完成（待编译/真机核验） | T7 实现：PetEngine.getPetSpeech() 9 级优先级；2026-07-30 |
+| C2 零联网隐私徽章 | ✅ 完成（待编译/真机核验） | T7 实现：ZeroNetworkBadge + PrivacyManifestPage（设置页入口）；2026-07-30 |
+| C3 宠物作息钟 | ✅ 完成（待编译/真机核验） | T7 实现：PetTimeOfDay + 表情叠加；卡片 2×2 承载（见 §10 偏差）2026-07-30 |
 | 上架打包 | 🔶 进行中 | SPEC_M7 决策 1/5 已签字（D-011）；包名 com.modestyma.banban 全仓替换 + 隐私政策邮箱定稿（commit 5d7af05，远端 ac5c353/36e7aa0 抽查一致）；图标 SVG 化 + Pages html 已推送；老板人工项见 SPEC_M7 §4（AGC S1–S14） |
 | CSV 账单导入（V1.0） | 🔒 锁定 | MVP 后 |
 | 闪控球（V1.5） | 🔒 锁定 | 需白名单 |

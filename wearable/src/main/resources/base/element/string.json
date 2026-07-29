@@ -35,6 +35,7 @@
     { "name": "watch_today_income", "value": "今日收入" },
     { "name": "watch_quick_add", "value": "快记一笔" },
     { "name": "watch_countdown_title", "value": "倒数日" },
-    { "name": "watch_countdown_empty", "value": "还没有倒数日\n请在手机端添加" }
+    { "name": "watch_countdown_empty", "value": "还没有倒数日\n请在手机端添加" },
+    { "name": "home_streak_fmt", "value": "🔥 %d 天" }
   ]
 }

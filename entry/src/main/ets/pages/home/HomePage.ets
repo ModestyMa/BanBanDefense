@@ -93,13 +93,24 @@ export struct HomePage {
             .fontSize(15)
             .fontWeight(FontWeight.Bold)
             .fontColor($r('app.color.text_primary'))
-          Text('🔥 ' + this.vm.streakDays.toString() + ' 天')
+          Text($r('app.string.home_streak_fmt', this.vm.streakDays))
             .fontSize(13)
             .fontColor($r('app.color.text_secondary'))
         }
         Text(this.vm.activeToday ? $r('app.string.home_pet_active') : $r('app.string.home_pet_idle'))
           .fontSize(13)
           .fontColor(this.vm.activeToday ? $r('app.color.income_green') : $r('app.color.text_hint'))
+        // C1 碎碎念气泡（mini-SPEC §1.6-1）：文案为空时不渲染
+        if (this.vm.petSpeechText.length > 0) {
+          Text(this.vm.petSpeechEmoji + ' ' + this.vm.petSpeechText)
+            .fontSize(13)
+            .fontColor($r('app.color.primary'))
+            .padding({ left: 10, right: 10, top: 5, bottom: 5 })
+            .backgroundColor($r('app.color.today_bg'))
+            .borderRadius(10)
+            .maxLines(2)
+            .textOverflow({ overflow: TextOverflow.Ellipsis })
+        }
       }
       .alignItems(HorizontalAlign.Start)
       .layoutWeight(1)

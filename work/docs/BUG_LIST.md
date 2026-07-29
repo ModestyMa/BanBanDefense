@@ -5,8 +5,8 @@
 
 | 编号 | 端 | 复现步骤/位置 | 预期 | 实际 | 严重级 | 状态 | 指派给 |
 |---|---|---|---|---|---|---|---|
-| BUG-001 | entry | 静态走查：`pages/pomodoro/PomodoroTimerPage.ets:340` `@CustomDialog struct CustomTagDialog` 内使用 V1 `@State inputText` | 06 §2-8：新代码统一 V2（@Local） | V1 装饰器出现在 V2 工程中；@ComponentV2 页面弹 V1 CustomDialog 属已知兼容风险，自定义标签输入可能不响应 | P2 | 待修 | 主程序 |
-| BUG-002 | entry+wearable | 静态走查：`pages/home/HomePage.ets:96`、`wearable .../WatchOverviewPage.ets:31` `Text('🔥 ' + ... + ' 天')` | 06 §2-5：字符串一律 `$r('app.string.xxx')` | 中文「天」硬编码在代码中（全仓仅此 2 处） | P2 | 待修 | 主程序 |
+| BUG-001 | entry | 静态走查：`pages/pomodoro/PomodoroTimerPage.ets:340` `@CustomDialog` 内 V1 `@State` | 06 §2-8：新代码统一 V2 | 编译器强制 @Local 须配 @ComponentV2，而二者互斥 → @CustomDialog 内无法用 V2；V1 @State 为唯一合法写法，原标记属框架约束下误报（编译已验证通过） | P2 | 已闭环（框架约束误报） | 主程序 |
+| BUG-002 | entry+wearable | 静态走查：`pages/home/HomePage.ets:96`、`wearable .../WatchOverviewPage.ets:31` `Text('🔥 ' + ... + ' 天')` | 06 §2-5：字符串一律 `$r('app.string.xxx')` | 中文「天」硬编码（全仓仅此 2 处），已改为 `$r('app.string.home_streak_fmt', N)`（双端 string.json 加 home_streak_fmt） | P2 | 已修待复验 | 主程序 |
 | BUG-003 | 全端 | 静态走查：硬编码颜色约 40 处。高风险子集：①`widget/pages/PetCard.ets:21-22` `'#F0764F'/'#F2FFFFFF'`（卡片深色模式）②`AccountManagePage.ets:187`/`AccountPage.ets:377` 遮罩 `'#66000000'` ③`AccountReportPage.ets:112` Canvas `'#F0EBE4'`（深色下环形图底色）；低风险：shadow 色值、`Color.White/Transparent` | 06 §2-5：颜色一律 `$r('app.color.xxx')` | 深色模式下卡片/遮罩/Canvas 可能出现对比度事故；具体表现待 T10 深浅色核验确认 | P2（若 F 区核验出视觉事故升 P1） | 待修（可与 T10 结果合并处理） | 主程序 |
 
 ## 观察项（不计 Bug，供决策）

@@ -333,9 +333,8 @@ export struct PomodoroTimerPage {
   }
 }
 
-// BUG-001 修复：@State(V1) → @Local(V2)，@CustomDialog 补 @ComponentV2（06 §2-8 同组件不混 V1/V2）
+// BUG-001 修复：@State(V1) → @Local(V2)；@CustomDialog 内直接使用 V2 装饰器，禁止再叠加 @ComponentV2（二者互斥）
 @CustomDialog
-@ComponentV2
 struct CustomTagDialog {
   controller?: CustomDialogController;
   onConfirm: (tag: string) => void = (tag: string) => {};

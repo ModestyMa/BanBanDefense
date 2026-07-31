@@ -6,6 +6,7 @@ import { PomodoroSessionData } from '../data/model/PomodoroSession';
 import { PetEngine } from './PetEngine';
 import { PetCardService } from './PetCardService';
 import { ReminderService } from './ReminderService';
+import { AppContextHolder } from '../common/AppContextHolder';
 import { REST_MIN, POMODORO_NOTIFY_ID } from '../common/constants/PomodoroConstants';
 
 const DOMAIN: number = 0x1200;
@@ -124,12 +125,15 @@ export class PomodoroEngine {
   }
 
   private scheduleEndReminder(): void {
-    ReminderService.scheduleAt(
-      this.endTs,
-      '伴伴番茄钟',
-      '「' + this.tag + '」专注时间到！休息一下吧 ☕',
-      POMODORO_NOTIFY_ID
-    )
+    const context = AppContextHolder.get();
+    if (context === null) {
+      hilog.warn(DOMAIN, TAG, '无 Context，跳过番茄结束提醒调度');
+      return;
+    }
+    const rm = context.resourceManager;
+    const title: string = rm.getStringSync($r('app.string.remind_pomodoro_title'));
+    const content: string = rm.getStringSync($r('app.string.remind_pomodoro_content'), this.tag);
+    ReminderService.scheduleAt(this.endTs, title, content, POMODORO_NOTIFY_ID)
       .then((id: number) => {
         this.reminderId = id;
       })

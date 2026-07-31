@@ -10,6 +10,7 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 import { DateUtils, DAY_MS } from '../common/utils/DateUtils';
 import { CountdownRepository } from '../data/repository/CountdownRepository';
 import { CountdownEventData } from '../data/model/CountdownEvent';
+import { AppContextHolder } from '../common/AppContextHolder';
 
 const DOMAIN: number = 0x1100;
 const TAG: string = 'ReminderService';
@@ -52,10 +53,27 @@ export class ReminderService {
       repeatDays: [],
       wantAgent: { pkgName: BUNDLE_NAME, abilityName: 'EntryAbility' },
       title: ev.title,
-      content: isToday ? '今天就是「' + ev.title + '」！' : '明天就是「' + ev.title + '」啦',
+      content: ReminderService.buildCountdownContent(ev.title, isToday),
       notificationId: ev.id * 10 + slot
     };
     return await reminderAgentManager.publishReminder(req);
+  }
+
+  /**
+   * 倒数日提醒内容：优先读 string.json（remind_content_today / remind_content_before，%s 为标题）。
+   * 极端情况下拿不到 Context（无法读资源）时退化为仅标题，避免内容为空。
+   */
+  private static buildCountdownContent(title: string, isToday: boolean): string {
+    const context = AppContextHolder.get();
+    if (context === null) {
+      hilog.warn(DOMAIN, TAG, '无 Context，倒数日提醒内容降级为标题');
+      return title;
+    }
+    const rm = context.resourceManager;
+    if (isToday) {
+      return rm.getStringSync($r('app.string.remind_content_today'), title);
+    }
+    return rm.getStringSync($r('app.string.remind_content_before'), title);
   }
 
   /** 取消一个 JSON id 串中的全部提醒（空串安全） */

@@ -29,6 +29,8 @@ struct AccountReportPage {
   @Local percents: number[] = [];
   @Local totalBalanceCents: number = 0;
   @Local palette: string[] = [];
+  // 环形图底色（Canvas strokeStyle 只接受字符串，运行时由 ring_track 资源解析，随深浅色自适应）
+  private ringTrack: string = '#F0EBE4';
   private canvasSettings: RenderingContextSettings = new RenderingContextSettings(true);
   private canvasCtx: CanvasRenderingContext2D = new CanvasRenderingContext2D(this.canvasSettings);
 
@@ -58,6 +60,8 @@ struct AccountReportPage {
       out.push('#' + (c & 0xFFFFFF).toString(16).padStart(6, '0'));
     }
     this.palette = out;
+    const track: number = rm.getColorSync($r('app.color.ring_track'));
+    this.ringTrack = '#' + (track & 0xFFFFFF).toString(16).padStart(6, '0');
   }
 
   private async loadReport(): Promise<void> {
@@ -109,7 +113,7 @@ struct AccountReportPage {
     ctx.lineCap = 'butt';
     if (this.outCents <= 0 || this.expenseItems.length === 0) {
       ctx.beginPath();
-      ctx.strokeStyle = '#F0EBE4';
+      ctx.strokeStyle = this.ringTrack;
       ctx.arc(cx, cy, radius, 0, Math.PI * 2);
       ctx.stroke();
       return;

@@ -18,8 +18,8 @@ struct PetCard {
   actionButton(label: Resource, target: string) {
     Button(label)
       .fontSize(14)
-      .fontColor('#F0764F')
-      .backgroundColor('#F2FFFFFF')
+      .fontColor($r('app.color.card_btn_text'))
+      .backgroundColor($r('app.color.card_btn_bg'))
       .borderRadius(12)
       .height(32)
       .padding(0)
@@ -43,7 +43,7 @@ struct PetCard {
           .fontSize(13)
           .fontWeight(FontWeight.Bold)
           .fontColor(Color.White)
-          .backgroundColor('#59FFFFFF')
+          .backgroundColor($r('app.color.card_level_bg'))
           .borderRadius(14)
           .padding({ left: 12, right: 12, top: 4, bottom: 4 })
       }
@@ -58,7 +58,7 @@ struct PetCard {
 
       Text(this.streakText)
         .fontSize(12)
-        .fontColor('#E6FFFFFF')
+        .fontColor($r('app.color.card_streak_text'))
 
       Row({ space: 6 }) {
         this.actionButton($r('app.string.card_btn_quick_add'), 'quickAdd')
@@ -73,7 +73,7 @@ struct PetCard {
     .padding({ left: 18, right: 18, top: 16, bottom: 10 })
     .linearGradient({
       angle: 135,
-      colors: [['#FF8A65', 0.0], ['#FFB08A', 0.55], ['#FFD9CE', 1.0]]
+      colors: [[$r('app.color.card_grad_start'), 0.0], [$r('app.color.card_grad_mid'), 0.55], [$r('app.color.card_grad_end'), 1.0]]
     })
     .borderRadius(24)
     .onClick(() => {

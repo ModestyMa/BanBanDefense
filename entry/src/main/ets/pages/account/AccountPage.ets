@@ -374,7 +374,7 @@ export struct AccountPage {
       Column()
         .width('100%')
         .height('100%')
-        .backgroundColor('#66000000')
+        .backgroundColor($r('app.color.mask_scrim'))
         .onClick(() => {
           this.vm.resetForm();
         })

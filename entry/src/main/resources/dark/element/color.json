@@ -1,8 +1,39 @@
 {
   "color": [
-    {
-      "name": "start_window_background",
-      "value": "#000000"
-    }
+    { "name": "start_window_background", "value": "#000000" },
+    { "name": "primary", "value": "#FF8A65" },
+    { "name": "page_bg", "value": "#121212" },
+    { "name": "card_bg", "value": "#1E1E1E" },
+    { "name": "text_primary", "value": "#ECECEC" },
+    { "name": "text_secondary", "value": "#ABABAB" },
+    { "name": "text_hint", "value": "#6E6E6E" },
+    { "name": "danger", "value": "#FF6B6B" },
+    { "name": "today_accent", "value": "#FF6E6E" },
+    { "name": "today_border", "value": "#7A4B3C" },
+    { "name": "today_bg", "value": "#2A1E18" },
+    { "name": "divider", "value": "#2C2C2C" },
+    { "name": "switch_off", "value": "#3A3A3A" },
+    { "name": "cat_life", "value": "#4CAF50" },
+    { "name": "cat_work", "value": "#5C9DFF" },
+    { "name": "cat_memorial", "value": "#FF8A65" },
+    { "name": "cat_repayment", "value": "#9C7BFF" },
+    { "name": "rest_green", "value": "#66BB6A" },
+    { "name": "ring_track", "value": "#2E2A26" },
+    { "name": "income_green", "value": "#4CAF50" },
+    { "name": "report_1", "value": "#FF8A65" },
+    { "name": "report_2", "value": "#5C9DFF" },
+    { "name": "report_3", "value": "#66BB6A" },
+    { "name": "report_4", "value": "#9C7BFF" },
+    { "name": "report_5", "value": "#FFD54F" },
+    { "name": "report_6", "value": "#90A4AE" },
+
+    { "name": "mask_scrim", "value": "#99000000" },
+    { "name": "card_btn_text", "value": "#F0764F" },
+    { "name": "card_btn_bg", "value": "#F2FFFFFF" },
+    { "name": "card_level_bg", "value": "#59FFFFFF" },
+    { "name": "card_streak_text", "value": "#E6FFFFFF" },
+    { "name": "card_grad_start", "value": "#FF8A65" },
+    { "name": "card_grad_mid", "value": "#FFB08A" },
+    { "name": "card_grad_end", "value": "#FFD9CE" }
   ]
 }

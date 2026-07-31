@@ -25,6 +25,15 @@
     { "name": "report_3", "value": "#66BB6A" },
     { "name": "report_4", "value": "#9C7BFF" },
     { "name": "report_5", "value": "#FFD54F" },
-    { "name": "report_6", "value": "#90A4AE" }
+    { "name": "report_6", "value": "#90A4AE" },
+
+    { "name": "mask_scrim", "value": "#66000000" },
+    { "name": "card_btn_text", "value": "#F0764F" },
+    { "name": "card_btn_bg", "value": "#F2FFFFFF" },
+    { "name": "card_level_bg", "value": "#59FFFFFF" },
+    { "name": "card_streak_text", "value": "#E6FFFFFF" },
+    { "name": "card_grad_start", "value": "#FF8A65" },
+    { "name": "card_grad_mid", "value": "#FFB08A" },
+    { "name": "card_grad_end", "value": "#FFD9CE" }
   ]
 }

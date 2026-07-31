@@ -40,8 +40,6 @@
     { "name": "delete_confirm_title", "value": "删除「%s」？" },
     { "name": "delete_confirm_msg", "value": "该操作不可恢复，相关提醒将一并取消" },
     { "name": "delete_this_event", "value": "删除这个日子" },
-    { "name": "limit_title", "value": "免费版最多 3 个倒数日" },
-    { "name": "limit_msg", "value": "Pro 版即将上线，敬请期待 🐾" },
 
     { "name": "toast_saved", "value": "已保存 🎉" },
     { "name": "toast_added", "value": "已添加 🎉" },

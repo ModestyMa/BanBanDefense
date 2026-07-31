@@ -4,7 +4,6 @@ import { CountdownRepository } from '../data/repository/CountdownRepository';
 import { ReminderService } from '../service/ReminderService';
 import { PetCardService } from '../service/PetCardService';
 import { DateUtils } from '../common/utils/DateUtils';
-import { FREE_EVENT_LIMIT } from '../common/constants/CountdownConstants';
 
 @ObservedV2
 export class CountdownViewModel {
@@ -35,13 +34,9 @@ export class CountdownViewModel {
     this.filterKey = key;
   }
 
-  /** 保存（新建或编辑）。返回 'limit' 表示触发免费上限，'ok' 表示成功。 */
-  async saveEvent(ev: CountdownEventData, isNew: boolean): Promise<string> {
+  /** 保存（新建或编辑）。全功能免费、倒数日无上限（D-013 覆盖 D-005）。 */
+  async saveEvent(ev: CountdownEventData, isNew: boolean): Promise<void> {
     if (isNew) {
-      const cnt = await CountdownRepository.count();
-      if (cnt >= FREE_EVENT_LIMIT) {
-        return 'limit';
-      }
       ev.createdAt = Date.now();
       ev.reminderIds = '';
       const newId = await CountdownRepository.insert(ev);
@@ -56,7 +51,6 @@ export class CountdownViewModel {
     // 卡片状态刷新（新建/编辑倒数日都算宠物相关行为，SPEC_M3 第 3 节）
     PetCardService.pushToCards().catch(() => {});
     await this.load();
-    return 'ok';
   }
 
   private async refreshReminders(ev: CountdownEventData): Promise<void> {

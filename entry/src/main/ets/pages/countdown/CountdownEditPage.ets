@@ -65,19 +65,6 @@ struct CountdownEditPage {
     });
   }
 
-  private showLimitDialog(): void {
-    AlertDialog.show({
-      title: $r('app.string.limit_title'),
-      message: $r('app.string.limit_msg'),
-      alignment: DialogAlignment.Center,
-      primaryButton: {
-        value: $r('app.string.action_ok'),
-        fontColor: $r('app.color.primary'),
-        action: () => {}
-      }
-    });
-  }
-
   private onSave(): void {
     const d = this.selectedDate;
     const ev: CountdownEventData = newCountdownEvent();
@@ -89,11 +76,7 @@ struct CountdownEditPage {
     ev.remindEnabled = this.remindEnabled;
     ev.note = this.note;
     countdownVM.saveEvent(ev, this.editId === 0)
-      .then((result: string) => {
-        if (result === 'limit') {
-          this.showLimitDialog();
-          return;
-        }
+      .then(() => {
         promptAction.showToast({
           message: this.editId === 0 ? $r('app.string.toast_added') : $r('app.string.toast_saved')
         });

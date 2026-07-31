@@ -12,9 +12,6 @@ export class CountdownRoutes {
   static readonly DETAIL: string = 'pages/countdown/CountdownDetailPage';
 }
 
-/** 免费版倒数日数量上限（决策 D-005） */
-export const FREE_EVENT_LIMIT: number = 3;
-
 /** 分类展示元数据 */
 export interface CategoryMeta {
   key: string;

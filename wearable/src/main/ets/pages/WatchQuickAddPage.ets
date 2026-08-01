@@ -84,94 +84,98 @@ export struct WatchQuickAddPage {
   }
 
   build() {
-    Scroll() {
-      Column({ space: 12 }) {
-        Text($r('app.string.watch_quick_add'))
-          .fontSize($r('app.float.fontSize_16'))
-          .fontWeight(FontWeight.Bold)
-          .fontColor($r('app.color.text_primary'))
-          .width('100%')
-
-        // 金额
-        Row({ space: 6 }) {
-          Text('¥')
-            .fontSize($r('app.float.fontSize_18'))
-            .fontWeight(FontWeight.Bold)
-            .fontColor($r('app.color.text_secondary'))
-          TextInput({ placeholder: $r('app.string.tx_hint_amount'), text: this.amountText })
-            .type(InputType.NUMBER_DECIMAL)
-            .fontSize($r('app.float.fontSize_18'))
+    Column() {
+      Scroll() {
+        Column({ space: 6 }) {
+          Text($r('app.string.watch_quick_add'))
+            .fontSize($r('app.float.fontSize_16'))
             .fontWeight(FontWeight.Bold)
             .fontColor($r('app.color.text_primary'))
-            .placeholderColor($r('app.color.text_hint'))
-            .backgroundColor(Color.Transparent)
-            .layoutWeight(1)
-            .padding(0)
-            .onChange((value: string) => {
-              this.amountText = value;
-            })
-            .enableKeyboardOnFocus(false)
+            .width('100%')
+
+          // 金额
+          Row({ space: 6 }) {
+            Text('¥')
+              .fontSize($r('app.float.fontSize_18'))
+              .fontWeight(FontWeight.Bold)
+              .fontColor($r('app.color.text_secondary'))
+            TextInput({ placeholder: $r('app.string.tx_hint_amount'), text: this.amountText })
+              .type(InputType.NUMBER_DECIMAL)
+              .fontSize($r('app.float.fontSize_18'))
+              .fontWeight(FontWeight.Bold)
+              .fontColor($r('app.color.text_primary'))
+              .placeholderColor($r('app.color.text_hint'))
+              .backgroundColor(Color.Transparent)
+              .layoutWeight(1)
+              .padding(0)
+              .onChange((value: string) => {
+                this.amountText = value;
+              })
+              .enableKeyboardOnFocus(false)
+          }
+          .width('100%')
+          .padding($r('app.float.padding_12'))
+          .backgroundColor($r('app.color.card_bg'))
+          .borderRadius($r('app.float.borderRadius_14'))
+
+          // 方向
+          Row({ space: 10 }) {
+            this.txDirectionChip($r('app.string.tx_dir_out'), TxDirection.OUT)
+            this.txDirectionChip($r('app.string.tx_dir_in'), TxDirection.IN)
+          }
+          .width('100%')
+
+          // 分类 emoji 网格
+          Flex({ wrap: FlexWrap.Wrap }) {
+            ForEach(this.categories(), (meta: TxCategoryMeta) => {
+              Column({ space: 2 }) {
+                Text(meta.emoji)
+                  .fontSize($r('app.float.fontSize_18'))
+                Text(meta.nameRes)
+                  .fontSize($r('app.float.fontSize_10'))
+                  .fontColor(this.category === meta.key ? $r('app.color.primary') : $r('app.color.text_secondary'))
+              }
+              .padding({ left:$r('app.float.padding_left_10'), right:$r('app.float.padding_right_10'), top:$r('app.float.padding_top_6'), bottom:$r('app.float.padding_bottom_6') })
+              .borderRadius($r('app.float.borderRadius_12'))
+              .border({
+                width: 1.5,
+                color: this.category === meta.key ? $r('app.color.primary') : $r('app.color.divider')
+              })
+              .backgroundColor(this.category === meta.key ? $r('app.color.today_bg') : $r('app.color.card_bg'))
+              .margin({ right:$r('app.float.margin_right_6'), bottom:$r('app.float.margin_bottom_6') })
+              .onClick(() => {
+                this.category = meta.key;
+              })
+            }, (meta: TxCategoryMeta) => meta.key)
+          }
+          .width('100%')
         }
         .width('100%')
         .padding($r('app.float.padding_12'))
-        .backgroundColor($r('app.color.card_bg'))
-        .borderRadius($r('app.float.borderRadius_14'))
-
-        // 方向
-        Row({ space: 10 }) {
-          this.txDirectionChip($r('app.string.tx_dir_out'), TxDirection.OUT)
-          this.txDirectionChip($r('app.string.tx_dir_in'), TxDirection.IN)
-        }
-        .width('100%')
-
-        // 分类 emoji 网格
-        Flex({ wrap: FlexWrap.Wrap }) {
-          ForEach(this.categories(), (meta: TxCategoryMeta) => {
-            Column({ space: 2 }) {
-              Text(meta.emoji)
-                .fontSize($r('app.float.fontSize_20'))
-              Text(meta.nameRes)
-                .fontSize($r('app.float.fontSize_10'))
-                .fontColor(this.category === meta.key ? $r('app.color.primary') : $r('app.color.text_secondary'))
-            }
-            .padding({ left:$r('app.float.padding_left_10'), right:$r('app.float.padding_right_10'), top:$r('app.float.padding_top_6'), bottom:$r('app.float.padding_bottom_6') })
-            .borderRadius($r('app.float.borderRadius_12'))
-            .border({
-              width: 1.5,
-              color: this.category === meta.key ? $r('app.color.primary') : $r('app.color.divider')
-            })
-            .backgroundColor(this.category === meta.key ? $r('app.color.today_bg') : $r('app.color.card_bg'))
-            .margin({ right:$r('app.float.margin_right_6'), bottom:$r('app.float.margin_bottom_6') })
-            .onClick(() => {
-              this.category = meta.key;
-            })
-          }, (meta: TxCategoryMeta) => meta.key)
-        }
-        .width('100%')
-
-        Button($r('app.string.action_save'))
-          .width('100%')
-          .height($r('app.float.height_42'))
-          .fontSize($r('app.float.fontSize_15'))
-          .fontWeight(FontWeight.Bold)
-          .fontColor(Color.White)
-          .backgroundColor($r('app.color.primary'))
-          .borderRadius($r('app.float.borderRadius_14'))
-          .opacity(this.canSave() ? 1 : 0.35)
-          .enabled(this.canSave())
-          .onClick(() => {
-            this.onSave();
-          })
       }
-      .width('100%')
-      .padding($r('app.float.padding_12'))
+      .layoutWeight(1)
+      .scrollBar(BarState.Off)
+      .nestedScroll({
+        scrollForward: NestedScrollMode.PARENT_FIRST,
+        scrollBackward: NestedScrollMode.PARENT_FIRST
+      })
+
+      Button($r('app.string.action_save'))
+        .width('100%')
+        .height($r('app.float.height_42'))
+        .fontSize($r('app.float.fontSize_15'))
+        .fontWeight(FontWeight.Bold)
+        .fontColor(Color.White)
+        .backgroundColor($r('app.color.primary'))
+        .borderRadius($r('app.float.borderRadius_14'))
+        .opacity(this.canSave() ? 1 : 0.35)
+        .enabled(this.canSave())
+        .onClick(() => {
+          this.onSave();
+        })
+        .margin({ left: $r('app.float.padding_12'), right: $r('app.float.padding_12'), bottom: $r('app.float.padding_12') })
     }
     .width('100%')
-    .nestedScroll({
-      scrollForward: NestedScrollMode.PARENT_FIRST,
-      scrollBackward: NestedScrollMode.PARENT_FIRST
-    })
     .backgroundColor($r('app.color.page_bg'))
-    .scrollBar(BarState.Off)
   }
 }

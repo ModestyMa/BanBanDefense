@@ -9,6 +9,7 @@ import { PetCardService } from '../service/PetCardService';
 import { MoneyUtils } from '../common/utils/MoneyUtils';
 import { DateUtils } from '../common/utils/DateUtils';
 import { TxDirection, TxCategory, expenseCategoryList, incomeCategoryList } from '../common/constants/AccountConstants';
+import { DatabaseHelper } from '../data/database/DatabaseHelper';
 
 const DOMAIN: number = 0x1400;
 const TAG: string = 'AccountViewModel';
@@ -36,6 +37,8 @@ export class AccountViewModel {
 
   /** 载入账户与流水并分组；首次调用初始化默认账户 */
   async load(): Promise<void> {
+    // BUG-007：页面 aboutToAppear 可能抢在 EntryAbility 异步 init 完成前调用，先等数据底座就绪
+    await DatabaseHelper.ready();
     await AccountRepository.initDefaultsIfEmpty();
     this.accounts = await AccountRepository.listAll();
     if (this.accountId === 0 && this.accounts.length > 0) {

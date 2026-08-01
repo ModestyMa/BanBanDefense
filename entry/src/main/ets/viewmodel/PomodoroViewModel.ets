@@ -2,6 +2,7 @@
 import { PomodoroRepository } from '../data/repository/PomodoroRepository';
 import { PomodoroSessionData } from '../data/model/PomodoroSession';
 import { DateUtils, DAY_MS } from '../common/utils/DateUtils';
+import { DatabaseHelper } from '../data/database/DatabaseHelper';
 
 @ObservedV2
 export class PomodoroViewModel {
@@ -15,6 +16,8 @@ export class PomodoroViewModel {
   @Trace recent: PomodoroSessionData[] = [];
 
   async load(): Promise<void> {
+    // BUG-007：页面 aboutToAppear 可能抢在 EntryAbility 异步 init 完成前调用，先等数据底座就绪
+    await DatabaseHelper.ready();
     const today = DateUtils.todayStart();
     const dow = (new Date().getDay() + 6) % 7;
     const monday = today - dow * DAY_MS;

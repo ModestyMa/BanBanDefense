@@ -73,12 +73,33 @@ const SQL_CREATE_IMPORT_BATCH: string =
 
 export class DatabaseHelper {
   private static store: relationalStore.RdbStore | null = null;
+  // BUG-007：init 是异步的，页面 aboutToAppear 会抢在它完成前读库。
+  // 缓存 in-flight Promise，让并发调用方共享同一次初始化并可等待（幂等）。
+  private static initPromise: Promise<void> | null = null;
+  private static ctx: common.Context | null = null;
 
-  /** 应用启动时调用一次（EntryAbility.onCreate） */
+  /** 应用启动时调用一次（EntryAbility.onCreate）；可并发重入，返回同一次初始化 */
   static async init(context: common.Context): Promise<void> {
+    DatabaseHelper.ctx = context;
     if (DatabaseHelper.store !== null) {
       return;
     }
+    if (DatabaseHelper.initPromise !== null) {
+      await DatabaseHelper.initPromise;
+      return;
+    }
+    DatabaseHelper.initPromise = DatabaseHelper.doInit(context);
+    try {
+      await DatabaseHelper.initPromise;
+    } finally {
+      // 失败时清空，允许后续重试；成功时保留（store 已非空，不会再走到这）
+      if (DatabaseHelper.store === null) {
+        DatabaseHelper.initPromise = null;
+      }
+    }
+  }
+
+  private static async doInit(context: common.Context): Promise<void> {
     const config: relationalStore.StoreConfig = {
       name: DB_NAME,
       securityLevel: relationalStore.SecurityLevel.S1
@@ -91,6 +112,25 @@ export class DatabaseHelper {
     await store.executeSql(SQL_CREATE_PET);
     await store.executeSql(SQL_CREATE_IMPORT_BATCH);
     DatabaseHelper.store = store;
+  }
+
+  /**
+   * BUG-007：页面/ViewModel 读库前必须先 await 本方法。
+   * 已就绪则立即返回；初始化进行中则等它完成；尚未开始则用缓存的 context 补跑一次。
+   */
+  static async ready(): Promise<void> {
+    if (DatabaseHelper.store !== null) {
+      return;
+    }
+    if (DatabaseHelper.initPromise !== null) {
+      await DatabaseHelper.initPromise;
+      return;
+    }
+    if (DatabaseHelper.ctx !== null) {
+      await DatabaseHelper.init(DatabaseHelper.ctx);
+      return;
+    }
+    throw new Error('DatabaseHelper 未初始化，请先在 EntryAbility.onCreate 调用 init');
   }
 
   static get(): relationalStore.RdbStore {

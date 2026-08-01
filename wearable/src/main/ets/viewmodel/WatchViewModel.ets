@@ -9,6 +9,7 @@ import { TransactionData } from '../data/model/Transaction';
 import { DateUtils, DAY_MS } from '../common/utils/DateUtils';
 import { MoneyUtils } from '../common/utils/MoneyUtils';
 import { TxDirection } from '../common/constants/AccountConstants';
+import { DatabaseHelper } from '../data/database/DatabaseHelper';
 
 @ObservedV2
 export class WatchViewModel {
@@ -26,6 +27,11 @@ export class WatchViewModel {
   @Trace defaultAccountId: number = 0;
 
   async load(): Promise<void> {
+    // BUG-007：页面 aboutToAppear 会抢在 EntryAbility 的异步 init 完成前调用本方法，
+    // 必须先等数据底座就绪，否则整屏数据（宠物/收支/倒数日/默认账户）全部加载失败。
+    await DatabaseHelper.ready();
+    // 默认账户同属 EntryAbility 的异步链，也可能晚于本次 load；幂等补一次（表非空即直接返回）
+    await AccountRepository.initDefaultsIfEmpty();
     const today: number = DateUtils.todayStart();
 
     // 宠物状态

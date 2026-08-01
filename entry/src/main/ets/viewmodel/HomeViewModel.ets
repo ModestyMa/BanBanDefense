@@ -9,6 +9,7 @@ import { PomodoroSessionData } from '../data/model/PomodoroSession';
 import { ReportUtils } from '../common/utils/ReportUtils';
 import { DateUtils, DAY_MS } from '../common/utils/DateUtils';
 import { TxDirection } from '../common/constants/AccountConstants';
+import { DatabaseHelper } from '../data/database/DatabaseHelper';
 
 @ObservedV2
 export class HomeViewModel {
@@ -34,6 +35,8 @@ export class HomeViewModel {
   @Trace billInCount: number = 0;
 
   async load(): Promise<void> {
+    // BUG-007：页面 aboutToAppear 可能抢在 EntryAbility 异步 init 完成前调用，先等数据底座就绪
+    await DatabaseHelper.ready();
     const today: number = DateUtils.todayStart();
 
     // 宠物状态

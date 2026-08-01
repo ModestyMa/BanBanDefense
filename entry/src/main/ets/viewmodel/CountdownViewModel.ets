@@ -5,6 +5,7 @@ import { ReminderService } from '../service/ReminderService';
 import { PetCardService } from '../service/PetCardService';
 import { DateUtils } from '../common/utils/DateUtils';
 import { hilog } from '@kit.PerformanceAnalysisKit';
+import { DatabaseHelper } from '../data/database/DatabaseHelper';
 
 const DOMAIN: number = 0x1102;
 const TAG: string = 'CountdownViewModel';
@@ -16,6 +17,8 @@ export class CountdownViewModel {
 
   /** 加载并按 SPEC 3.3 排序：置顶优先 → 距今天数绝对值升序 */
   async load(): Promise<void> {
+    // BUG-007：页面 aboutToAppear 可能抢在 EntryAbility 异步 init 完成前调用，先等数据底座就绪
+    await DatabaseHelper.ready();
     const all = await CountdownRepository.listAll();
     const filtered: CountdownEventData[] = [];
     for (const ev of all) {

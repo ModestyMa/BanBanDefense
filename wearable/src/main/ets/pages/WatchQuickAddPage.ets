@@ -27,11 +27,16 @@ export struct WatchQuickAddPage {
     });
   }
 
-  private categories(): TxCategoryMeta[] {
+  // BUG-007：ArkTS V2 是精确刷新，build 里调 private 方法【不会】为方法内读到的
+  // @Local/@Trace 建立依赖 —— 原 canSave()/categories() 写法导致 vm.defaultAccountId
+  // 异步到达后保存按钮永远置灰。改用 @Computed，由框架自动追踪依赖并刷新使用它的节点。
+  @Computed
+  get categoryList(): TxCategoryMeta[] {
     return this.txDirection === TxDirection.OUT ? expenseCategoryList() : incomeCategoryList();
   }
 
-  private canSave(): boolean {
+  @Computed
+  get canSave(): boolean {
     return MoneyUtils.isValidAmount(this.amountText) && this.vm.defaultAccountId > 0;
   }
 
@@ -127,7 +132,7 @@ export struct WatchQuickAddPage {
 
           // 分类 emoji 网格
           Flex({ wrap: FlexWrap.Wrap }) {
-            ForEach(this.categories(), (meta: TxCategoryMeta) => {
+            ForEach(this.categoryList, (meta: TxCategoryMeta) => {
               Column({ space: 2 }) {
                 Text(meta.emoji)
                   .fontSize($r('app.float.fontSize_18'))
@@ -168,8 +173,8 @@ export struct WatchQuickAddPage {
         .fontColor(Color.White)
         .backgroundColor($r('app.color.primary'))
         .borderRadius($r('app.float.borderRadius_14'))
-        .opacity(this.canSave() ? 1 : 0.35)
-        .enabled(this.canSave())
+        .opacity(this.canSave ? 1 : 0.35)
+        .enabled(this.canSave)
         .onClick(() => {
           this.onSave();
         })

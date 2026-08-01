@@ -1,5 +1,6 @@
 // 手表概览屏（SPEC_M6 决策 7-①）：宠物心情/等级/连续天数 + 今日支出/收入合计
 import { hilog } from '@kit.PerformanceAnalysisKit';
+import { NestedScrollMode } from '@kit.ArkUI';
 import { watchVM } from '../viewmodel/WatchViewModel';
 import { MoneyUtils } from '../common/utils/MoneyUtils';
 
@@ -77,7 +78,10 @@ export struct WatchOverviewPage {
       .padding(12)
     }
     .width('100%')
-    .height('100%')
+    .nestedScroll({
+      scrollForward: NestedScrollMode.SELF_FIRST,
+      scrollBackward: NestedScrollMode.SELF_FIRST
+    })
     .backgroundColor($r('app.color.page_bg'))
     .scrollBar(BarState.Off)
   }

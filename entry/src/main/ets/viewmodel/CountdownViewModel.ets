@@ -4,6 +4,10 @@ import { CountdownRepository } from '../data/repository/CountdownRepository';
 import { ReminderService } from '../service/ReminderService';
 import { PetCardService } from '../service/PetCardService';
 import { DateUtils } from '../common/utils/DateUtils';
+import { hilog } from '@kit.PerformanceAnalysisKit';
+
+const DOMAIN: number = 0x1102;
+const TAG: string = 'CountdownViewModel';
 
 @ObservedV2
 export class CountdownViewModel {
@@ -41,12 +45,18 @@ export class CountdownViewModel {
       ev.reminderIds = '';
       const newId = await CountdownRepository.insert(ev);
       ev.id = newId;
-      await this.refreshReminders(ev);
     } else {
       await ReminderService.cancelForEvent(ev);
       ev.reminderIds = '';
       await CountdownRepository.update(ev);
+    }
+    // 提醒调度降级为非阻断：通知权限未开启时 publishReminder 抛 "exceeds the limit"，
+    // 不应阻断已成功的 insert/update（参照 PomodoroEngine.ets:136-142 同款写法，BUG-006/T20）
+    try {
       await this.refreshReminders(ev);
+    } catch (err) {
+      hilog.warn(DOMAIN, TAG, '提醒调度降级: %{public}s',
+        err instanceof Error ? (err as Error).message : String(err));
     }
     // 卡片状态刷新（新建/编辑倒数日都算宠物相关行为，SPEC_M3 第 3 节）
     PetCardService.pushToCards().catch(() => {});

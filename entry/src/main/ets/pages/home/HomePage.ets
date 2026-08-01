@@ -5,6 +5,7 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 import { homeVM } from '../../viewmodel/HomeViewModel';
 import { MoneyUtils } from '../../common/utils/MoneyUtils';
 import { BreakpointHelper } from '../../common/utils/BreakpointHelper';
+import { AppContextHolder } from '../../common/AppContextHolder';
 
 const DOMAIN: number = 0x1500;
 const TAG: string = 'HomePage';
@@ -17,9 +18,8 @@ export struct HomePage {
   @Computed get winWidthVp(): number { return AppStorage.get<number>('winWidthVp') ?? 360; }
   private vm = homeVM;
 
-  private isLg(): boolean {
-    return this.winWidthVp > BreakpointHelper.LG_THRESHOLD;
-  }
+  // BUG-004 同根因：build 中经 private 普通方法间接读状态不建立 V2 依赖，一律改 @Computed
+  @Computed get isLg(): boolean { return this.winWidthVp > BreakpointHelper.LG_THRESHOLD; }
 
   aboutToAppear(): void {
     this.vm.load().catch((err: Error) => {
@@ -27,8 +27,16 @@ export struct HomePage {
     });
   }
 
-  private countdownMain(): string {
-    const rm = getContext(this).resourceManager;
+  // BUG-004 修复（2026-08-02）：三卡文案原为 private 普通方法，build 经方法调用间接读取
+  // homeVM(@ObservedV2 外部单例) 的 @Trace 字段 → ArkUI V2 依赖未建立，异步 load() 晚于首帧
+  // 完成时永不重绘（冷启动 28% 概率三卡空白且不自愈）。改 @Computed get 后依赖成立。
+  // resourceManager 走 AppContextHolder 兜底（EntryAbility 早已 set），避免 @Computed 求值
+  // 时机早于组件挂载时 getContext(this) 不可用。兜底写法与 MainPage.ets:96/109 一致。
+
+  @Computed
+  get countdownMain(): string {
+    const context = AppContextHolder.get() ?? getContext(this);
+    const rm = context.resourceManager;
     if (!this.vm.hasCountdown) {
       return rm.getStringSync($r('app.string.home_cd_empty'));
     }
@@ -38,16 +46,20 @@ export struct HomePage {
     return this.vm.cdTitle + ' · ' + rm.getStringSync($r('app.string.day_future_fmt'), this.vm.cdDays);
   }
 
-  private focusMain(): string {
-    const rm = getContext(this).resourceManager;
+  @Computed
+  get focusMain(): string {
+    const context = AppContextHolder.get() ?? getContext(this);
+    const rm = context.resourceManager;
     if (this.vm.focusCount === 0) {
       return rm.getStringSync($r('app.string.home_focus_empty'));
     }
     return rm.getStringSync($r('app.string.home_focus_fmt'), this.vm.focusMinutes, this.vm.focusCount);
   }
 
-  private billMain(): string {
-    const rm = getContext(this).resourceManager;
+  @Computed
+  get billMain(): string {
+    const context = AppContextHolder.get() ?? getContext(this);
+    const rm = context.resourceManager;
     if (this.vm.billOutCount + this.vm.billInCount === 0) {
       return rm.getStringSync($r('app.string.home_bill_empty'));
     }
@@ -160,22 +172,22 @@ export struct HomePage {
         this.navBar()
         Column({ space: 12 }) {
           this.petCard()
-          if (this.isLg()) {
+          if (this.isLg) {
             // lg 断点：今日概览三卡横排（SPEC_M6 §4）
             Row({ space: 12 }) {
               Column() {
                 this.overviewCard('📅', getContext(this).resourceManager.getStringSync($r('app.string.tab_countdown')),
-                  this.countdownMain(), 1)
+                  this.countdownMain, 1)
               }
               .layoutWeight(1)
               Column() {
                 this.overviewCard('🍅', getContext(this).resourceManager.getStringSync($r('app.string.pomodoro_title')),
-                  this.focusMain(), 2)
+                  this.focusMain, 2)
               }
               .layoutWeight(1)
               Column() {
                 this.overviewCard('💰', getContext(this).resourceManager.getStringSync($r('app.string.tab_account')),
-                  this.billMain(), 3)
+                  this.billMain, 3)
               }
               .layoutWeight(1)
             }
@@ -183,11 +195,11 @@ export struct HomePage {
             .alignItems(VerticalAlign.Top)
           } else {
             this.overviewCard('📅', getContext(this).resourceManager.getStringSync($r('app.string.tab_countdown')),
-              this.countdownMain(), 1)
+              this.countdownMain, 1)
             this.overviewCard('🍅', getContext(this).resourceManager.getStringSync($r('app.string.pomodoro_title')),
-              this.focusMain(), 2)
+              this.focusMain, 2)
             this.overviewCard('💰', getContext(this).resourceManager.getStringSync($r('app.string.tab_account')),
-              this.billMain(), 3)
+              this.billMain, 3)
           }
         }
         .width('100%')

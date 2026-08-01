@@ -34,21 +34,6 @@ struct PomodoroStatsPage {
     return names;
   }
 
-  private maxWeekValue(): number {
-    let max = 1;
-    for (const v of this.vm.weekDays) {
-      if (v > max) {
-        max = v;
-      }
-    }
-    return max;
-  }
-
-  private barHeightPercent(idx: number): string {
-    const pct = Math.round(this.vm.weekDays[idx] / this.maxWeekValue() * 100);
-    return Math.max(pct, 3).toString() + '%';
-  }
-
   private pad(n: number): string {
     return n < 10 ? '0' + n : n.toString();
   }
@@ -102,31 +87,44 @@ struct PomodoroStatsPage {
 
   @Builder
   chart() {
+    // BUG-004 同根因防御：柱状图高度依赖 vm.weekDays（异步 load 后填充）。
+    // 原由 private maxWeekValue()/barHeightPercent(idx) 经方法间接读 vm.@Trace，存在依赖未建立隐患；
+    // 改为在 @Builder 内直接读取 vm.weekDays 计算，随 build 建立依赖，load 完成后自动重渲。
+    const weekDays: number[] = this.vm.weekDays;
+    let maxVal: number = 1;
+    for (const v of weekDays) {
+      if (v > maxVal) {
+        maxVal = v;
+      }
+    }
+    const names: string[] = this.weekDayNames();
+    const todayIdx: number = this.vm.todayIndex;
     Column({ space: 14 }) {
       Text($r('app.string.stat_week_chart'))
         .fontSize(14)
         .fontWeight(FontWeight.Medium)
         .fontColor($r('app.color.text_primary'))
       Row({ space: 10 }) {
-        ForEach(this.weekDayNames(), (name: string, idx: number) => {
+        ForEach(weekDays, (v: number, idx: number) => {
+          const pct: number = Math.max(3, Math.round(v / maxVal * 100));
           Column({ space: 6 }) {
-            Text(this.vm.weekDays[idx] > 0 ? this.vm.weekDays[idx].toString() : '')
+            Text(v > 0 ? v.toString() : '')
               .fontSize(9)
               .fontColor($r('app.color.text_hint'))
             Column()
               .width('100%')
               .constraintSize({ maxWidth: 26 })
-              .height(this.barHeightPercent(idx))
+              .height(pct.toString() + '%')
               .borderRadius({ topLeft: 6, topRight: 6, bottomLeft: 2, bottomRight: 2 })
-              .backgroundColor(idx === this.vm.todayIndex ? $r('app.color.primary') : $r('app.color.today_border'))
-            Text(name)
+              .backgroundColor(idx === todayIdx ? $r('app.color.primary') : $r('app.color.today_border'))
+            Text(names[idx])
               .fontSize(10)
               .fontColor($r('app.color.text_hint'))
           }
           .layoutWeight(1)
           .height('100%')
           .justifyContent(FlexAlign.End)
-        }, (name: string, idx: number) => idx.toString())
+        }, (v: number, idx: number) => idx.toString())
       }
       .width('100%')
       .height(130)

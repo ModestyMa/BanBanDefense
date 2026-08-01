@@ -1,6 +1,5 @@
 // 手表倒数日屏（SPEC_M6 决策 7-③）：标题 + 天数列表（只读；新建/编辑在手机端）
 import { hilog } from '@kit.PerformanceAnalysisKit';
-import { NestedScrollMode } from '@kit.ArkUI';
 import { watchVM } from '../viewmodel/WatchViewModel';
 import { CountdownEventData } from '../data/model/CountdownEvent';
 import { DateUtils, DayInfo } from '../common/utils/DateUtils';
@@ -81,8 +80,8 @@ export struct WatchCountdownPage {
         .layoutWeight(1)
         .scrollBar(BarState.Off)
         .nestedScroll({
-          scrollForward: NestedScrollMode.SELF_FIRST,
-          scrollBackward: NestedScrollMode.SELF_FIRST
+          scrollForward: NestedScrollMode.PARENT_FIRST,
+          scrollBackward: NestedScrollMode.PARENT_FIRST
         })
       }
     }

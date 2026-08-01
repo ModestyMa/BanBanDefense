@@ -1,6 +1,6 @@
 // 手表快记屏（SPEC_M6 决策 7-②）：金额 + 支出/收入 + 分类 emoji 网格 + 保存
 // 保存走默认账户：插流水 → 调余额 → PetEngine.addExp(1) + touchActive（无卡片推送）
-import { promptAction, NestedScrollMode } from '@kit.ArkUI';
+import { promptAction } from '@kit.ArkUI';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { watchVM } from '../viewmodel/WatchViewModel';
 import { TransactionRepository } from '../data/repository/TransactionRepository';
@@ -110,6 +110,7 @@ export struct WatchQuickAddPage {
             .onChange((value: string) => {
               this.amountText = value;
             })
+            .enableKeyboardOnFocus(false)
         }
         .width('100%')
         .padding($r('app.float.padding_12'))
@@ -167,8 +168,8 @@ export struct WatchQuickAddPage {
     }
     .width('100%')
     .nestedScroll({
-      scrollForward: NestedScrollMode.SELF_FIRST,
-      scrollBackward: NestedScrollMode.SELF_FIRST
+      scrollForward: NestedScrollMode.PARENT_FIRST,
+      scrollBackward: NestedScrollMode.PARENT_FIRST
     })
     .backgroundColor($r('app.color.page_bg'))
     .scrollBar(BarState.Off)

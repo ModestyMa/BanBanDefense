@@ -131,22 +131,22 @@ struct MainPage {
       // lg 断点：左侧纵向导航项（图标 + 文字横排，SPEC_M6 §4）
       Row({ space: 8 }) {
         Text(icon)
-          .fontSize(18)
+          .fontSize($r('app.float.fontSize_18'))
         Text(labelRes)
-          .fontSize(13)
+          .fontSize($r('app.float.fontSize_13'))
           .fontColor(selected ? $r('app.color.primary') : $r('app.color.text_hint'))
           .fontWeight(selected ? FontWeight.Medium : FontWeight.Normal)
       }
       .width('100%')
       .height('100%')
       .justifyContent(FlexAlign.Center)
-      .padding({ left: 12, right: 12 })
+      .padding({ left:$r('app.float.padding_left_12'), right:$r('app.float.padding_right_12') })
     } else {
       Column({ space: 2 }) {
         Text(icon)
-          .fontSize(20)
+          .fontSize($r('app.float.fontSize_20'))
         Text(labelRes)
-          .fontSize(11)
+          .fontSize($r('app.float.fontSize_11'))
           .fontColor(selected ? $r('app.color.primary') : $r('app.color.text_hint'))
           .fontWeight(selected ? FontWeight.Medium : FontWeight.Normal)
       }
@@ -211,43 +211,43 @@ struct PrivacyDialog {
   build() {
     Column({ space: 16 }) {
       Text($r('app.string.settings_privacy'))
-        .fontSize(17)
+        .fontSize($r('app.float.fontSize_17'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
       ZeroNetworkBadge()
       Text($r('app.string.privacy_dialog_msg'))
-        .fontSize(14)
+        .fontSize($r('app.float.fontSize_14'))
         .fontColor($r('app.color.text_primary'))
-        .lineHeight(24)
+        .lineHeight($r('app.float.lineHeight_24'))
         .width('100%')
       Row({ space: 10 }) {
         Button($r('app.string.privacy_disagree'))
-          .fontSize(13)
+          .fontSize($r('app.float.fontSize_13'))
           .fontColor($r('app.color.text_secondary'))
           .backgroundColor($r('app.color.ring_track'))
-          .borderRadius(12)
-          .height(38)
+          .borderRadius($r('app.float.borderRadius_12'))
+          .height($r('app.float.height_38'))
           .layoutWeight(1)
           .onClick(() => {
             this.exit();
           })
         Button($r('app.string.privacy_view'))
-          .fontSize(13)
+          .fontSize($r('app.float.fontSize_13'))
           .fontColor($r('app.color.primary'))
           .backgroundColor($r('app.color.today_bg'))
-          .borderRadius(12)
-          .height(38)
+          .borderRadius($r('app.float.borderRadius_12'))
+          .height($r('app.float.height_38'))
           .layoutWeight(1)
           .onClick(() => {
             this.controller.close();
             this.view();
           })
         Button($r('app.string.privacy_agree'))
-          .fontSize(13)
+          .fontSize($r('app.float.fontSize_13'))
           .fontColor(Color.White)
           .backgroundColor($r('app.color.primary'))
-          .borderRadius(12)
-          .height(38)
+          .borderRadius($r('app.float.borderRadius_12'))
+          .height($r('app.float.height_38'))
           .layoutWeight(1)
           .onClick(() => {
             this.agree();
@@ -256,8 +256,8 @@ struct PrivacyDialog {
       .width('100%')
     }
     .width('86%')
-    .padding(20)
+    .padding($r('app.float.padding_20'))
     .backgroundColor($r('app.color.card_bg'))
-    .borderRadius(20)
+    .borderRadius($r('app.float.borderRadius_20'))
   }
 }

@@ -85,25 +85,25 @@ export struct AccountPage {
   navBar() {
     Row({ space: 16 }) {
       Text($r('app.string.tab_account'))
-        .fontSize(28)
+        .fontSize($r('app.float.fontSize_28'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
       Blank()
       Text('📊 ' + getContext(this).resourceManager.getStringSync($r('app.string.report_title')))
-        .fontSize(14)
+        .fontSize($r('app.float.fontSize_14'))
         .fontColor($r('app.color.primary'))
         .onClick(() => {
           router.pushUrl({ url: AccountRoutes.REPORT });
         })
       Text('⚙ ' + getContext(this).resourceManager.getStringSync($r('app.string.account_manage')))
-        .fontSize(14)
+        .fontSize($r('app.float.fontSize_14'))
         .fontColor($r('app.color.primary'))
         .onClick(() => {
           router.pushUrl({ url: AccountRoutes.MANAGE });
         })
     }
     .width('100%')
-    .padding({ left: 20, right: 20, top: 8, bottom: 4 })
+    .padding({ left:$r('app.float.padding_left_20'), right:$r('app.float.padding_right_20'), top:$r('app.float.padding_top_8'), bottom:$r('app.float.padding_bottom_4') })
   }
 
   @Builder
@@ -128,12 +128,12 @@ export struct AccountPage {
       this.directionChips()
       Blank()
       Text('¥')
-        .fontSize(22)
+        .fontSize($r('app.float.fontSize_22'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_secondary'))
       TextInput({ placeholder: $r('app.string.tx_hint_amount'), text: this.vm.amountText })
         .type(InputType.NUMBER_DECIMAL)
-        .fontSize(26)
+        .fontSize($r('app.float.fontSize_26'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
         .placeholderColor($r('app.color.text_hint'))
@@ -156,19 +156,19 @@ export struct AccountPage {
         (meta: TxCategoryMeta) => {
           Row({ space: 4 }) {
             Text(meta.emoji)
-              .fontSize(14)
+              .fontSize($r('app.float.fontSize_14'))
             Text(meta.nameRes)
-              .fontSize(13)
+              .fontSize($r('app.float.fontSize_13'))
               .fontColor(this.vm.category === meta.key ? $r('app.color.primary') : $r('app.color.text_secondary'))
           }
-          .padding({ left: 12, right: 12, top: 7, bottom: 7 })
-          .borderRadius(12)
+          .padding({ left:$r('app.float.padding_left_12'), right:$r('app.float.padding_right_12'), top:$r('app.float.padding_top_7'), bottom:$r('app.float.padding_bottom_7') })
+          .borderRadius($r('app.float.borderRadius_12'))
           .border({
             width: 1.5,
             color: this.vm.category === meta.key ? $r('app.color.primary') : $r('app.color.divider')
           })
           .backgroundColor(this.vm.category === meta.key ? $r('app.color.today_bg') : $r('app.color.card_bg'))
-          .margin({ right: 8, bottom: 8 })
+          .margin({ right:$r('app.float.margin_right_8'), bottom:$r('app.float.margin_bottom_8') })
           .onClick(() => {
             this.vm.category = meta.key;
           })
@@ -183,15 +183,15 @@ export struct AccountPage {
       Row({ space: 8 }) {
         ForEach(this.vm.accounts, (acc: AccountData) => {
           Text(acc.icon + ' ' + acc.name)
-            .fontSize(13)
+            .fontSize($r('app.float.fontSize_13'))
             .fontColor(this.vm.accountId === acc.id ? $r('app.color.primary') : $r('app.color.text_secondary'))
             .backgroundColor(this.vm.accountId === acc.id ? $r('app.color.today_bg') : $r('app.color.card_bg'))
-            .borderRadius(12)
+            .borderRadius($r('app.float.borderRadius_12'))
             .border({
               width: 1.5,
               color: this.vm.accountId === acc.id ? $r('app.color.primary') : $r('app.color.divider')
             })
-            .padding({ left: 12, right: 12, top: 7, bottom: 7 })
+            .padding({ left:$r('app.float.padding_left_12'), right:$r('app.float.padding_right_12'), top:$r('app.float.padding_top_7'), bottom:$r('app.float.padding_bottom_7') })
             .onClick(() => {
               this.vm.accountId = acc.id;
             })
@@ -210,12 +210,12 @@ export struct AccountPage {
       if (isEdit) {
         Row() {
           Text($r('app.string.edit_tx_title'))
-            .fontSize(16)
+            .fontSize($r('app.float.fontSize_16'))
             .fontWeight(FontWeight.Bold)
             .fontColor($r('app.color.text_primary'))
           Blank()
           Text(DateUtils.formatDate(this.vm.editDayStart))
-            .fontSize(14)
+            .fontSize($r('app.float.fontSize_14'))
             .fontColor($r('app.color.primary'))
             .onClick(() => {
               DatePickerDialog.show({
@@ -235,7 +235,7 @@ export struct AccountPage {
       this.categoryChips()
       this.accountChips()
       TextInput({ placeholder: $r('app.string.tx_hint_note'), text: this.vm.note })
-        .fontSize(14)
+        .fontSize($r('app.float.fontSize_14'))
         .fontColor($r('app.color.text_primary'))
         .placeholderColor($r('app.color.text_hint'))
         .backgroundColor(Color.Transparent)
@@ -246,12 +246,12 @@ export struct AccountPage {
         })
       Button($r('app.string.tx_save'))
         .width('100%')
-        .height(46)
-        .fontSize(16)
+        .height($r('app.float.height_46'))
+        .fontSize($r('app.float.fontSize_16'))
         .fontWeight(FontWeight.Bold)
         .fontColor(Color.White)
         .backgroundColor($r('app.color.primary'))
-        .borderRadius(14)
+        .borderRadius($r('app.float.borderRadius_14'))
         .opacity(this.vm.canSave() ? 1 : 0.35)
         .enabled(this.vm.canSave())
         .onClick(() => {
@@ -259,9 +259,9 @@ export struct AccountPage {
         })
     }
     .width('100%')
-    .padding(16)
+    .padding($r('app.float.padding_16'))
     .backgroundColor($r('app.color.card_bg'))
-    .borderRadius(16)
+    .borderRadius($r('app.float.borderRadius_16'))
     .shadow({ radius: 10, color: '#0D000000', offsetY: 2 })
   }
 
@@ -269,14 +269,14 @@ export struct AccountPage {
   txRow(tx: TransactionData) {
     Row({ space: 12 }) {
       Text(txCategoryMetaOf(tx.category).emoji)
-        .fontSize(22)
+        .fontSize($r('app.float.fontSize_22'))
       Column({ space: 2 }) {
         Text(txCategoryMetaOf(tx.category).nameRes)
-          .fontSize(15)
+          .fontSize($r('app.float.fontSize_15'))
           .fontWeight(FontWeight.Medium)
           .fontColor($r('app.color.text_primary'))
         Text((tx.note.length > 0 ? tx.note + ' · ' : '') + this.accountNameOf(tx.accountId))
-          .fontSize(12)
+          .fontSize($r('app.float.fontSize_12'))
           .fontColor($r('app.color.text_hint'))
           .maxLines(1)
           .textOverflow({ overflow: TextOverflow.Ellipsis })
@@ -284,14 +284,14 @@ export struct AccountPage {
       .alignItems(HorizontalAlign.Start)
       .layoutWeight(1)
       Text(MoneyUtils.signedText(tx.direction, MoneyUtils.toCents(tx.amount)))
-        .fontSize(16)
+        .fontSize($r('app.float.fontSize_16'))
         .fontWeight(FontWeight.Bold)
         .fontColor(tx.direction === TxDirection.IN ? $r('app.color.income_green') : $r('app.color.danger'))
     }
     .width('100%')
-    .padding({ left: 16, right: 16, top: 12, bottom: 12 })
+    .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), top:$r('app.float.padding_top_12'), bottom:$r('app.float.padding_bottom_12') })
     .backgroundColor($r('app.color.card_bg'))
-    .borderRadius(14)
+    .borderRadius($r('app.float.borderRadius_14'))
     .onClick(() => {
       this.vm.startEdit(tx);
     })
@@ -301,11 +301,11 @@ export struct AccountPage {
   deleteButton(tx: TransactionData) {
     Row() {
       Text($r('app.string.action_delete'))
-        .fontSize(14)
+        .fontSize($r('app.float.fontSize_14'))
         .fontWeight(FontWeight.Medium)
         .fontColor(Color.White)
     }
-    .width(80)
+    .width($r('app.float.width_80'))
     .height('100%')
     .justifyContent(FlexAlign.Center)
     .backgroundColor($r('app.color.danger'))
@@ -336,35 +336,35 @@ export struct AccountPage {
     }
     .width('100%')
     .layoutWeight(1)
-    .padding({ left: 16, right: 16, bottom: 20 })
+    .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), bottom:$r('app.float.padding_bottom_20') })
     .scrollBar(BarState.Off)
   }
 
   @Builder
   groupHeader(dayStart: number) {
     Text(this.groupLabel(dayStart))
-      .fontSize(13)
+      .fontSize($r('app.float.fontSize_13'))
       .fontWeight(FontWeight.Medium)
       .fontColor($r('app.color.text_hint'))
       .width('100%')
-      .padding({ left: 4, top: 4, bottom: 2 })
+      .padding({ left:$r('app.float.padding_left_4'), top:$r('app.float.padding_top_4'), bottom:$r('app.float.padding_bottom_2') })
   }
 
   @Builder
   emptyView() {
     Column({ space: 14 }) {
       Text($r('app.string.empty_tx_emoji'))
-        .fontSize(56)
+        .fontSize($r('app.float.fontSize_56'))
       Text($r('app.string.empty_tx'))
-        .fontSize(14)
+        .fontSize($r('app.float.fontSize_14'))
         .fontColor($r('app.color.text_hint'))
         .textAlign(TextAlign.Center)
-        .lineHeight(24)
+        .lineHeight($r('app.float.lineHeight_24'))
     }
     .width('100%')
     .layoutWeight(1)
     .justifyContent(FlexAlign.Center)
-    .padding({ bottom: 60 })
+    .padding({ bottom:$r('app.float.padding_bottom_60') })
   }
 
   /** 编辑浮层（dim 背景 + 底部面板） */
@@ -382,18 +382,18 @@ export struct AccountPage {
         this.txPanel(true)
         Button($r('app.string.action_cancel'))
           .width('100%')
-          .height(42)
-          .fontSize(14)
+          .height($r('app.float.height_42'))
+          .fontSize($r('app.float.fontSize_14'))
           .fontColor($r('app.color.text_secondary'))
           .backgroundColor($r('app.color.card_bg'))
-          .borderRadius(14)
-          .margin({ top: 10 })
+          .borderRadius($r('app.float.borderRadius_14'))
+          .margin({ top:$r('app.float.margin_top_10') })
           .onClick(() => {
             this.vm.resetForm();
           })
       }
       .width('100%')
-      .padding({ left: 16, right: 16, bottom: 24 })
+      .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), bottom:$r('app.float.padding_bottom_24') })
     }
     .width('100%')
     .height('100%')
@@ -407,7 +407,7 @@ export struct AccountPage {
           this.txPanel(false)
         }
         .width('100%')
-        .padding({ left: 16, right: 16 })
+        .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16') })
 
         if (this.vm.groups.length === 0) {
           this.emptyView()
@@ -430,10 +430,10 @@ export struct AccountPage {
 
 @Extend(Text)
 function dirChipStyle(selected: boolean) {
-  .fontSize(14)
+  .fontSize($r('app.float.fontSize_14'))
   .fontWeight(selected ? FontWeight.Bold : FontWeight.Normal)
   .fontColor(selected ? Color.White : $r('app.color.text_secondary'))
   .backgroundColor(selected ? $r('app.color.primary') : $r('app.color.ring_track'))
-  .borderRadius(14)
-  .padding({ left: 16, right: 16, top: 7, bottom: 7 })
+  .borderRadius($r('app.float.borderRadius_14'))
+  .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), top:$r('app.float.padding_top_7'), bottom:$r('app.float.padding_bottom_7') })
 }

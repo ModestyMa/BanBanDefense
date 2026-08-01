@@ -5,15 +5,15 @@ export struct ZeroNetworkBadge {
   build() {
     Row({ space: 6 }) {
       Text('🛡')
-        .fontSize(14)
+        .fontSize($r('app.float.fontSize_14'))
       Text($r('app.string.badge_zero_network'))
-        .fontSize(13)
+        .fontSize($r('app.float.fontSize_13'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.primary'))
     }
-    .padding({ left: 14, right: 14, top: 6, bottom: 6 })
+    .padding({ left:$r('app.float.padding_left_14'), right:$r('app.float.padding_right_14'), top:$r('app.float.padding_top_6'), bottom:$r('app.float.padding_bottom_6') })
     .backgroundColor($r('app.color.today_bg'))
-    .borderRadius(16)
+    .borderRadius($r('app.float.borderRadius_16'))
     .border({ width: 1, color: $r('app.color.primary') })
   }
 }

@@ -95,19 +95,19 @@ struct CountdownDetailPage {
   navBar() {
     Row() {
       Text('‹ ' + getContext(this).resourceManager.getStringSync($r('app.string.action_back')))
-        .fontSize(15)
+        .fontSize($r('app.float.fontSize_15'))
         .fontColor($r('app.color.primary'))
         .onClick(() => {
           router.back();
         })
       Text($r('app.string.action_detail'))
-        .fontSize(17)
+        .fontSize($r('app.float.fontSize_17'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
         .layoutWeight(1)
         .textAlign(TextAlign.Center)
       Text($r('app.string.action_edit'))
-        .fontSize(15)
+        .fontSize($r('app.float.fontSize_15'))
         .fontColor($r('app.color.primary'))
         .onClick(() => {
           if (this.ev !== null) {
@@ -119,64 +119,64 @@ struct CountdownDetailPage {
         })
     }
     .width('100%')
-    .padding({ left: 16, right: 16, top: 6, bottom: 12 })
+    .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), top:$r('app.float.padding_top_6'), bottom:$r('app.float.padding_bottom_12') })
   }
 
   @Builder
   hero() {
     Column({ space: 0 }) {
       Text(categoryMetaOf(this.ev === null ? 'life' : this.ev.category).nameRes)
-        .fontSize(12)
+        .fontSize($r('app.float.fontSize_12'))
         .fontWeight(FontWeight.Medium)
         .fontColor(Color.White)
         .backgroundColor(categoryMetaOf(this.ev === null ? 'life' : this.ev.category).colorRes)
-        .borderRadius(14)
-        .padding({ left: 14, right: 14, top: 5, bottom: 5 })
-        .margin({ bottom: 18 })
+        .borderRadius($r('app.float.borderRadius_14'))
+        .padding({ left:$r('app.float.padding_left_14'), right:$r('app.float.padding_right_14'), top:$r('app.float.padding_top_5'), bottom:$r('app.float.padding_bottom_5') })
+        .margin({ bottom:$r('app.float.margin_bottom_18') })
 
       Text(this.bigLabel())
-        .fontSize(40)
+        .fontSize($r('app.float.fontSize_40'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.primary'))
         .textAlign(TextAlign.Center)
 
       Text(this.ev === null ? '' : this.ev.title)
-        .fontSize(22)
+        .fontSize($r('app.float.fontSize_22'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
-        .margin({ top: 14 })
+        .margin({ top:$r('app.float.margin_top_14') })
 
       Text(this.ev === null ? '' :
         getContext(this).resourceManager.getStringSync($r('app.string.target_date_prefix'),
           DateUtils.formatDate(this.ev.targetDate)))
-        .fontSize(14)
+        .fontSize($r('app.float.fontSize_14'))
         .fontColor($r('app.color.text_secondary'))
-        .margin({ top: 8 })
+        .margin({ top:$r('app.float.margin_top_8') })
 
       Row({ space: 10 }) {
         Text(this.ev !== null && this.ev.isTop ? $r('app.string.flag_top_on') : $r('app.string.flag_top_off'))
-          .fontSize(12)
+          .fontSize($r('app.float.fontSize_12'))
           .fontColor($r('app.color.text_hint'))
         Text(this.ev !== null && this.ev.remindEnabled ? $r('app.string.flag_remind_on') : $r('app.string.flag_remind_off'))
-          .fontSize(12)
+          .fontSize($r('app.float.fontSize_12'))
           .fontColor($r('app.color.text_hint'))
       }
-      .margin({ top: 16 })
+      .margin({ top:$r('app.float.margin_top_16') })
 
       if (this.ev !== null && this.ev.note.length > 0) {
         Text(this.ev.note)
-          .fontSize(14)
+          .fontSize($r('app.float.fontSize_14'))
           .fontColor($r('app.color.text_secondary'))
           .backgroundColor($r('app.color.card_bg'))
-          .borderRadius(14)
-          .padding(14)
-          .margin({ top: 22 })
+          .borderRadius($r('app.float.borderRadius_14'))
+          .padding($r('app.float.padding_14'))
+          .margin({ top:$r('app.float.margin_top_22') })
           .shadow({ radius: 10, color: '#0D000000', offsetY: 2 })
       }
     }
     .layoutWeight(1)
     .justifyContent(FlexAlign.Center)
-    .padding(20)
+    .padding($r('app.float.padding_20'))
   }
 
   build() {
@@ -187,13 +187,13 @@ struct CountdownDetailPage {
         this.hero()
         Button($r('app.string.delete_this_event'))
           .width('90%')
-          .height(46)
-          .fontSize(15)
+          .height($r('app.float.height_46'))
+          .fontSize($r('app.float.fontSize_15'))
           .fontWeight(FontWeight.Medium)
           .fontColor($r('app.color.danger'))
           .backgroundColor($r('app.color.card_bg'))
-          .borderRadius(16)
-          .margin({ bottom: 30 })
+          .borderRadius($r('app.float.borderRadius_16'))
+          .margin({ bottom:$r('app.float.margin_bottom_30') })
           .onClick(() => {
             this.confirmDelete();
           })

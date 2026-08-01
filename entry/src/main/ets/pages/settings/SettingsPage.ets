@@ -125,40 +125,40 @@ struct SettingsPage {
   navBar() {
     Row() {
       Text('‹ ' + getContext(this).resourceManager.getStringSync($r('app.string.action_back')))
-        .fontSize(15)
+        .fontSize($r('app.float.fontSize_15'))
         .fontColor($r('app.color.primary'))
         .onClick(() => {
           router.back();
         })
       Text($r('app.string.settings_title'))
-        .fontSize(17)
+        .fontSize($r('app.float.fontSize_17'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
         .layoutWeight(1)
         .textAlign(TextAlign.Center)
-        .margin({ right: 40 })
+        .margin({ right:$r('app.float.margin_right_40') })
     }
     .width('100%')
-    .padding({ left: 16, right: 16, top: 6, bottom: 12 })
+    .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), top:$r('app.float.padding_top_6'), bottom:$r('app.float.padding_bottom_12') })
   }
 
   @Builder
   settingRow(icon: string, label: Resource, danger: boolean, onTap: () => void) {
     Row({ space: 12 }) {
       Text(icon)
-        .fontSize(20)
+        .fontSize($r('app.float.fontSize_20'))
       Text(label)
-        .fontSize(15)
+        .fontSize($r('app.float.fontSize_15'))
         .fontColor(danger ? $r('app.color.danger') : $r('app.color.text_primary'))
         .layoutWeight(1)
       Text('›')
-        .fontSize(18)
+        .fontSize($r('app.float.fontSize_18'))
         .fontColor($r('app.color.text_hint'))
     }
     .width('100%')
-    .padding(16)
+    .padding($r('app.float.padding_16'))
     .backgroundColor($r('app.color.card_bg'))
-    .borderRadius(14)
+    .borderRadius($r('app.float.borderRadius_14'))
     .onClick(onTap)
   }
 
@@ -182,7 +182,7 @@ struct SettingsPage {
           })
         }
         .width('100%')
-        .padding({ left: 16, right: 16 })
+        .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16') })
       }
       .width('100%')
       .height('100%')

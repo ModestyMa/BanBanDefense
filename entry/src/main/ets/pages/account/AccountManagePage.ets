@@ -130,48 +130,48 @@ struct AccountManagePage {
   navBar() {
     Row() {
       Text('‹ ' + getContext(this).resourceManager.getStringSync($r('app.string.action_back')))
-        .fontSize(15)
+        .fontSize($r('app.float.fontSize_15'))
         .fontColor($r('app.color.primary'))
         .onClick(() => {
           router.back();
         })
       Text($r('app.string.account_manage'))
-        .fontSize(17)
+        .fontSize($r('app.float.fontSize_17'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
         .layoutWeight(1)
         .textAlign(TextAlign.Center)
-        .margin({ right: 40 })
+        .margin({ right:$r('app.float.margin_right_40') })
     }
     .width('100%')
-    .padding({ left: 16, right: 16, top: 6, bottom: 12 })
+    .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), top:$r('app.float.padding_top_6'), bottom:$r('app.float.padding_bottom_12') })
   }
 
   @Builder
   accountRow(acc: AccountData) {
     Row({ space: 12 }) {
       Text(acc.icon)
-        .fontSize(24)
+        .fontSize($r('app.float.fontSize_24'))
       Column({ space: 2 }) {
         Text(acc.name)
-          .fontSize(16)
+          .fontSize($r('app.float.fontSize_16'))
           .fontWeight(FontWeight.Medium)
           .fontColor($r('app.color.text_primary'))
         Text(accountTypeMetaOf(acc.type).nameRes)
-          .fontSize(12)
+          .fontSize($r('app.float.fontSize_12'))
           .fontColor($r('app.color.text_hint'))
       }
       .alignItems(HorizontalAlign.Start)
       .layoutWeight(1)
       Text(MoneyUtils.formatAmount(MoneyUtils.toCents(acc.balance)))
-        .fontSize(16)
+        .fontSize($r('app.float.fontSize_16'))
         .fontWeight(FontWeight.Bold)
         .fontColor(acc.balance >= 0 ? $r('app.color.income_green') : $r('app.color.danger'))
     }
     .width('100%')
-    .padding(16)
+    .padding($r('app.float.padding_16'))
     .backgroundColor($r('app.color.card_bg'))
-    .borderRadius(16)
+    .borderRadius($r('app.float.borderRadius_16'))
     .shadow({ radius: 10, color: '#0D000000', offsetY: 2 })
     .onClick(() => {
       this.startEdit(acc);
@@ -190,17 +190,17 @@ struct AccountManagePage {
         })
       Column({ space: 14 }) {
         Text(this.editingAccId === -1 ? $r('app.string.acc_new') : $r('app.string.acc_edit'))
-          .fontSize(16)
+          .fontSize($r('app.float.fontSize_16'))
           .fontWeight(FontWeight.Bold)
           .fontColor($r('app.color.text_primary'))
           .width('100%')
 
         Column({ space: 8 }) {
           Text($r('app.string.acc_field_name'))
-            .fontSize(13)
+            .fontSize($r('app.float.fontSize_13'))
             .fontColor($r('app.color.text_secondary'))
           TextInput({ placeholder: $r('app.string.acc_name_hint'), text: this.accName })
-            .fontSize(15)
+            .fontSize($r('app.float.fontSize_15'))
             .fontColor($r('app.color.text_primary'))
             .placeholderColor($r('app.color.text_hint'))
             .backgroundColor(Color.Transparent)
@@ -215,21 +215,21 @@ struct AccountManagePage {
 
         Column({ space: 8 }) {
           Text($r('app.string.acc_field_type'))
-            .fontSize(13)
+            .fontSize($r('app.float.fontSize_13'))
             .fontColor($r('app.color.text_secondary'))
           Flex({ wrap: FlexWrap.Wrap }) {
             ForEach(accountTypeList(), (meta: AccountTypeMeta) => {
               Text(meta.emoji + ' ' + getContext(this).resourceManager.getStringSync(meta.nameRes))
-                .fontSize(13)
+                .fontSize($r('app.float.fontSize_13'))
                 .fontColor(this.accType === meta.key ? $r('app.color.primary') : $r('app.color.text_secondary'))
                 .backgroundColor(this.accType === meta.key ? $r('app.color.today_bg') : $r('app.color.card_bg'))
-                .borderRadius(12)
+                .borderRadius($r('app.float.borderRadius_12'))
                 .border({
                   width: 1.5,
                   color: this.accType === meta.key ? $r('app.color.primary') : $r('app.color.divider')
                 })
-                .padding({ left: 12, right: 12, top: 7, bottom: 7 })
-                .margin({ right: 8, bottom: 8 })
+                .padding({ left:$r('app.float.padding_left_12'), right:$r('app.float.padding_right_12'), top:$r('app.float.padding_top_7'), bottom:$r('app.float.padding_bottom_7') })
+                .margin({ right:$r('app.float.margin_right_8'), bottom:$r('app.float.margin_bottom_8') })
                 .onClick(() => {
                   this.accType = meta.key;
                 })
@@ -241,16 +241,16 @@ struct AccountManagePage {
 
         Column({ space: 8 }) {
           Text($r('app.string.acc_field_balance'))
-            .fontSize(13)
+            .fontSize($r('app.float.fontSize_13'))
             .fontColor($r('app.color.text_secondary'))
           Row({ space: 8 }) {
             Text('¥')
-              .fontSize(18)
+              .fontSize($r('app.float.fontSize_18'))
               .fontWeight(FontWeight.Bold)
               .fontColor($r('app.color.text_secondary'))
             TextInput({ placeholder: '0.00', text: this.accBalanceText })
               .type(InputType.NUMBER_DECIMAL)
-              .fontSize(18)
+              .fontSize($r('app.float.fontSize_18'))
               .fontWeight(FontWeight.Bold)
               .fontColor($r('app.color.text_primary'))
               .placeholderColor($r('app.color.text_hint'))
@@ -268,12 +268,12 @@ struct AccountManagePage {
 
         Button($r('app.string.action_save'))
           .width('100%')
-          .height(46)
-          .fontSize(16)
+          .height($r('app.float.height_46'))
+          .fontSize($r('app.float.fontSize_16'))
           .fontWeight(FontWeight.Bold)
           .fontColor(Color.White)
           .backgroundColor($r('app.color.primary'))
-          .borderRadius(14)
+          .borderRadius($r('app.float.borderRadius_14'))
           .opacity(this.canSave() ? 1 : 0.35)
           .enabled(this.canSave())
           .onClick(() => {
@@ -283,20 +283,20 @@ struct AccountManagePage {
         if (this.editingAccId > 0) {
           Button($r('app.string.acc_delete'))
             .width('100%')
-            .height(42)
-            .fontSize(14)
+            .height($r('app.float.height_42'))
+            .fontSize($r('app.float.fontSize_14'))
             .fontWeight(FontWeight.Medium)
             .fontColor($r('app.color.danger'))
             .backgroundColor($r('app.color.card_bg'))
-            .borderRadius(14)
-            .border({ width: 1.5, color: $r('app.color.today_border') })
+            .borderRadius($r('app.float.borderRadius_14'))
+            .border({ width:$r('app.float.border_width_1_5'), color: $r('app.color.today_border') })
             .onClick(() => {
               this.onDelete();
             })
         }
       }
       .width('100%')
-      .padding(20)
+      .padding($r('app.float.padding_20'))
       .backgroundColor($r('app.color.card_bg'))
       .borderRadius({ topLeft: 20, topRight: 20 })
     }
@@ -313,9 +313,9 @@ struct AccountManagePage {
           if (this.vm.accounts.length === 0) {
             Column({ space: 12 }) {
               Text($r('app.string.empty_tx_emoji'))
-                .fontSize(52)
+                .fontSize($r('app.float.fontSize_52'))
               Text($r('app.string.acc_empty'))
-                .fontSize(13)
+                .fontSize($r('app.float.fontSize_13'))
                 .fontColor($r('app.color.text_hint'))
             }
             .width('100%')
@@ -331,19 +331,19 @@ struct AccountManagePage {
             }
             .width('100%')
             .layoutWeight(1)
-            .padding({ left: 16, right: 16, bottom: 12 })
+            .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), bottom:$r('app.float.padding_bottom_12') })
             .scrollBar(BarState.Off)
           }
 
           Button($r('app.string.acc_new'))
             .width('90%')
-            .height(48)
-            .fontSize(16)
+            .height($r('app.float.height_48'))
+            .fontSize($r('app.float.fontSize_16'))
             .fontWeight(FontWeight.Bold)
             .fontColor(Color.White)
             .backgroundColor($r('app.color.primary'))
-            .borderRadius(16)
-            .margin({ bottom: 26 })
+            .borderRadius($r('app.float.borderRadius_16'))
+            .margin({ bottom:$r('app.float.margin_bottom_26') })
             .onClick(() => {
               this.startNew();
             })

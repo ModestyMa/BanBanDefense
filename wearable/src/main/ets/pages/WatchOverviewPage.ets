@@ -23,59 +23,59 @@ export struct WatchOverviewPage {
         // 宠物状态卡
         Column({ space: 6 }) {
           Text(this.vm.petEmoji)
-            .fontSize(46)
+            .fontSize($r('app.float.fontSize_46'))
           Row({ space: 8 }) {
             Text('Lv.' + this.vm.petLevel.toString())
-              .fontSize(14)
+              .fontSize($r('app.float.fontSize_14'))
               .fontWeight(FontWeight.Bold)
               .fontColor($r('app.color.text_primary'))
             Text($r('app.string.home_streak_fmt', this.vm.streakDays))
-              .fontSize(12)
+              .fontSize($r('app.float.fontSize_12'))
               .fontColor($r('app.color.text_secondary'))
           }
           Text(this.vm.activeToday ? $r('app.string.home_pet_active') : $r('app.string.home_pet_idle'))
-            .fontSize(12)
+            .fontSize($r('app.float.fontSize_12'))
             .fontColor(this.vm.activeToday ? $r('app.color.income_green') : $r('app.color.text_hint'))
         }
         .width('100%')
-        .padding(14)
+        .padding($r('app.float.padding_14'))
         .backgroundColor($r('app.color.card_bg'))
-        .borderRadius(16)
+        .borderRadius($r('app.float.borderRadius_16'))
 
         // 今日收支
         Row({ space: 10 }) {
           Column({ space: 4 }) {
             Text($r('app.string.watch_today_expense'))
-              .fontSize(11)
+              .fontSize($r('app.float.fontSize_11'))
               .fontColor($r('app.color.text_hint'))
             Text('-' + MoneyUtils.formatAmount(this.vm.todayOutCents))
-              .fontSize(16)
+              .fontSize($r('app.float.fontSize_16'))
               .fontWeight(FontWeight.Bold)
               .fontColor($r('app.color.danger'))
           }
           .layoutWeight(1)
-          .padding(12)
+          .padding($r('app.float.padding_12'))
           .backgroundColor($r('app.color.card_bg'))
-          .borderRadius(14)
+          .borderRadius($r('app.float.borderRadius_14'))
 
           Column({ space: 4 }) {
             Text($r('app.string.watch_today_income'))
-              .fontSize(11)
+              .fontSize($r('app.float.fontSize_11'))
               .fontColor($r('app.color.text_hint'))
             Text('+' + MoneyUtils.formatAmount(this.vm.todayInCents))
-              .fontSize(16)
+              .fontSize($r('app.float.fontSize_16'))
               .fontWeight(FontWeight.Bold)
               .fontColor($r('app.color.income_green'))
           }
           .layoutWeight(1)
-          .padding(12)
+          .padding($r('app.float.padding_12'))
           .backgroundColor($r('app.color.card_bg'))
-          .borderRadius(14)
+          .borderRadius($r('app.float.borderRadius_14'))
         }
         .width('100%')
       }
       .width('100%')
-      .padding(12)
+      .padding($r('app.float.padding_12'))
     }
     .width('100%')
     .nestedScroll({

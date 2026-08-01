@@ -29,21 +29,21 @@ struct PrivacyPolicyPage {
   navBar() {
     Row() {
       Text('‹ ' + getContext(this).resourceManager.getStringSync($r('app.string.action_back')))
-        .fontSize(15)
+        .fontSize($r('app.float.fontSize_15'))
         .fontColor($r('app.color.primary'))
         .onClick(() => {
           router.back();
         })
       Text($r('app.string.settings_privacy'))
-        .fontSize(17)
+        .fontSize($r('app.float.fontSize_17'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
         .layoutWeight(1)
         .textAlign(TextAlign.Center)
-        .margin({ right: 40 })
+        .margin({ right:$r('app.float.margin_right_40') })
     }
     .width('100%')
-    .padding({ left: 16, right: 16, top: 6, bottom: 12 })
+    .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), top:$r('app.float.padding_top_6'), bottom:$r('app.float.padding_bottom_12') })
   }
 
   build() {
@@ -53,11 +53,11 @@ struct PrivacyPolicyPage {
         this.navBar()
         Scroll() {
           Text(this.content)
-            .fontSize(14)
+            .fontSize($r('app.float.fontSize_14'))
             .fontColor($r('app.color.text_primary'))
-            .lineHeight(24)
+            .lineHeight($r('app.float.lineHeight_24'))
             .width('100%')
-            .padding({ left: 20, right: 20, top: 4, bottom: 24 })
+            .padding({ left:$r('app.float.padding_left_20'), right:$r('app.float.padding_right_20'), top:$r('app.float.padding_top_4'), bottom:$r('app.float.padding_bottom_24') })
         }
         .width('100%')
         .layoutWeight(1)

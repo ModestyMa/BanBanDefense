@@ -34,25 +34,25 @@ export struct WatchCountdownPage {
   eventRow(ev: CountdownEventData) {
     Row({ space: 8 }) {
       Text(ev.isTop ? '📌 ' + ev.title : ev.title)
-        .fontSize(14)
+        .fontSize($r('app.float.fontSize_14'))
         .fontColor($r('app.color.text_primary'))
         .layoutWeight(1)
         .maxLines(1)
         .textOverflow({ overflow: TextOverflow.Ellipsis })
       Text(this.dayLabel(ev.targetDate))
-        .fontSize(12)
+        .fontSize($r('app.float.fontSize_12'))
         .fontColor($r('app.color.primary'))
     }
     .width('100%')
-    .padding(12)
+    .padding($r('app.float.padding_12'))
     .backgroundColor($r('app.color.card_bg'))
-    .borderRadius(14)
+    .borderRadius($r('app.float.borderRadius_14'))
   }
 
   build() {
     Column({ space: 10 }) {
       Text($r('app.string.watch_countdown_title'))
-        .fontSize(16)
+        .fontSize($r('app.float.fontSize_16'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
         .width('100%')
@@ -60,9 +60,9 @@ export struct WatchCountdownPage {
       if (this.vm.countdowns.length === 0) {
         Column({ space: 10 }) {
           Text('🐣')
-            .fontSize(40)
+            .fontSize($r('app.float.fontSize_40'))
           Text($r('app.string.watch_countdown_empty'))
-            .fontSize(12)
+            .fontSize($r('app.float.fontSize_12'))
             .fontColor($r('app.color.text_hint'))
             .textAlign(TextAlign.Center)
         }
@@ -87,7 +87,7 @@ export struct WatchCountdownPage {
       }
     }
     .width('100%')
-    .padding(12)
+    .padding($r('app.float.padding_12'))
     .backgroundColor($r('app.color.page_bg'))
   }
 }

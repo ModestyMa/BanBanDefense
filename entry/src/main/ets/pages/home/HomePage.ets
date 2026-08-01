@@ -77,20 +77,20 @@ export struct HomePage {
   navBar() {
     Row() {
       Text($r('app.string.EntryAbility_label'))
-        .fontSize(28)
+        .fontSize($r('app.float.fontSize_28'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
       Blank()
       Text('⚙')
-        .fontSize(22)
+        .fontSize($r('app.float.fontSize_22'))
         .fontColor($r('app.color.text_secondary'))
-        .padding(6)
+        .padding($r('app.float.padding_6'))
         .onClick(() => {
           router.pushUrl({ url: ROUTE_SETTINGS });
         })
     }
     .width('100%')
-    .padding({ left: 20, right: 20, top: 8, bottom: 4 })
+    .padding({ left:$r('app.float.padding_left_20'), right:$r('app.float.padding_right_20'), top:$r('app.float.padding_top_8'), bottom:$r('app.float.padding_bottom_4') })
   }
 
   /** 宠物状态条：心情 + 等级 + 连续天数 + 打卡状态（纯展示，不跳转——SPEC_M5 原设计跳记账已按老板反馈撤回） */
@@ -98,28 +98,28 @@ export struct HomePage {
   petCard() {
     Row({ space: 14 }) {
       Text(this.vm.petEmoji)
-        .fontSize(44)
+        .fontSize($r('app.float.fontSize_44'))
       Column({ space: 4 }) {
         Row({ space: 10 }) {
           Text('Lv.' + this.vm.petLevel.toString())
-            .fontSize(15)
+            .fontSize($r('app.float.fontSize_15'))
             .fontWeight(FontWeight.Bold)
             .fontColor($r('app.color.text_primary'))
           Text($r('app.string.home_streak_fmt', this.vm.streakDays))
-            .fontSize(13)
+            .fontSize($r('app.float.fontSize_13'))
             .fontColor($r('app.color.text_secondary'))
         }
         Text(this.vm.activeToday ? $r('app.string.home_pet_active') : $r('app.string.home_pet_idle'))
-          .fontSize(13)
+          .fontSize($r('app.float.fontSize_13'))
           .fontColor(this.vm.activeToday ? $r('app.color.income_green') : $r('app.color.text_hint'))
         // C1 碎碎念气泡（mini-SPEC §1.6-1）：文案为空时不渲染
         if (this.vm.petSpeechText.length > 0) {
           Text(this.vm.petSpeechEmoji + ' ' + this.vm.petSpeechText)
-            .fontSize(13)
+            .fontSize($r('app.float.fontSize_13'))
             .fontColor($r('app.color.primary'))
-            .padding({ left: 10, right: 10, top: 5, bottom: 5 })
+            .padding({ left:$r('app.float.padding_left_10'), right:$r('app.float.padding_right_10'), top:$r('app.float.padding_top_5'), bottom:$r('app.float.padding_bottom_5') })
             .backgroundColor($r('app.color.today_bg'))
-            .borderRadius(10)
+            .borderRadius($r('app.float.borderRadius_10'))
             .maxLines(2)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
         }
@@ -128,9 +128,9 @@ export struct HomePage {
       .layoutWeight(1)
     }
     .width('100%')
-    .padding(16)
+    .padding($r('app.float.padding_16'))
     .backgroundColor($r('app.color.card_bg'))
-    .borderRadius(16)
+    .borderRadius($r('app.float.borderRadius_16'))
     .shadow({ radius: 10, color: '#0D000000', offsetY: 2 })
   }
 
@@ -139,27 +139,27 @@ export struct HomePage {
   overviewCard(icon: string, title: string, main: string, targetIndex: number) {
     Row({ space: 14 }) {
       Text(icon)
-        .fontSize(26)
+        .fontSize($r('app.float.fontSize_26'))
       Column({ space: 4 }) {
         Text(title)
-          .fontSize(13)
+          .fontSize($r('app.float.fontSize_13'))
           .fontColor($r('app.color.text_hint'))
         Text(main)
-          .fontSize(15)
+          .fontSize($r('app.float.fontSize_15'))
           .fontWeight(FontWeight.Medium)
           .fontColor($r('app.color.text_primary'))
-          .lineHeight(22)
+          .lineHeight($r('app.float.lineHeight_22'))
       }
       .alignItems(HorizontalAlign.Start)
       .layoutWeight(1)
       Text('›')
-        .fontSize(22)
+        .fontSize($r('app.float.fontSize_22'))
         .fontColor($r('app.color.text_hint'))
     }
     .width('100%')
-    .padding(16)
+    .padding($r('app.float.padding_16'))
     .backgroundColor($r('app.color.card_bg'))
-    .borderRadius(16)
+    .borderRadius($r('app.float.borderRadius_16'))
     .shadow({ radius: 10, color: '#0D000000', offsetY: 2 })
     .onClick(() => {
       this.controller.changeIndex(targetIndex);
@@ -203,7 +203,7 @@ export struct HomePage {
           }
         }
         .width('100%')
-        .padding({ left: 16, right: 16, bottom: 20 })
+        .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), bottom:$r('app.float.padding_bottom_20') })
       }
       .width('100%')
     }

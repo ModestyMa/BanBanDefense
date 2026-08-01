@@ -16,7 +16,7 @@ export struct ResponsiveContainer {
         this.content()
       }
       .width('100%')
-      .constraintSize({ maxWidth: 640 })
+      .constraintSize({ maxWidth:$r('app.float.constraintSize_maxWidth_640') })
       .height('100%')
       Blank()
     }

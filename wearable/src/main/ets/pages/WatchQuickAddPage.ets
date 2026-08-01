@@ -71,11 +71,11 @@ export struct WatchQuickAddPage {
   @Builder
   txDirectionChip(label: Resource, dir: string) {
     Text(label)
-      .fontSize(13)
+      .fontSize($r('app.float.fontSize_13'))
       .fontColor(this.txDirection === dir ? Color.White : $r('app.color.text_secondary'))
       .backgroundColor(this.txDirection === dir ? $r('app.color.primary') : $r('app.color.card_bg'))
-      .borderRadius(12)
-      .padding({ left: 16, right: 16, top: 6, bottom: 6 })
+      .borderRadius($r('app.float.borderRadius_12'))
+      .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), top:$r('app.float.padding_top_6'), bottom:$r('app.float.padding_bottom_6') })
       .onClick(() => {
         this.txDirection = dir;
         // 切换方向后复位分类，避免支出分类落到收入流水上
@@ -87,7 +87,7 @@ export struct WatchQuickAddPage {
     Scroll() {
       Column({ space: 12 }) {
         Text($r('app.string.watch_quick_add'))
-          .fontSize(16)
+          .fontSize($r('app.float.fontSize_16'))
           .fontWeight(FontWeight.Bold)
           .fontColor($r('app.color.text_primary'))
           .width('100%')
@@ -95,12 +95,12 @@ export struct WatchQuickAddPage {
         // 金额
         Row({ space: 6 }) {
           Text('¥')
-            .fontSize(18)
+            .fontSize($r('app.float.fontSize_18'))
             .fontWeight(FontWeight.Bold)
             .fontColor($r('app.color.text_secondary'))
           TextInput({ placeholder: $r('app.string.tx_hint_amount'), text: this.amountText })
             .type(InputType.NUMBER_DECIMAL)
-            .fontSize(18)
+            .fontSize($r('app.float.fontSize_18'))
             .fontWeight(FontWeight.Bold)
             .fontColor($r('app.color.text_primary'))
             .placeholderColor($r('app.color.text_hint'))
@@ -112,9 +112,9 @@ export struct WatchQuickAddPage {
             })
         }
         .width('100%')
-        .padding(12)
+        .padding($r('app.float.padding_12'))
         .backgroundColor($r('app.color.card_bg'))
-        .borderRadius(14)
+        .borderRadius($r('app.float.borderRadius_14'))
 
         // 方向
         Row({ space: 10 }) {
@@ -128,19 +128,19 @@ export struct WatchQuickAddPage {
           ForEach(this.categories(), (meta: TxCategoryMeta) => {
             Column({ space: 2 }) {
               Text(meta.emoji)
-                .fontSize(20)
+                .fontSize($r('app.float.fontSize_20'))
               Text(meta.nameRes)
-                .fontSize(10)
+                .fontSize($r('app.float.fontSize_10'))
                 .fontColor(this.category === meta.key ? $r('app.color.primary') : $r('app.color.text_secondary'))
             }
-            .padding({ left: 10, right: 10, top: 6, bottom: 6 })
-            .borderRadius(12)
+            .padding({ left:$r('app.float.padding_left_10'), right:$r('app.float.padding_right_10'), top:$r('app.float.padding_top_6'), bottom:$r('app.float.padding_bottom_6') })
+            .borderRadius($r('app.float.borderRadius_12'))
             .border({
               width: 1.5,
               color: this.category === meta.key ? $r('app.color.primary') : $r('app.color.divider')
             })
             .backgroundColor(this.category === meta.key ? $r('app.color.today_bg') : $r('app.color.card_bg'))
-            .margin({ right: 6, bottom: 6 })
+            .margin({ right:$r('app.float.margin_right_6'), bottom:$r('app.float.margin_bottom_6') })
             .onClick(() => {
               this.category = meta.key;
             })
@@ -150,12 +150,12 @@ export struct WatchQuickAddPage {
 
         Button($r('app.string.action_save'))
           .width('100%')
-          .height(42)
-          .fontSize(15)
+          .height($r('app.float.height_42'))
+          .fontSize($r('app.float.fontSize_15'))
           .fontWeight(FontWeight.Bold)
           .fontColor(Color.White)
           .backgroundColor($r('app.color.primary'))
-          .borderRadius(14)
+          .borderRadius($r('app.float.borderRadius_14'))
           .opacity(this.canSave() ? 1 : 0.35)
           .enabled(this.canSave())
           .onClick(() => {
@@ -163,7 +163,7 @@ export struct WatchQuickAddPage {
           })
       }
       .width('100%')
-      .padding(12)
+      .padding($r('app.float.padding_12'))
     }
     .width('100%')
     .nestedScroll({

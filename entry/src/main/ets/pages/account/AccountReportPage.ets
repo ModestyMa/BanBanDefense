@@ -135,50 +135,50 @@ struct AccountReportPage {
   navBar() {
     Row() {
       Text('‹ ' + getContext(this).resourceManager.getStringSync($r('app.string.action_back')))
-        .fontSize(15)
+        .fontSize($r('app.float.fontSize_15'))
         .fontColor($r('app.color.primary'))
         .onClick(() => {
           router.back();
         })
       Text($r('app.string.report_title'))
-        .fontSize(17)
+        .fontSize($r('app.float.fontSize_17'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
         .layoutWeight(1)
         .textAlign(TextAlign.Center)
-        .margin({ right: 40 })
+        .margin({ right:$r('app.float.margin_right_40') })
     }
     .width('100%')
-    .padding({ left: 16, right: 16, top: 6, bottom: 12 })
+    .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), top:$r('app.float.padding_top_6'), bottom:$r('app.float.padding_bottom_12') })
   }
 
   @Builder
   monthSwitcher() {
     Row() {
       Text('‹')
-        .fontSize(20)
+        .fontSize($r('app.float.fontSize_20'))
         .fontColor($r('app.color.text_primary'))
-        .padding({ left: 16, right: 16, top: 6, bottom: 6 })
+        .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), top:$r('app.float.padding_top_6'), bottom:$r('app.float.padding_bottom_6') })
         .onClick(() => {
           this.shiftMonth(-1);
         })
       Text(getContext(this).resourceManager.getStringSync($r('app.string.report_month_fmt'), this.year, this.month))
-        .fontSize(16)
+        .fontSize($r('app.float.fontSize_16'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
         .layoutWeight(1)
         .textAlign(TextAlign.Center)
       Text('›')
-        .fontSize(20)
+        .fontSize($r('app.float.fontSize_20'))
         .fontColor(this.isCurrentMonth() ? $r('app.color.text_hint') : $r('app.color.text_primary'))
-        .padding({ left: 16, right: 16, top: 6, bottom: 6 })
+        .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), top:$r('app.float.padding_top_6'), bottom:$r('app.float.padding_bottom_6') })
         .enabled(!this.isCurrentMonth())
         .onClick(() => {
           this.shiftMonth(1);
         })
     }
     .width('100%')
-    .padding({ left: 16, right: 16 })
+    .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16') })
   }
 
   @Builder
@@ -190,17 +190,17 @@ struct AccountReportPage {
         this.inCents - this.outCents >= 0 ? $r('app.color.income_green') : $r('app.color.danger'))
     }
     .width('100%')
-    .padding({ left: 16, right: 16 })
+    .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16') })
   }
 
   @Builder
   summaryCell(label: Resource, value: string, valueColor: Resource) {
     Column({ space: 4 }) {
       Text(label)
-        .fontSize(12)
+        .fontSize($r('app.float.fontSize_12'))
         .fontColor($r('app.color.text_hint'))
       Text(value)
-        .fontSize(17)
+        .fontSize($r('app.float.fontSize_17'))
         .fontWeight(FontWeight.Bold)
         .fontColor(valueColor)
     }
@@ -211,30 +211,30 @@ struct AccountReportPage {
   ringArea() {
     Stack() {
       Canvas(this.canvasCtx)
-        .width(160)
-        .height(160)
+        .width($r('app.float.width_160'))
+        .height($r('app.float.height_160'))
         .onReady(() => {
           this.drawRing();
         })
       Column({ space: 2 }) {
         Text(this.outCents > 0 ? $r('app.string.report_expense') : $r('app.string.report_empty'))
-          .fontSize(11)
+          .fontSize($r('app.float.fontSize_11'))
           .fontColor($r('app.color.text_hint'))
           .maxLines(1)
           .textOverflow({ overflow: TextOverflow.Ellipsis })
-          .width(110)
+          .width($r('app.float.width_110'))
           .textAlign(TextAlign.Center)
         if (this.outCents > 0) {
           Text(MoneyUtils.formatAmount(this.outCents))
-            .fontSize(16)
+            .fontSize($r('app.float.fontSize_16'))
             .fontWeight(FontWeight.Bold)
             .fontColor($r('app.color.text_primary'))
         }
       }
     }
-    .width(160)
-    .height(160)
-    .margin({ top: 8, bottom: 8 })
+    .width($r('app.float.width_160'))
+    .height($r('app.float.height_160'))
+    .margin({ top:$r('app.float.margin_top_8'), bottom:$r('app.float.margin_bottom_8') })
   }
 
   @Builder
@@ -243,30 +243,30 @@ struct AccountReportPage {
       ForEach(this.expenseItems, (item: CategorySum, index: number) => {
         Row({ space: 10 }) {
           Text('●')
-            .fontSize(12)
+            .fontSize($r('app.float.fontSize_12'))
             .fontColor(this.palette.length > 0 ? this.palette[index % PALETTE_SIZE] : '#FF8A65')
           Text(txCategoryMetaOf(item.key).emoji + ' ' +
             getContext(this).resourceManager.getStringSync(txCategoryMetaOf(item.key).nameRes))
-            .fontSize(14)
+            .fontSize($r('app.float.fontSize_14'))
             .fontColor($r('app.color.text_primary'))
             .layoutWeight(1)
           Text(MoneyUtils.formatAmount(item.cents))
-            .fontSize(14)
+            .fontSize($r('app.float.fontSize_14'))
             .fontWeight(FontWeight.Medium)
             .fontColor($r('app.color.text_primary'))
           Text(this.percents[index].toString() + '%')
-            .fontSize(13)
+            .fontSize($r('app.float.fontSize_13'))
             .fontColor($r('app.color.text_hint'))
-            .width(44)
+            .width($r('app.float.width_44'))
             .textAlign(TextAlign.End)
         }
         .width('100%')
       }, (item: CategorySum) => item.key)
     }
     .width('100%')
-    .padding(16)
+    .padding($r('app.float.padding_16'))
     .backgroundColor($r('app.color.card_bg'))
-    .borderRadius(16)
+    .borderRadius($r('app.float.borderRadius_16'))
   }
 
   @Builder
@@ -274,24 +274,24 @@ struct AccountReportPage {
     Column({ space: 6 }) {
       Row() {
         Text($r('app.string.report_total_balance'))
-          .fontSize(14)
+          .fontSize($r('app.float.fontSize_14'))
           .fontColor($r('app.color.text_secondary'))
           .layoutWeight(1)
         Text(MoneyUtils.formatAmount(this.totalBalanceCents))
-          .fontSize(16)
+          .fontSize($r('app.float.fontSize_16'))
           .fontWeight(FontWeight.Bold)
           .fontColor(this.totalBalanceCents >= 0 ? $r('app.color.income_green') : $r('app.color.danger'))
       }
       .width('100%')
       Text($r('app.string.report_reconcile_hint'))
-        .fontSize(11)
+        .fontSize($r('app.float.fontSize_11'))
         .fontColor($r('app.color.text_hint'))
         .width('100%')
     }
     .width('100%')
-    .padding(16)
+    .padding($r('app.float.padding_16'))
     .backgroundColor($r('app.color.card_bg'))
-    .borderRadius(16)
+    .borderRadius($r('app.float.borderRadius_16'))
   }
 
   build() {
@@ -316,7 +316,7 @@ struct AccountReportPage {
               .layoutWeight(1)
             }
             .width('100%')
-            .padding({ left: 16, right: 16 })
+            .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16') })
             .alignItems(VerticalAlign.Top)
           } else {
             Row() {
@@ -329,14 +329,14 @@ struct AccountReportPage {
                 this.detailList()
               }
               .width('100%')
-              .padding({ left: 16, right: 16 })
+              .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16') })
             }
           }
           Column() {
             this.balanceCard()
           }
           .width('100%')
-          .padding({ left: 16, right: 16, bottom: 20 })
+          .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), bottom:$r('app.float.padding_bottom_20') })
         }
         .width('100%')
       }

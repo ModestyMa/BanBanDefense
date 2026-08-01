@@ -17,11 +17,11 @@ struct PetCard {
   @Builder
   actionButton(label: Resource, target: string) {
     Button(label)
-      .fontSize(14)
+      .fontSize($r('app.float.fontSize_14'))
       .fontColor($r('app.color.card_btn_text'))
       .backgroundColor($r('app.color.card_btn_bg'))
-      .borderRadius(12)
-      .height(32)
+      .borderRadius($r('app.float.borderRadius_12'))
+      .height($r('app.float.height_32'))
       .padding(0)
       .layoutWeight(1)
       .onClick(() => {
@@ -37,27 +37,27 @@ struct PetCard {
     Column({ space: 6 }) {
       Row() {
         Text(this.moodEmoji)
-          .fontSize(40)
+          .fontSize($r('app.float.fontSize_40'))
         Blank()
         Text(this.levelText)
-          .fontSize(13)
+          .fontSize($r('app.float.fontSize_13'))
           .fontWeight(FontWeight.Bold)
           .fontColor(Color.White)
           .backgroundColor($r('app.color.card_level_bg'))
-          .borderRadius(14)
-          .padding({ left: 12, right: 12, top: 4, bottom: 4 })
+          .borderRadius($r('app.float.borderRadius_14'))
+          .padding({ left:$r('app.float.padding_left_12'), right:$r('app.float.padding_right_12'), top:$r('app.float.padding_top_4'), bottom:$r('app.float.padding_bottom_4') })
       }
       .width('100%')
 
       Text(this.moodText)
-        .fontSize(15)
+        .fontSize($r('app.float.fontSize_15'))
         .fontWeight(FontWeight.Medium)
         .fontColor(Color.White)
         .maxLines(1)
         .textOverflow({ overflow: TextOverflow.Ellipsis })
 
       Text(this.streakText)
-        .fontSize(12)
+        .fontSize($r('app.float.fontSize_12'))
         .fontColor($r('app.color.card_streak_text'))
 
       Row({ space: 6 }) {
@@ -66,16 +66,16 @@ struct PetCard {
         this.actionButton($r('app.string.card_btn_countdown'), 'countdownAdd')
       }
       .width('100%')
-      .margin({ top: 4 })
+      .margin({ top:$r('app.float.margin_top_4') })
     }
     .width('100%')
     .height('100%')
-    .padding({ left: 18, right: 18, top: 16, bottom: 10 })
+    .padding({ left:$r('app.float.padding_left_18'), right:$r('app.float.padding_right_18'), top:$r('app.float.padding_top_16'), bottom:$r('app.float.padding_bottom_10') })
     .linearGradient({
       angle: 135,
       colors: [[$r('app.color.card_grad_start'), 0.0], [$r('app.color.card_grad_mid'), 0.55], [$r('app.color.card_grad_end'), 1.0]]
     })
-    .borderRadius(24)
+    .borderRadius($r('app.float.borderRadius_24'))
     .onClick(() => {
       postCardAction(this, {
         action: 'router',

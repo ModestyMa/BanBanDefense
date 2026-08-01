@@ -1,0 +1,104 @@
+{
+  "float": [
+    {
+      "name": "borderRadius_12",
+      "value": "12vp"
+    },
+    {
+      "name": "borderRadius_14",
+      "value": "14vp"
+    },
+    {
+      "name": "borderRadius_16",
+      "value": "16vp"
+    },
+    {
+      "name": "fontSize_10",
+      "value": "10fp"
+    },
+    {
+      "name": "fontSize_11",
+      "value": "11fp"
+    },
+    {
+      "name": "fontSize_12",
+      "value": "12fp"
+    },
+    {
+      "name": "fontSize_13",
+      "value": "13fp"
+    },
+    {
+      "name": "fontSize_14",
+      "value": "14fp"
+    },
+    {
+      "name": "fontSize_15",
+      "value": "15fp"
+    },
+    {
+      "name": "fontSize_16",
+      "value": "16fp"
+    },
+    {
+      "name": "fontSize_18",
+      "value": "18fp"
+    },
+    {
+      "name": "fontSize_20",
+      "value": "20fp"
+    },
+    {
+      "name": "fontSize_40",
+      "value": "40fp"
+    },
+    {
+      "name": "fontSize_46",
+      "value": "46fp"
+    },
+    {
+      "name": "height_42",
+      "value": "42vp"
+    },
+    {
+      "name": "margin_bottom_6",
+      "value": "6vp"
+    },
+    {
+      "name": "margin_right_6",
+      "value": "6vp"
+    },
+    {
+      "name": "padding_12",
+      "value": "12vp"
+    },
+    {
+      "name": "padding_14",
+      "value": "14vp"
+    },
+    {
+      "name": "padding_bottom_6",
+      "value": "6vp"
+    },
+    {
+      "name": "padding_left_10",
+      "value": "10vp"
+    },
+    {
+      "name": "padding_left_16",
+      "value": "16vp"
+    },
+    {
+      "name": "padding_right_10",
+      "value": "10vp"
+    },
+    {
+      "name": "padding_right_16",
+      "value": "16vp"
+    },
+    {
+      "name": "padding_top_6",
+      "value": "6vp"
+    }
+  ]
+}

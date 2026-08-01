@@ -92,21 +92,21 @@ struct CountdownEditPage {
   navBar() {
     Row() {
       Text('‹ ' + getContext(this).resourceManager.getStringSync($r('app.string.action_back')))
-        .fontSize(15)
+        .fontSize($r('app.float.fontSize_15'))
         .fontColor($r('app.color.primary'))
         .onClick(() => {
           router.back();
         })
       Text(this.editId === 0 ? $r('app.string.action_add_event') : $r('app.string.action_edit_event'))
-        .fontSize(17)
+        .fontSize($r('app.float.fontSize_17'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
         .layoutWeight(1)
         .textAlign(TextAlign.Center)
-        .margin({ right: 40 })
+        .margin({ right:$r('app.float.margin_right_40') })
     }
     .width('100%')
-    .padding({ left: 16, right: 16, top: 6, bottom: 12 })
+    .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), top:$r('app.float.padding_top_6'), bottom:$r('app.float.padding_bottom_12') })
   }
 
   @Builder
@@ -116,16 +116,16 @@ struct CountdownEditPage {
       Column({ space: 10 }) {
         Row() {
           Text($r('app.string.field_title'))
-            .fontSize(13)
+            .fontSize($r('app.float.fontSize_13'))
             .fontColor($r('app.color.text_secondary'))
           Blank()
           Text(this.title.length.toString() + '/' + TITLE_MAX.toString())
-            .fontSize(12)
+            .fontSize($r('app.float.fontSize_12'))
             .fontColor($r('app.color.text_hint'))
         }
         .width('100%')
         TextInput({ placeholder: $r('app.string.hint_title'), text: this.title })
-          .fontSize(16)
+          .fontSize($r('app.float.fontSize_16'))
           .fontColor($r('app.color.text_primary'))
           .placeholderColor($r('app.color.text_hint'))
           .backgroundColor(Color.Transparent)
@@ -140,11 +140,11 @@ struct CountdownEditPage {
       // 目标日期
       Column({ space: 10 }) {
         Text($r('app.string.field_target_date'))
-          .fontSize(13)
+          .fontSize($r('app.float.fontSize_13'))
           .fontColor($r('app.color.text_secondary'))
         Text(DateUtils.formatDate(DateUtils.dayStartOf(
           this.selectedDate.getFullYear(), this.selectedDate.getMonth() + 1, this.selectedDate.getDate())))
-          .fontSize(16)
+          .fontSize($r('app.float.fontSize_16'))
           .fontColor($r('app.color.text_primary'))
           .width('100%')
           .onClick(() => {
@@ -157,27 +157,27 @@ struct CountdownEditPage {
       // 分类
       Column({ space: 10 }) {
         Text($r('app.string.field_category'))
-          .fontSize(13)
+          .fontSize($r('app.float.fontSize_13'))
           .fontColor($r('app.color.text_secondary'))
         Flex({ wrap: FlexWrap.Wrap }) {
           ForEach(categoryMetaList(), (meta: CategoryMeta) => {
             Row({ space: 6 }) {
               Circle()
-                .width(8)
-                .height(8)
+                .width($r('app.float.width_8'))
+                .height($r('app.float.height_8'))
                 .fill(meta.colorRes)
               Text(meta.nameRes)
-                .fontSize(13)
+                .fontSize($r('app.float.fontSize_13'))
                 .fontColor(this.category === meta.key ? $r('app.color.primary') : $r('app.color.text_secondary'))
             }
-            .padding({ left: 14, right: 14, top: 8, bottom: 8 })
-            .borderRadius(12)
+            .padding({ left:$r('app.float.padding_left_14'), right:$r('app.float.padding_right_14'), top:$r('app.float.padding_top_8'), bottom:$r('app.float.padding_bottom_8') })
+            .borderRadius($r('app.float.borderRadius_12'))
             .border({
               width: 1.5,
               color: this.category === meta.key ? $r('app.color.primary') : $r('app.color.divider')
             })
             .backgroundColor(this.category === meta.key ? $r('app.color.today_bg') : $r('app.color.card_bg'))
-            .margin({ right: 8, bottom: 8 })
+            .margin({ right:$r('app.float.margin_right_8'), bottom:$r('app.float.margin_bottom_8') })
             .onClick(() => {
               this.category = meta.key;
             })
@@ -191,10 +191,10 @@ struct CountdownEditPage {
       Row() {
         Column({ space: 2 }) {
           Text($r('app.string.field_top'))
-            .fontSize(15)
+            .fontSize($r('app.float.fontSize_15'))
             .fontColor($r('app.color.text_primary'))
           Text($r('app.string.field_top_sub'))
-            .fontSize(12)
+            .fontSize($r('app.float.fontSize_12'))
             .fontColor($r('app.color.text_hint'))
         }
         .alignItems(HorizontalAlign.Start)
@@ -211,10 +211,10 @@ struct CountdownEditPage {
       Row() {
         Column({ space: 2 }) {
           Text($r('app.string.field_remind'))
-            .fontSize(15)
+            .fontSize($r('app.float.fontSize_15'))
             .fontColor($r('app.color.text_primary'))
           Text($r('app.string.field_remind_sub'))
-            .fontSize(12)
+            .fontSize($r('app.float.fontSize_12'))
             .fontColor($r('app.color.text_hint'))
         }
         .alignItems(HorizontalAlign.Start)
@@ -231,21 +231,21 @@ struct CountdownEditPage {
       Column({ space: 10 }) {
         Row() {
           Text($r('app.string.field_note'))
-            .fontSize(13)
+            .fontSize($r('app.float.fontSize_13'))
             .fontColor($r('app.color.text_secondary'))
           Blank()
           Text(this.note.length.toString() + '/' + NOTE_MAX.toString())
-            .fontSize(12)
+            .fontSize($r('app.float.fontSize_12'))
             .fontColor($r('app.color.text_hint'))
         }
         .width('100%')
         TextArea({ placeholder: $r('app.string.hint_note'), text: this.note })
-          .fontSize(16)
+          .fontSize($r('app.float.fontSize_16'))
           .fontColor($r('app.color.text_primary'))
           .placeholderColor($r('app.color.text_hint'))
           .backgroundColor(Color.Transparent)
           .maxLength(NOTE_MAX)
-          .height(64)
+          .height($r('app.float.height_64'))
           .padding(0)
           .onChange((value: string) => {
             this.note = value;
@@ -254,7 +254,7 @@ struct CountdownEditPage {
       .cardStyle()
     }
     .width('100%')
-    .padding({ left: 20, right: 20, top: 8 })
+    .padding({ left:$r('app.float.padding_left_20'), right:$r('app.float.padding_right_20'), top:$r('app.float.padding_top_8') })
   }
 
   build() {
@@ -270,15 +270,15 @@ struct CountdownEditPage {
 
         Button($r('app.string.action_save'))
           .width('90%')
-          .height(48)
-          .fontSize(16)
+          .height($r('app.float.height_48'))
+          .fontSize($r('app.float.fontSize_16'))
           .fontWeight(FontWeight.Bold)
           .fontColor(Color.White)
           .backgroundColor($r('app.color.primary'))
-          .borderRadius(16)
+          .borderRadius($r('app.float.borderRadius_16'))
           .opacity(this.title.trim().length === 0 ? 0.35 : 1)
           .enabled(this.title.trim().length > 0)
-          .margin({ bottom: 26 })
+          .margin({ bottom:$r('app.float.margin_bottom_26') })
           .onClick(() => {
             this.onSave();
           })
@@ -295,9 +295,9 @@ struct CountdownEditPage {
 @Styles
 function cardStyle() {
   .width('100%')
-  .padding(16)
-  .margin({ bottom: 14 })
+  .padding($r('app.float.padding_16'))
+  .margin({ bottom:$r('app.float.margin_bottom_14') })
   .backgroundColor($r('app.color.card_bg'))
-  .borderRadius(16)
+  .borderRadius($r('app.float.borderRadius_16'))
   .shadow({ radius: 10, color: '#0D000000', offsetY: 2 })
 }

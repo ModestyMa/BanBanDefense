@@ -73,12 +73,12 @@ export struct CountdownListPage {
   headerBar() {
     Row() {
       Text($r('app.string.countdown_home_title'))
-        .fontSize(28)
+        .fontSize($r('app.float.fontSize_28'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
     }
     .width('100%')
-    .padding({ left: 20, right: 20, top: 8, bottom: 4 })
+    .padding({ left:$r('app.float.padding_left_20'), right:$r('app.float.padding_right_20'), top:$r('app.float.padding_top_8'), bottom:$r('app.float.padding_bottom_4') })
   }
 
   @Builder
@@ -100,42 +100,42 @@ export struct CountdownListPage {
             })
         }, (meta: CategoryMeta) => meta.key)
       }
-      .padding({ left: 20, right: 20 })
+      .padding({ left:$r('app.float.padding_left_20'), right:$r('app.float.padding_right_20') })
     }
     .scrollable(ScrollDirection.Horizontal)
     .scrollBar(BarState.Off)
     .width('100%')
-    .padding({ top: 12, bottom: 12 })
+    .padding({ top:$r('app.float.padding_top_12'), bottom:$r('app.float.padding_bottom_12') })
   }
 
   @Builder
   emptyView() {
     Column({ space: 14 }) {
       Text($r('app.string.empty_pet_emoji'))
-        .fontSize(64)
+        .fontSize($r('app.float.fontSize_64'))
       Text(this.vm.events.length === 0 && this.vm.filterKey === 'all'
         ? $r('app.string.empty_all')
         : $r('app.string.empty_filtered'))
-        .fontSize(14)
+        .fontSize($r('app.float.fontSize_14'))
         .fontColor($r('app.color.text_hint'))
         .textAlign(TextAlign.Center)
-        .lineHeight(24)
+        .lineHeight($r('app.float.lineHeight_24'))
     }
     .width('100%')
     .layoutWeight(1)
     .justifyContent(FlexAlign.Center)
-    .padding({ bottom: 60 })
+    .padding({ bottom:$r('app.float.padding_bottom_60') })
   }
 
   @Builder
   deleteButton(eventId: number) {
     Row() {
       Text($r('app.string.action_delete'))
-        .fontSize(14)
+        .fontSize($r('app.float.fontSize_14'))
         .fontWeight(FontWeight.Medium)
         .fontColor(Color.White)
     }
-    .width(80)
+    .width($r('app.float.width_80'))
     .height('100%')
     .justifyContent(FlexAlign.Center)
     .backgroundColor($r('app.color.danger'))
@@ -151,28 +151,28 @@ export struct CountdownListPage {
   eventRow(ev: CountdownEventData) {
     Row({ space: 12 }) {
       Circle()
-        .width(10)
-        .height(10)
+        .width($r('app.float.width_10'))
+        .height($r('app.float.height_10'))
         .fill(categoryMetaOf(ev.category).colorRes)
       Column({ space: 3 }) {
         Row({ space: 6 }) {
           Text(ev.title)
-            .fontSize(16)
+            .fontSize($r('app.float.fontSize_16'))
             .fontWeight(FontWeight.Medium)
             .fontColor($r('app.color.text_primary'))
             .maxLines(1)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
           if (ev.isTop) {
             Text($r('app.string.badge_top'))
-              .fontSize(11)
+              .fontSize($r('app.float.fontSize_11'))
               .fontColor($r('app.color.primary'))
-              .border({ width: 1, color: $r('app.color.primary'), radius: 6 })
-              .padding({ left: 5, right: 5, top: 1, bottom: 1 })
+              .border({ width: 1, color: $r('app.color.primary'), radius:$r('app.float.border_radius_6') })
+              .padding({ left:$r('app.float.padding_left_5'), right:$r('app.float.padding_right_5'), top: 1, bottom: 1 })
           }
         }
         Text(DateUtils.formatDate(ev.targetDate) + ' · ' +
           getContext(this).resourceManager.getStringSync(categoryMetaOf(ev.category).nameRes))
-          .fontSize(12)
+          .fontSize($r('app.float.fontSize_12'))
           .fontColor($r('app.color.text_secondary'))
       }
       .alignItems(HorizontalAlign.Start)
@@ -183,15 +183,15 @@ export struct CountdownListPage {
           .fontWeight(FontWeight.Bold)
           .fontColor(this.dayColorRes(ev))
         Text(this.dayTexts(ev)[1])
-          .fontSize(11)
+          .fontSize($r('app.float.fontSize_11'))
           .fontColor(this.dayColorRes(ev))
       }
       .alignItems(HorizontalAlign.End)
     }
     .width('100%')
-    .padding(16)
+    .padding($r('app.float.padding_16'))
     .backgroundColor($r('app.color.card_bg'))
-    .borderRadius(16)
+    .borderRadius($r('app.float.borderRadius_16'))
     .shadow({ radius: 10, color: '#0D000000', offsetY: 2 })
     .border(DateUtils.dayInfo(ev.targetDate).kind === 'today'
       ? { width: 1.5, color: $r('app.color.today_border') }
@@ -222,7 +222,7 @@ export struct CountdownListPage {
     }
     .width('100%')
     .layoutWeight(1)
-    .padding({ left: 16, right: 16, bottom: 90 })
+    .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), bottom:$r('app.float.padding_bottom_90') })
     .scrollBar(BarState.Off)
   }
 
@@ -241,14 +241,14 @@ export struct CountdownListPage {
       .height('100%')
 
       Button('+')
-        .width(58)
-        .height(58)
-        .fontSize(30)
+        .width($r('app.float.width_58'))
+        .height($r('app.float.height_58'))
+        .fontSize($r('app.float.fontSize_30'))
         .fontColor(Color.White)
         .backgroundColor($r('app.color.primary'))
-        .borderRadius(29)
+        .borderRadius($r('app.float.borderRadius_29'))
         .shadow({ radius: 18, color: '#73FF8A65', offsetY: 6 })
-        .margin({ right: 20, bottom: 28 })
+        .margin({ right:$r('app.float.margin_right_20'), bottom:$r('app.float.margin_bottom_28') })
         .onClick(() => {
           router.pushUrl({ url: CountdownRoutes.EDIT });
         })
@@ -261,11 +261,11 @@ export struct CountdownListPage {
 
 @Extend(Text)
 function chipStyle(selected: boolean) {
-  .fontSize(13)
+  .fontSize($r('app.float.fontSize_13'))
   .fontWeight(selected ? FontWeight.Medium : FontWeight.Normal)
   .fontColor(selected ? Color.White : $r('app.color.text_secondary'))
   .backgroundColor(selected ? $r('app.color.primary') : $r('app.color.card_bg'))
-  .borderRadius(20)
-  .border({ width: 1.5, color: selected ? $r('app.color.primary') : $r('app.color.divider') })
-  .padding({ left: 16, right: 16, top: 7, bottom: 7 })
+  .borderRadius($r('app.float.borderRadius_20'))
+  .border({ width:$r('app.float.border_width_1_5'), color: selected ? $r('app.color.primary') : $r('app.color.divider') })
+  .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), top:$r('app.float.padding_top_7'), bottom:$r('app.float.padding_bottom_7') })
 }

@@ -46,79 +46,76 @@ struct PomodoroStatsPage {
       this.pad(d2.getHours()) + ':' + this.pad(d2.getMinutes());
   }
 
+  private maxWeekValue(): number {
+    let maxVal: number = 1;
+    for (const v of this.vm.weekDays) {
+      if (v > maxVal) {
+        maxVal = v;
+      }
+    }
+    return maxVal;
+  }
+
   @Builder
   navBar() {
     Row() {
       Text('‹ ' + getContext(this).resourceManager.getStringSync($r('app.string.action_back')))
-        .fontSize(15)
+        .fontSize($r('app.float.fontSize_15'))
         .fontColor($r('app.color.primary'))
         .onClick(() => {
           router.back();
         })
       Text($r('app.string.stats_title'))
-        .fontSize(17)
+        .fontSize($r('app.float.fontSize_17'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
         .layoutWeight(1)
         .textAlign(TextAlign.Center)
-        .margin({ right: 40 })
+        .margin({ right:$r('app.float.margin_right_40') })
     }
     .width('100%')
-    .padding({ left: 16, right: 16, top: 6, bottom: 10 })
+    .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), top:$r('app.float.padding_top_6'), bottom:$r('app.float.padding_bottom_10') })
   }
 
   @Builder
   statCard(value: number, labelRes: Resource) {
     Column({ space: 4 }) {
       Text(value.toString())
-        .fontSize(22)
+        .fontSize($r('app.float.fontSize_22'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.primary'))
       Text(labelRes)
-        .fontSize(11)
+        .fontSize($r('app.float.fontSize_11'))
         .fontColor($r('app.color.text_secondary'))
     }
     .layoutWeight(1)
-    .padding({ top: 14, bottom: 14 })
+    .padding({ top:$r('app.float.padding_top_14'), bottom:$r('app.float.padding_bottom_14') })
     .backgroundColor($r('app.color.card_bg'))
-    .borderRadius(16)
+    .borderRadius($r('app.float.borderRadius_16'))
     .shadow({ radius: 10, color: '#0D000000', offsetY: 2 })
   }
 
   @Builder
   chart() {
-    // BUG-004 同根因防御：柱状图高度依赖 vm.weekDays（异步 load 后填充）。
-    // 原由 private maxWeekValue()/barHeightPercent(idx) 经方法间接读 vm.@Trace，存在依赖未建立隐患；
-    // 改为在 @Builder 内直接读取 vm.weekDays 计算，随 build 建立依赖，load 完成后自动重渲。
-    const weekDays: number[] = this.vm.weekDays;
-    let maxVal: number = 1;
-    for (const v of weekDays) {
-      if (v > maxVal) {
-        maxVal = v;
-      }
-    }
-    const names: string[] = this.weekDayNames();
-    const todayIdx: number = this.vm.todayIndex;
     Column({ space: 14 }) {
       Text($r('app.string.stat_week_chart'))
-        .fontSize(14)
+        .fontSize($r('app.float.fontSize_14'))
         .fontWeight(FontWeight.Medium)
         .fontColor($r('app.color.text_primary'))
       Row({ space: 10 }) {
-        ForEach(weekDays, (v: number, idx: number) => {
-          const pct: number = Math.max(3, Math.round(v / maxVal * 100));
+        ForEach(this.vm.weekDays, (v: number, idx: number) => {
           Column({ space: 6 }) {
             Text(v > 0 ? v.toString() : '')
-              .fontSize(9)
+              .fontSize($r('app.float.fontSize_9'))
               .fontColor($r('app.color.text_hint'))
             Column()
               .width('100%')
-              .constraintSize({ maxWidth: 26 })
-              .height(pct.toString() + '%')
+              .constraintSize({ maxWidth:$r('app.float.constraintSize_maxWidth_26') })
+              .height(Math.max(3, Math.round(v / this.maxWeekValue() * 100)).toString() + '%')
               .borderRadius({ topLeft: 6, topRight: 6, bottomLeft: 2, bottomRight: 2 })
-              .backgroundColor(idx === todayIdx ? $r('app.color.primary') : $r('app.color.today_border'))
-            Text(names[idx])
-              .fontSize(10)
+              .backgroundColor(idx === this.vm.todayIndex ? $r('app.color.primary') : $r('app.color.today_border'))
+            Text(this.weekDayNames()[idx])
+              .fontSize($r('app.float.fontSize_10'))
               .fontColor($r('app.color.text_hint'))
           }
           .layoutWeight(1)
@@ -127,15 +124,15 @@ struct PomodoroStatsPage {
         }, (v: number, idx: number) => idx.toString())
       }
       .width('100%')
-      .height(130)
+      .height($r('app.float.height_130'))
       .alignItems(VerticalAlign.Bottom)
     }
     .alignItems(HorizontalAlign.Start)
     .width('100%')
-    .padding(16)
-    .margin({ left: 20, right: 20, bottom: 14 })
+    .padding($r('app.float.padding_16'))
+    .margin({ left:$r('app.float.margin_left_20'), right:$r('app.float.margin_right_20'), bottom:$r('app.float.margin_bottom_14') })
     .backgroundColor($r('app.color.card_bg'))
-    .borderRadius(16)
+    .borderRadius($r('app.float.borderRadius_16'))
     .shadow({ radius: 10, color: '#0D000000', offsetY: 2 })
   }
 
@@ -143,26 +140,26 @@ struct PomodoroStatsPage {
   recordRow(s: PomodoroSessionData) {
     Row({ space: 10 }) {
       Text(s.tag)
-        .fontSize(11)
+        .fontSize($r('app.float.fontSize_11'))
         .fontWeight(FontWeight.Medium)
         .fontColor($r('app.color.primary'))
         .backgroundColor($r('app.color.today_bg'))
-        .borderRadius(10)
-        .padding({ left: 10, right: 10, top: 3, bottom: 3 })
+        .borderRadius($r('app.float.borderRadius_10'))
+        .padding({ left:$r('app.float.padding_left_10'), right:$r('app.float.padding_right_10'), top:$r('app.float.padding_top_3'), bottom:$r('app.float.padding_bottom_3') })
       Text(this.sessionTimeText(s))
-        .fontSize(13)
+        .fontSize($r('app.float.fontSize_13'))
         .fontColor($r('app.color.text_secondary'))
         .layoutWeight(1)
       Text(s.durationMin.toString() + ' ' +
         getContext(this).resourceManager.getStringSync($r('app.string.unit_minute')))
-        .fontSize(14)
+        .fontSize($r('app.float.fontSize_14'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
     }
     .width('100%')
-    .padding({ left: 14, right: 14, top: 12, bottom: 12 })
+    .padding({ left:$r('app.float.padding_left_14'), right:$r('app.float.padding_right_14'), top:$r('app.float.padding_top_12'), bottom:$r('app.float.padding_bottom_12') })
     .backgroundColor($r('app.color.card_bg'))
-    .borderRadius(14)
+    .borderRadius($r('app.float.borderRadius_14'))
     .shadow({ radius: 8, color: '#0A000000', offsetY: 2 })
   }
 
@@ -177,29 +174,29 @@ struct PomodoroStatsPage {
           this.statCard(this.vm.totalCount, $r('app.string.stat_total'))
         }
         .width('100%')
-        .padding({ left: 20, right: 20, top: 8, bottom: 14 })
+        .padding({ left:$r('app.float.padding_left_20'), right:$r('app.float.padding_right_20'), top:$r('app.float.padding_top_8'), bottom:$r('app.float.padding_bottom_14') })
 
         this.chart()
 
         Text($r('app.string.stat_recent'))
-          .fontSize(14)
+          .fontSize($r('app.float.fontSize_14'))
           .fontWeight(FontWeight.Medium)
           .fontColor($r('app.color.text_primary'))
           .width('100%')
-          .padding({ left: 20, bottom: 10 })
+          .padding({ left:$r('app.float.padding_left_20'), bottom:$r('app.float.padding_bottom_10') })
 
         if (this.vm.recent.length === 0) {
           Column({ space: 12 }) {
             Text($r('app.string.stat_empty_emoji'))
-              .fontSize(52)
+              .fontSize($r('app.float.fontSize_52'))
             Text($r('app.string.stat_empty'))
-              .fontSize(13)
+              .fontSize($r('app.float.fontSize_13'))
               .fontColor($r('app.color.text_hint'))
           }
           .width('100%')
           .layoutWeight(1)
           .justifyContent(FlexAlign.Center)
-          .padding({ bottom: 60 })
+          .padding({ bottom:$r('app.float.padding_bottom_60') })
         } else {
           List({ space: 8 }) {
             ForEach(this.vm.recent, (s: PomodoroSessionData) => {
@@ -210,7 +207,7 @@ struct PomodoroStatsPage {
           }
           .width('100%')
           .layoutWeight(1)
-          .padding({ left: 20, right: 20, bottom: 20 })
+          .padding({ left:$r('app.float.padding_left_20'), right:$r('app.float.padding_right_20'), bottom:$r('app.float.padding_bottom_20') })
           .scrollBar(BarState.Off)
         }
       }

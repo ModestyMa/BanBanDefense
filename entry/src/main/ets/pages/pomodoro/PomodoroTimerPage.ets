@@ -104,23 +104,23 @@ export struct PomodoroTimerPage {
   navBar() {
     Row() {
       Text('')
-        .width(30)
+        .width($r('app.float.width_30'))
       Text($r('app.string.pomodoro_title'))
-        .fontSize(17)
+        .fontSize($r('app.float.fontSize_17'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
         .layoutWeight(1)
         .textAlign(TextAlign.Center)
       Text('📊')
-        .fontSize(20)
-        .width(30)
+        .fontSize($r('app.float.fontSize_20'))
+        .width($r('app.float.width_30'))
         .textAlign(TextAlign.End)
         .onClick(() => {
           router.pushUrl({ url: PomodoroRoutes.STATS });
         })
     }
     .width('100%')
-    .padding({ left: 16, right: 16, top: 6, bottom: 10 })
+    .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), top:$r('app.float.padding_top_6'), bottom:$r('app.float.padding_bottom_10') })
   }
 
   @Builder
@@ -134,25 +134,25 @@ export struct PomodoroTimerPage {
         .color(this.ringColor())
         .backgroundColor($r('app.color.ring_track'))
         .style({ strokeWidth: 14 })
-        .width(260)
-        .height(260)
+        .width($r('app.float.width_260'))
+        .height($r('app.float.height_260'))
       Column({ space: 4 }) {
         Text(this.petEmoji())
-          .fontSize(44)
+          .fontSize($r('app.float.fontSize_44'))
         Text(this.engine.state === PomodoroState.IDLE
           ? (this.engine.durationMin < 10 ? '0' + this.engine.durationMin : this.engine.durationMin.toString()) + ':00'
           : this.mmss())
-          .fontSize(44)
+          .fontSize($r('app.float.fontSize_44'))
           .fontWeight(FontWeight.Bold)
           .fontColor($r('app.color.text_primary'))
         Text(this.hintText())
-          .fontSize(14)
+          .fontSize($r('app.float.fontSize_14'))
           .fontColor($r('app.color.text_secondary'))
       }
     }
-    .width(260)
-    .height(260)
-    .margin({ top: 18, bottom: 8 })
+    .width($r('app.float.width_260'))
+    .height($r('app.float.height_260'))
+    .margin({ top:$r('app.float.margin_top_18'), bottom:$r('app.float.margin_bottom_8') })
   }
 
   @Builder
@@ -161,21 +161,21 @@ export struct PomodoroTimerPage {
       // 时长
       Column({ space: 10 }) {
         Text($r('app.string.label_duration'))
-          .fontSize(13)
+          .fontSize($r('app.float.fontSize_13'))
           .fontColor($r('app.color.text_secondary'))
         Row({ space: 8 }) {
           ForEach(DURATION_PRESETS, (m: number) => {
             Text(m.toString())
-              .fontSize(14)
+              .fontSize($r('app.float.fontSize_14'))
               .fontWeight(this.engine.durationMin === m ? FontWeight.Bold : FontWeight.Normal)
               .fontColor(this.engine.durationMin === m ? $r('app.color.primary') : $r('app.color.text_secondary'))
               .backgroundColor(this.engine.durationMin === m ? $r('app.color.today_bg') : $r('app.color.card_bg'))
-              .borderRadius(12)
+              .borderRadius($r('app.float.borderRadius_12'))
               .border({
                 width: 1.5,
                 color: this.engine.durationMin === m ? $r('app.color.primary') : $r('app.color.divider')
               })
-              .padding({ left: 0, right: 0, top: 9, bottom: 9 })
+              .padding({ left: 0, right: 0, top:$r('app.float.padding_top_9'), bottom:$r('app.float.padding_bottom_9') })
               .textAlign(TextAlign.Center)
               .layoutWeight(1)
               .onClick(() => {
@@ -202,35 +202,35 @@ export struct PomodoroTimerPage {
             })
           Text(this.engine.durationMin.toString() + ' ' +
             getContext(this).resourceManager.getStringSync($r('app.string.unit_minute')))
-            .fontSize(15)
+            .fontSize($r('app.float.fontSize_15'))
             .fontWeight(FontWeight.Bold)
             .fontColor($r('app.color.primary'))
-            .width(62)
+            .width($r('app.float.width_62'))
             .textAlign(TextAlign.End)
         }
         .width('100%')
       }
       .alignItems(HorizontalAlign.Start)
-      .padding({ left: 24, right: 24, top: 10, bottom: 10 })
+      .padding({ left:$r('app.float.padding_left_24'), right:$r('app.float.padding_right_24'), top:$r('app.float.padding_top_10'), bottom:$r('app.float.padding_bottom_10') })
 
       // 标签
       Column({ space: 10 }) {
         Text($r('app.string.label_tag'))
-          .fontSize(13)
+          .fontSize($r('app.float.fontSize_13'))
           .fontColor($r('app.color.text_secondary'))
         Flex({ wrap: FlexWrap.Wrap }) {
           ForEach(this.allTags(), (tag: string) => {
             Text(tag.length === 0 ? $r('app.string.tag_custom') : tag)
-              .fontSize(13)
+              .fontSize($r('app.float.fontSize_13'))
               .fontColor(this.engine.tag === tag && tag.length > 0 ? $r('app.color.primary') : $r('app.color.text_secondary'))
               .backgroundColor(this.engine.tag === tag && tag.length > 0 ? $r('app.color.today_bg') : $r('app.color.card_bg'))
-              .borderRadius(12)
+              .borderRadius($r('app.float.borderRadius_12'))
               .border({
                 width: 1.5,
                 color: this.engine.tag === tag && tag.length > 0 ? $r('app.color.primary') : $r('app.color.divider')
               })
-              .padding({ left: 14, right: 14, top: 8, bottom: 8 })
-              .margin({ right: 8, bottom: 8 })
+              .padding({ left:$r('app.float.padding_left_14'), right:$r('app.float.padding_right_14'), top:$r('app.float.padding_top_8'), bottom:$r('app.float.padding_bottom_8') })
+              .margin({ right:$r('app.float.margin_right_8'), bottom:$r('app.float.margin_bottom_8') })
               .onClick(() => {
                 if (tag.length === 0 || this.isCustomTag(tag)) {
                   this.tagDialog.open();
@@ -242,7 +242,7 @@ export struct PomodoroTimerPage {
         }
       }
       .alignItems(HorizontalAlign.Start)
-      .padding({ left: 24, right: 24, top: 10, bottom: 10 })
+      .padding({ left:$r('app.float.padding_left_24'), right:$r('app.float.padding_right_24'), top:$r('app.float.padding_top_10'), bottom:$r('app.float.padding_bottom_10') })
     }
     .width('100%')
   }
@@ -258,11 +258,11 @@ export struct PomodoroTimerPage {
           } else if (this.engine.state === PomodoroState.FOCUSING) {
             Text(this.engine.tag + ' · ' + this.engine.durationMin.toString() + ' ' +
               getContext(this).resourceManager.getStringSync($r('app.string.unit_minute')))
-              .fontSize(12)
+              .fontSize($r('app.float.fontSize_12'))
               .fontColor($r('app.color.primary'))
               .backgroundColor($r('app.color.today_bg'))
-              .borderRadius(12)
-              .padding({ left: 14, right: 14, top: 4, bottom: 4 })
+              .borderRadius($r('app.float.borderRadius_12'))
+              .padding({ left:$r('app.float.padding_left_14'), right:$r('app.float.padding_right_14'), top:$r('app.float.padding_top_4'), bottom:$r('app.float.padding_bottom_4') })
           }
         }
         .width('100%')
@@ -273,27 +273,27 @@ export struct PomodoroTimerPage {
       if (this.engine.state === PomodoroState.IDLE) {
         Button($r('app.string.btn_start_focus'))
           .width('88%')
-          .height(52)
-          .fontSize(17)
+          .height($r('app.float.height_52'))
+          .fontSize($r('app.float.fontSize_17'))
           .fontWeight(FontWeight.Bold)
           .fontColor(Color.White)
           .backgroundColor($r('app.color.primary'))
-          .borderRadius(18)
-          .margin({ bottom: 18 })
+          .borderRadius($r('app.float.borderRadius_18'))
+          .margin({ bottom:$r('app.float.margin_bottom_18') })
           .onClick(() => {
             this.engine.startFocus();
           })
       } else if (this.engine.state === PomodoroState.FOCUSING) {
         Button($r('app.string.btn_giveup'))
           .width('88%')
-          .height(44)
-          .fontSize(14)
+          .height($r('app.float.height_44'))
+          .fontSize($r('app.float.fontSize_14'))
           .fontWeight(FontWeight.Medium)
           .fontColor($r('app.color.danger'))
           .backgroundColor($r('app.color.card_bg'))
-          .borderRadius(16)
-          .border({ width: 1.5, color: $r('app.color.today_border') })
-          .margin({ bottom: 18 })
+          .borderRadius($r('app.float.borderRadius_16'))
+          .border({ width:$r('app.float.border_width_1_5'), color: $r('app.color.today_border') })
+          .margin({ bottom:$r('app.float.margin_bottom_18') })
           .onClick(() => {
             this.askGiveUp();
           })
@@ -301,30 +301,30 @@ export struct PomodoroTimerPage {
         Row({ space: 10 }) {
           Button($r('app.string.btn_skip_rest'))
             .layoutWeight(1)
-            .height(46)
-            .fontSize(14)
+            .height($r('app.float.height_46'))
+            .fontSize($r('app.float.fontSize_14'))
             .fontWeight(FontWeight.Medium)
             .fontColor($r('app.color.text_secondary'))
             .backgroundColor($r('app.color.card_bg'))
-            .borderRadius(16)
-            .border({ width: 1.5, color: $r('app.color.divider') })
+            .borderRadius($r('app.float.borderRadius_16'))
+            .border({ width:$r('app.float.border_width_1_5'), color: $r('app.color.divider') })
             .onClick(() => {
               this.engine.skipRest();
             })
           Button($r('app.string.btn_focus_again'))
             .layoutWeight(1)
-            .height(46)
-            .fontSize(14)
+            .height($r('app.float.height_46'))
+            .fontSize($r('app.float.fontSize_14'))
             .fontWeight(FontWeight.Bold)
             .fontColor(Color.White)
             .backgroundColor($r('app.color.rest_green'))
-            .borderRadius(16)
+            .borderRadius($r('app.float.borderRadius_16'))
             .onClick(() => {
               this.engine.focusAgain();
             })
         }
         .width('88%')
-        .margin({ bottom: 18 })
+        .margin({ bottom:$r('app.float.margin_bottom_18') })
       }
     }
     .width('100%')
@@ -344,28 +344,28 @@ struct CustomTagDialog {
   build() {
     Column({ space: 16 }) {
       Text($r('app.string.custom_tag_title'))
-        .fontSize(16)
+        .fontSize($r('app.float.fontSize_16'))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.text_primary'))
       TextInput({ placeholder: $r('app.string.custom_tag_hint'), text: this.inputText })
-        .fontSize(14)
+        .fontSize($r('app.float.fontSize_14'))
         .fontColor($r('app.color.text_primary'))
         .placeholderColor($r('app.color.text_hint'))
         .maxLength(CUSTOM_TAG_MAX)
-        .borderRadius(12)
-        .border({ width: 1.5, color: $r('app.color.divider') })
-        .padding(11)
+        .borderRadius($r('app.float.borderRadius_12'))
+        .border({ width:$r('app.float.border_width_1_5'), color: $r('app.color.divider') })
+        .padding($r('app.float.padding_11'))
         .onChange((value: string) => {
           this.inputText = value;
         })
       Row({ space: 10 }) {
         Button($r('app.string.action_cancel'))
           .layoutWeight(1)
-          .height(40)
-          .fontSize(14)
+          .height($r('app.float.height_40'))
+          .fontSize($r('app.float.fontSize_14'))
           .fontColor($r('app.color.text_secondary'))
           .backgroundColor($r('app.color.ring_track'))
-          .borderRadius(12)
+          .borderRadius($r('app.float.borderRadius_12'))
           .onClick(() => {
             if (this.controller !== undefined) {
               this.controller.close();
@@ -373,11 +373,11 @@ struct CustomTagDialog {
           })
         Button($r('app.string.action_ok'))
           .layoutWeight(1)
-          .height(40)
-          .fontSize(14)
+          .height($r('app.float.height_40'))
+          .fontSize($r('app.float.fontSize_14'))
           .fontColor(Color.White)
           .backgroundColor($r('app.color.primary'))
-          .borderRadius(12)
+          .borderRadius($r('app.float.borderRadius_12'))
           .onClick(() => {
             const tag = this.inputText.trim();
             if (tag.length > 0) {
@@ -390,9 +390,9 @@ struct CustomTagDialog {
       }
       .width('100%')
     }
-    .width(280)
-    .padding({ left: 20, right: 20, top: 24, bottom: 16 })
+    .width($r('app.float.width_280'))
+    .padding({ left:$r('app.float.padding_left_20'), right:$r('app.float.padding_right_20'), top:$r('app.float.padding_top_24'), bottom:$r('app.float.padding_bottom_16') })
     .backgroundColor($r('app.color.card_bg'))
-    .borderRadius(20)
+    .borderRadius($r('app.float.borderRadius_20'))
   }
 }

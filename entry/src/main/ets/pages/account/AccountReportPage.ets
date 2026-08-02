@@ -261,7 +261,8 @@ struct AccountReportPage {
             .textAlign(TextAlign.End)
         }
         .width('100%')
-      }, (item: CategorySum) => item.key)
+        // BUG-008：key 只用分类名时，切换月份后同分类金额变化不会重建行（金额/占比停留在上月）
+      }, (item: CategorySum, index: number) => item.key + ':' + item.cents.toString() + ':' + index.toString())
     }
     .width('100%')
     .padding($r('app.float.padding_16'))

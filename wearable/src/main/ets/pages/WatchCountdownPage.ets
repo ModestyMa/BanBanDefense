@@ -29,6 +29,12 @@ export struct WatchCountdownPage {
     return rm.getStringSync($r('app.string.day_past_fmt'), Math.abs(info.days));
   }
 
+  /** BUG-008：ForEach key 只用 id 时，编辑倒数日后 key 不变 → 手表列表不刷新 */
+  private static evKey(ev: CountdownEventData): string {
+    return ev.id.toString() + ':' + ev.title + ':' + ev.targetDate.toString()
+      + ':' + ev.category + ':' + (ev.isTop ? '1' : '0');
+  }
+
   @Builder
   eventRow(ev: CountdownEventData) {
     Row({ space: 8 }) {
@@ -74,7 +80,7 @@ export struct WatchCountdownPage {
             ListItem() {
               this.eventRow(ev)
             }
-          }, (ev: CountdownEventData) => ev.id.toString())
+          }, (ev: CountdownEventData) => WatchCountdownPage.evKey(ev))
         }
         .width('100%')
         .layoutWeight(1)

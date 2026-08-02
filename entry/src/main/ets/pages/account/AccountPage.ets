@@ -314,6 +314,25 @@ export struct AccountPage {
     })
   }
 
+  /**
+   * BUG-008：ForEach 的 key 决定节点是否复用。旧实现分组 key 只用 dayStart，
+   * 同一天新增/编辑流水时 key 不变 → ArkUI 复用整个 ListItemGroup 旧节点、
+   * 内层 items 永不重建，表现为「保存成功但列表不更新，冷启动才出现」。
+   * 这里把组内内容摘要并入 key，任何增删改都会生成新 key 触发重建。
+   */
+  private static groupKey(group: DayGroup): string {
+    let sig: string = group.dayStart.toString() + '#' + group.items.length.toString();
+    for (const t of group.items) {
+      sig += '|' + AccountPage.txKey(t);
+    }
+    return sig;
+  }
+
+  /** 单条流水 key：id + 可编辑字段，编辑后 key 变化触发行重建 */
+  private static txKey(tx: TransactionData): string {
+    return tx.id.toString() + ':' + tx.amount.toString() + ':' + tx.direction + ':' + tx.category + ':' + tx.accountId.toString() + ':' + tx.note;
+  }
+
   @Builder
   txList() {
     List({ space: 10 }) {
@@ -330,9 +349,9 @@ export struct AccountPage {
                 }
               }
             })
-          }, (tx: TransactionData) => tx.id.toString())
+          }, (tx: TransactionData) => AccountPage.txKey(tx))
         }
-      }, (group: DayGroup) => group.dayStart.toString())
+      }, (group: DayGroup) => AccountPage.groupKey(group))
     }
     .width('100%')
     .layoutWeight(1)

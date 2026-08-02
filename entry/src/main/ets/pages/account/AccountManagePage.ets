@@ -147,6 +147,14 @@ struct AccountManagePage {
     .padding({ left:$r('app.float.padding_left_16'), right:$r('app.float.padding_right_16'), top:$r('app.float.padding_top_6'), bottom:$r('app.float.padding_bottom_12') })
   }
 
+  /**
+   * BUG-008：ForEach key 只用 id 时，账户改名/余额变动（记账后）不会触发行重建。
+   * 把可变字段并入 key，内容变化即生成新 key。
+   */
+  private static accKey(acc: AccountData): string {
+    return acc.id.toString() + ':' + acc.name + ':' + acc.type + ':' + acc.balance.toString() + ':' + acc.icon + ':' + acc.sort.toString();
+  }
+
   @Builder
   accountRow(acc: AccountData) {
     Row({ space: 12 }) {
@@ -327,7 +335,7 @@ struct AccountManagePage {
                 ListItem() {
                   this.accountRow(acc)
                 }
-              }, (acc: AccountData) => acc.id.toString())
+              }, (acc: AccountData) => AccountManagePage.accKey(acc))
             }
             .width('100%')
             .layoutWeight(1)

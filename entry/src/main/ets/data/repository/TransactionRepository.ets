@@ -1,11 +1,14 @@
 // 流水仓储：transaction_record 表唯一访问入口
 import { relationalStore } from '@kit.ArkData';
+import { hilog } from '@kit.PerformanceAnalysisKit';
 import { DatabaseHelper } from '../database/DatabaseHelper';
 import { TransactionData } from '../model/Transaction';
 import { DateUtils } from '../../common/utils/DateUtils';
 import { MoneyUtils } from '../../common/utils/MoneyUtils';
 
 const TABLE: string = 'transaction_record';
+const DBG_DOMAIN: number = 0x1402;
+const DBG_TAG: string = 'TxRepoDebug';
 
 export class TransactionRepository {
   static async insert(tx: TransactionData): Promise<number> {
@@ -20,7 +23,15 @@ export class TransactionRepository {
       'external_no': null,
       'created_at': tx.createdAt
     };
-    return await DatabaseHelper.get().insert(TABLE, bucket);
+    // BUG-008 防御：relationalStore.insert 失败时返回 -1 而不抛异常，
+    // 不校验会被上游当成保存成功（静默丢数据）。
+    const id: number = await DatabaseHelper.get().insert(TABLE, bucket);
+    if (id <= 0) {
+      hilog.error(DBG_DOMAIN, DBG_TAG, '流水插入失败 rowId=%{public}d accountId=%{public}d amount=%{public}s',
+        id, tx.accountId, tx.amount.toString());
+      throw new Error('流水插入失败 rowId=' + id.toString());
+    }
+    return id;
   }
 
   static async update(tx: TransactionData): Promise<number> {

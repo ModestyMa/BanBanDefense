@@ -204,6 +204,15 @@ export struct CountdownListPage {
     })
   }
 
+  /**
+   * BUG-008：ForEach key 只用 id 时，编辑倒数日（改标题/日期/置顶/提醒）后 key 不变，
+   * ArkUI 复用旧节点 → 列表不更新，需冷启动才见。把可变字段并入 key。
+   */
+  private static evKey(ev: CountdownEventData): string {
+    return ev.id.toString() + ':' + ev.title + ':' + ev.targetDate.toString() + ':' + ev.category
+      + ':' + (ev.isTop ? '1' : '0') + ':' + (ev.remindEnabled ? '1' : '0') + ':' + ev.note;
+  }
+
   @Builder
   eventList() {
     List({ space: 12 }) {
@@ -218,7 +227,7 @@ export struct CountdownListPage {
             }
           }
         })
-      }, (ev: CountdownEventData) => ev.id.toString())
+      }, (ev: CountdownEventData) => CountdownListPage.evKey(ev))
     }
     .width('100%')
     .layoutWeight(1)
